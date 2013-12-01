@@ -20,9 +20,9 @@ class NetLicensing
      **/
     function __construct($apiKey)
     {
-        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.labs64.com)';
-
         $this->apiKey = $apiKey;
+
+        $user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.labs64.com)';
 
         $this->curl = new Curl();
         $this->curl->headers['Accept'] = 'application/json';
@@ -45,24 +45,13 @@ class NetLicensing
             $licenseeName = $licenseeNumber;
         }
         $url = self::NLIC_BASE_URL . '/licensee/' . $licenseeNumber . '/validate?productNumber=' . $productNumber . '&name=' . $licenseeName;
-        $url = addAPIKey($url);
+        if (!empty($this->apiKey)) {
+            $url .= '&apiKey=' . $this->apiKey;
+        }
 
         $response = $this->curl->get($url, $vars = array());
 
         return $response->body;
-    }
-
-    /**
-     * Add NetLicensing APIKey if provided.
-     *
-     * @returns url containing 'apiKey' query parameters if provided
-     */
-    private function addAPIKey($url)
-    {
-        if (!empty($this->apiKey)) {
-            $url = $url . '&apiKey=' . $this->apiKey;
-        }
-        return $url;
     }
 
 }

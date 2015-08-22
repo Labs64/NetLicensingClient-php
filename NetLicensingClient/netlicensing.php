@@ -1,10 +1,11 @@
 <?php
 
 /**
- * A basic NetLicensing client
+ * A basic NetLicensing PHP client.
+ * For more info about Labs64 NetLicensing please visit http://netlicensing.io
  *
  * @package netlicensing
- * @author Labs64 <info@labs64.com>
+ * @author Labs64 <netlicensing@labs64.com>
  **/
 class NetLicensing
 {
@@ -18,7 +19,7 @@ class NetLicensing
      **/
     function __construct($apiKey)
     {
-        $user_agent = 'NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.labs64.com)' . '; ' . $_SERVER['HTTP_USER_AGENT'];
+        $user_agent = 'NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.io)' . '; ' . $_SERVER['HTTP_USER_AGENT'];
 
         $this->curl = new Curl();
         $this->curl->headers['Authorization'] = 'Basic ' . base64_encode("apiKey:" . $apiKey);

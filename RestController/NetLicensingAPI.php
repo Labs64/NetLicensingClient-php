@@ -234,35 +234,6 @@ class NetLicensingAPI
         return $data;
     }
 
-    public static function getPropertiesByJson($json)
-    {
-        $properties = array();
-
-        $response = $json;
-
-        if (is_string($json)) {
-            $response = json_decode($json);
-        }
-
-        if (!empty($response->items->item)) {
-
-            foreach ($response->items->item as $item) {
-                $tmp_array = array();
-
-                foreach ($item->property as $property) {
-                    $property = (array)$property;
-                    $tmp_array[$property['@name']] = $property['$'];
-
-                }
-                if (!empty($tmp_array['number'])) {
-                    $properties[$tmp_array['number']] = $tmp_array;
-                }
-            }
-        }
-
-        return $properties;
-    }
-
     public static function getInfoByXml($xml)
     {
         $info = '';

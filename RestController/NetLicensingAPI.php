@@ -228,8 +228,7 @@ class NetLicensingAPI
         }
 
         if ($xml instanceof \SimpleXMLElement) {
-            $namespaces = $xml->getNamespaces();
-            $ns = reset($namespaces);
+            $ns = 'http://netlicensing.labs64.com/schema/context';
 
             $xml->registerXPathNamespace('nl', $ns);
             $items = $xml->xpath('//nl:item');

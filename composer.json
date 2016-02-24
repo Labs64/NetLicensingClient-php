@@ -1,5 +1,5 @@
 {
-    "name":"Labs64/NetLicensingClient-php",
+    "name":"labs64/netlicensingclient-php",
     "version":"2.3.0",
     "require": {
         "php":">=5.3.0",

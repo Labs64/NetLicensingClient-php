@@ -39,6 +39,7 @@ class NetLicensingAPI
 
         $this->_base_url = $base_url;
         $this->_curl = new Curl();
+        $this->_curl->setHeader('Accept', 'application/xml');
         $this->_security_code = self::BASIC_AUTHENTICATION;
     }
 
@@ -99,27 +100,6 @@ class NetLicensingAPI
     public function getVendorNumber()
     {
         return $this->_vendor_number;
-    }
-
-    public function setResponseFormat($format)
-    {
-        switch (strtolower($format)) {
-            case 'json':
-                $format = 'application/json';
-                break;
-            case 'xml':
-                $format = 'application/xml';
-                break;
-            case 'application/json':
-                break;
-            case 'application/xml':
-                break;
-            default:
-                throw new NetLicensingException(printf('Got unsupported response format %s', $format));
-                break;
-        }
-
-        $this->_curl->setHeader('Accept', $format);
     }
 
     public function getLastResponse()

@@ -12,11 +12,6 @@ class TokenService extends BaseEntityService
 {
     const SERVICE_URL = '/token';
 
-    public function init()
-    {
-        $this->nlic_connect->setResponseFormat('xml');
-    }
-
     public static function connect(NetLicensingAPI $nlic_connect)
     {
         return new TokenService($nlic_connect);

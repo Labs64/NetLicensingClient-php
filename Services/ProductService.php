@@ -13,11 +13,6 @@ class ProductService extends BaseEntityService {
 
     const SERVICE_URL = '/product';
 
-    public function init()
-    {
-        $this->nlic_connect->setResponseFormat('xml');
-    }
-
     public static function connect(NetLicensingAPI $nlic_connect)
     {
         return new ProductService($nlic_connect);

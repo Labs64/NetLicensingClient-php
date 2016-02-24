@@ -12,11 +12,6 @@ class LicenseeService extends BaseEntityService
 {
     const SERVICE_URL = '/licensee';
 
-    public function init()
-    {
-        $this->nlic_connect->setResponseFormat('xml');
-    }
-
     public static function connect(NetLicensingAPI $nlic_connect)
     {
         return new LicenseeService($nlic_connect);

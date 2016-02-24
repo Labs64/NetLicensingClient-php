@@ -12,11 +12,6 @@ class ProductModuleService extends BaseEntityService
 {
     const SERVICE_URL = '/productmodule';
 
-    public function init()
-    {
-        $this->nlic_connect->setResponseFormat('xml');
-    }
-
     public static function connect(NetLicensingAPI $nlic_connect)
     {
         return new ProductModuleService($nlic_connect);

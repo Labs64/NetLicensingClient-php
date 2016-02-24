@@ -16,6 +16,7 @@ class NetLicensingAPI
 
     const BASIC_AUTHENTICATION = 0;
     const API_KEY_IDENTIFICATION = 1;
+    const XML_NS = 'http://netlicensing.labs64.com/schema/context';
 
     private $_username = '';
     private $_password = '';
@@ -228,14 +229,12 @@ class NetLicensingAPI
         }
 
         if ($xml instanceof \SimpleXMLElement) {
-            $ns = 'http://netlicensing.labs64.com/schema/context';
-
-            $xml->registerXPathNamespace('nl', $ns);
+            $xml->registerXPathNamespace('nl', self::XML_NS);
             $items = $xml->xpath('//nl:item');
 
             if ($items) {
                 foreach ($items as $item) {
-                    $properties = $item->children($ns);
+                    $properties = $item->children(self::XML_NS);
                     $tmp_array = array();
 
                     if ($properties) {
@@ -292,9 +291,7 @@ class NetLicensingAPI
         }
 
         if($xml !== false){
-            $namespaces = $xml->getNamespaces();
-            $ns = reset($namespaces);
-            $children = $xml->children($ns);
+            $children = $xml->children(self::XML_NS);
             $info = (string)$children->infos->info;
         }
 

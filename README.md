@@ -1,5 +1,3 @@
-[![License]](https://github.com/Labs64/NetLicensingClient-php/blob/master/LICENSE)
-
 # [Labs64 NetLicensing] Client (PHP)
 
 PHP wrapper for Labs64 NetLicensing [RESTful API]

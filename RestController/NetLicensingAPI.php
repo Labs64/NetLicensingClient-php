@@ -11,7 +11,7 @@ use Curl\Curl;
 
 class NetLicensingAPI
 {
-    const BASE_URL = 'https://netlicensing.labs64.com/core/v2/rest';
+    const BASE_URL = 'https://go.netlicensing.io/core/v2/rest';
 
     const BASIC_AUTHENTICATION = 0;
     const API_KEY_IDENTIFICATION = 1;

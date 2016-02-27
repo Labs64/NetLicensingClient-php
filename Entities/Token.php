@@ -1,7 +1,7 @@
 <?php
 /**
  * @author    Labs64 <netlicensing@labs64.com>
- * @license   GPL-2.0+
+ * @license   Apache License, Version 2.0
  * @link      http://netlicensing.io
  * @copyright 2016 Labs64 NetLicensing
  */

@@ -13,7 +13,8 @@ $ composer require labs64/netlicensingclient-php
 ```
 {
     "require": {
-    "labs64/netlicensingclient-php": "dev-master"
+        "labs64/netlicensingclient-php": "dev-master"
+    }
 }
 ```
 

@@ -5,13 +5,13 @@
     "keywords": [
         "NetLicensing", "licensing", "license", "client", "API", "REST", "RESTful"
     ],
-    "homepage": "https://github.com/Labs64/NetLicensingClient-php",
+    "homepage": "http://netlicensing.io",
     "license": "Apache-2.0",
     "authors": [
         {
             "name": "Labs64 NetLicensing",
             "email": "netlicensing@labs64.com",
-            "homepage": "https://netlicensing.io"
+            "homepage": "http://netlicensing.io"
         }
     ],
     "support": {

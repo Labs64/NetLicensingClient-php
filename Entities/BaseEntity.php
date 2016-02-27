@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @author    Labs64 <netlicensing@labs64.com>
+ * @license   GPL-2.0+
+ * @link      http://netlicensing.io
+ * @copyright 2016 Labs64 NetLicensing
+ */
 namespace NetLicensing;
 
 abstract class BaseEntity

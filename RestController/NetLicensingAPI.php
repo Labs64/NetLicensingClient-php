@@ -1,10 +1,9 @@
 <?php
-
 /**
- * @author    Labs64 <info@labs64.com>
+ * @author    Labs64 <netlicensing@labs64.com>
  * @license   GPL-2.0+
- * @link      http://www.labs64.com
- * @copyright 2015 Labs64
+ * @link      http://netlicensing.io
+ * @copyright 2016 Labs64 NetLicensing
  */
 namespace NetLicensing;
 
@@ -24,7 +23,6 @@ class NetLicensingAPI
     private $_security_code = '';
     private $_vendor_number = '';
 
-    /** @var $_curl Curl */
     private $_curl;
     private $_base_url = '';
 
@@ -40,6 +38,7 @@ class NetLicensingAPI
         $this->_base_url = $base_url;
         $this->_curl = new Curl();
         $this->_curl->setHeader('Accept', 'application/xml');
+        $this->_curl->setUserAgent('NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.io)' . '; ' . $_SERVER['HTTP_USER_AGENT']);
         $this->_security_code = self::BASIC_AUTHENTICATION;
     }
 
@@ -154,7 +153,6 @@ class NetLicensingAPI
                 $this->_curl->setHeader('Authorization', $basic_authorization);
                 break;
             case self::API_KEY_IDENTIFICATION:
-
                 if (empty($this->_api_key)) throw new NetLicensingException('Missing parameter "apiKey" for connection');
 
                 $api_authorization = 'Basic ' . base64_encode("apiKey:" . $this->_api_key);

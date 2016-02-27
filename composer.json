@@ -1,14 +1,14 @@
 {
-    "name":"labs64/netlicensingclient-php",
-    "version":"2.3.0",
+    "name": "labs64/netlicensingclient-php",
+    "version": "2.3.0",
     "require": {
-        "php":">=5.3.0",
-        "php-curl-class/php-curl-class":"4.10.0"
+        "php": ">=5.3.0",
+        "php-curl-class/php-curl-class": "4.10.0"
     },
-    "repositories":[
+    "repositories": [
         {
-            "type":"git",
-            "url":"https://github.com/php-curl-class/php-curl-class"
+            "type": "git",
+            "url": "https://github.com/php-curl-class/php-curl-class"
         }
     ],
     "autoload": {

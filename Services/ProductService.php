@@ -1,13 +1,11 @@
 <?php
-
 /**
- * @author    Labs64 <info@labs64.com>
+ * @author    Labs64 <netlicensing@labs64.com>
  * @license   GPL-2.0+
- * @link      http://www.labs64.com
- * @copyright 2015 Labs64
+ * @link      http://netlicensing.io
+ * @copyright 2016 Labs64 NetLicensing
  */
 namespace NetLicensing;
-
 
 class ProductService extends BaseEntityService {
 

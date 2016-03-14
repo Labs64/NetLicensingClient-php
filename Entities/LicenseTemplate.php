@@ -1,13 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Black
- * Date: 03.03.2016
- * Time: 9:20
+ * @author    Labs64 <netlicensing@labs64.com>
+ * @license   Apache-2.0
+ * @link      http://netlicensing.io
+ * @copyright 2016 Labs64 NetLicensing
  */
-
 namespace NetLicensing;
-
 
 class LicenseTemplate extends BaseEntity
 {

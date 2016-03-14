@@ -29,9 +29,9 @@ class LicenseTemplate extends BaseEntity
         return $this->_getProperty('number', $default);
     }
 
-    public function setProductModuleNumber($number)
+    public function setProductModuleNumber($number, $refresh = FALSE)
     {
-        $this->_setProperty('productModuleNumber', $number);
+        $this->_setProperty('productModuleNumber', $number, $refresh);
     }
 
     public function getProductModuleNumber($default = '')
@@ -61,9 +61,9 @@ class LicenseTemplate extends BaseEntity
         return $this->_getProperty('name', $default);
     }
 
-    public function setLicenseType($license_type)
+    public function setLicenseType($license_type, $refresh = FALSE)
     {
-        $this->_setProperty('licenseType', $license_type);
+        $this->_setProperty('licenseType', $license_type, $refresh);
     }
 
     public function getLicenseType($default = '')
@@ -71,9 +71,9 @@ class LicenseTemplate extends BaseEntity
         return $this->_getProperty('licenseType', $default);
     }
 
-    public function setPrice($price)
+    public function setPrice($price, $refresh = FALSE)
     {
-        $this->_setProperty('price', (string)$price);
+        $this->_setProperty('price', (string)$price, $refresh);
     }
 
     public function getPrice($default = '')
@@ -81,9 +81,14 @@ class LicenseTemplate extends BaseEntity
         return $this->_getProperty('price', $default);
     }
 
-    public function setCurrency($currency)
+    public function setCurrency($currency, $refresh = FALSE)
     {
-        $this->_setProperty('currency', strtoupper($currency));
+        $this->_setProperty('currency', strtoupper($currency), $refresh);
+    }
+
+    public function getCurrency($default = '')
+    {
+        return $this->_getProperty('currency', $default);
     }
 
     public function setAutomatic($state, $refresh = FALSE)
@@ -122,9 +127,9 @@ class LicenseTemplate extends BaseEntity
         return ($this->_getProperty('hideLicenses') == 'true') ? TRUE : FALSE;
     }
 
-    public function setTimeVolume($time_volume)
+    public function setTimeVolume($time_volume, $refresh = FALSE)
     {
-        $this->_setProperty('timeVolume', (string)$time_volume);
+        $this->_setProperty('timeVolume', (string)$time_volume, $refresh);
     }
 
     public function getTimeVolume($default = '')

@@ -25,6 +25,16 @@ class Licensee extends BaseEntity
         return $this->_getProperty('number', $default);
     }
 
+    public function setProductNumber($product_number, $refresh = FALSE)
+    {
+        $this->_setProperty('productNumber', $product_number, $refresh);
+    }
+
+    public function getProductNumber($default = '')
+    {
+        return $this->_getProperty('productNumber', $default);
+    }
+
     public function setActive($state, $refresh = FALSE)
     {
         if (is_bool($state)) $state = ($state) ? 'true' : 'false';

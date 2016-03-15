@@ -15,7 +15,7 @@ class LicenseService extends BaseEntityService
 
     public static function connect(NetLicensingAPI $nlic_connect)
     {
-        return new LicenseeService($nlic_connect);
+        return new LicenseService($nlic_connect);
     }
 
     public function getList()

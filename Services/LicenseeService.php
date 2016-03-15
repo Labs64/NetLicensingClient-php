@@ -26,14 +26,14 @@ class LicenseeService extends BaseEntityService
         return $this->_get($number, $this->nlic_connect);
     }
 
-    public function create(ProductModule $product_module)
+    public function create(Licensee $licensee)
     {
-        return $this->_create($product_module, $this->nlic_connect);
+        return $this->_create($licensee, $this->nlic_connect);
     }
 
-    public function update(ProductModule $product_module)
+    public function update(Licensee $licensee)
     {
-        return $this->_update($product_module, $this->nlic_connect);
+        return $this->_update($licensee, $this->nlic_connect);
     }
 
     public function delete($number, $force_cascade = FALSE)

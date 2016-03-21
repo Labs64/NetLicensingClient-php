@@ -20,7 +20,7 @@ class NetLicensingAPI
     private $_username = '';
     private $_password = '';
     private $_api_key = '';
-    private $_security_code = '';
+    private $_security_mode = '';
     private $_vendor_number = '';
 
     private $_curl;
@@ -39,7 +39,7 @@ class NetLicensingAPI
         $this->_curl = new Curl();
         $this->_curl->setHeader('Accept', 'application/xml');
         $this->_curl->setUserAgent('NetLicensing/PHP ' . PHP_VERSION . ' (http://netlicensing.io)' . '; ' . $_SERVER['HTTP_USER_AGENT']);
-        $this->_security_code = self::BASIC_AUTHENTICATION;
+        $this->_security_mode = self::BASIC_AUTHENTICATION;
     }
 
     public static function connect($base_url)
@@ -77,18 +77,18 @@ class NetLicensingAPI
         return $this->_api_key;
     }
 
-    public function setSecurityCode($security_flag)
+    public function setSecurityMode($security_mode_flag)
     {
-        if ($security_flag != self::BASIC_AUTHENTICATION && $security_flag != self::API_KEY_IDENTIFICATION) {
-            throw new NetLicensingException('Wrong authentication flag');
+        if ($security_mode_flag != self::BASIC_AUTHENTICATION && $security_mode_flag != self::API_KEY_IDENTIFICATION) {
+            throw new NetLicensingException('Wrong authentication security mode');
         }
 
-        $this->_security_code = $security_flag;
+        $this->_security_mode = $security_mode_flag;
     }
 
-    public function getSecurityCode()
+    public function getSecurityMode()
     {
-        return $this->_security_code;
+        return $this->_security_mode;
     }
 
     public function setVendorNumber($vendor_number)
@@ -106,7 +106,8 @@ class NetLicensingAPI
         return $this->_last_response;
     }
 
-    public function getHttpStatusCode(){
+    public function getHttpStatusCode()
+    {
         return $this->_curl->httpStatusCode;
     }
 
@@ -144,22 +145,22 @@ class NetLicensingAPI
             throw new NetLicensingException('Invalid request type:' . $method . ', allowed requests types: GET, POST, DELETE.');
         }
 
-        switch ($this->_security_code) {
+        switch ($this->_security_mode) {
             case self::BASIC_AUTHENTICATION:
-                if (empty($this->_username)) throw new NetLicensingException('Missing parameter "username" for connection');
-                if (empty($this->_password)) throw new NetLicensingException('Missing parameter "password" for connection');
+                if (empty($this->_username)) throw new NetLicensingException('Missing parameter "username"');
+                if (empty($this->_password)) throw new NetLicensingException('Missing parameter "password"');
 
                 $basic_authorization = 'Basic ' . base64_encode($this->_username . ":" . $this->_password);
                 $this->_curl->setHeader('Authorization', $basic_authorization);
                 break;
             case self::API_KEY_IDENTIFICATION:
-                if (empty($this->_api_key)) throw new NetLicensingException('Missing parameter "apiKey" for connection');
+                if (empty($this->_api_key)) throw new NetLicensingException('Missing parameter "apiKey"');
 
                 $api_authorization = 'Basic ' . base64_encode("apiKey:" . $this->_api_key);
                 $this->_curl->setHeader('Authorization', $api_authorization);
                 break;
             default:
-                throw new NetLicensingException('Missing or wrong authentication security code');
+                throw new NetLicensingException('Missing or wrong authentication security mode');
                 break;
         }
 
@@ -189,7 +190,7 @@ class NetLicensingAPI
                     break;
                 default:
                     $status_description = self::getInfoByXml($this->_last_response);
-                    if(!$status_description) $status_description = $this->_curl->errorMessage;
+                    if (!$status_description) $status_description = $this->_curl->errorMessage;
                     throw new NetLicensingException($status_description, $this->_curl->httpStatusCode);
                     break;
             }
@@ -216,7 +217,6 @@ class NetLicensingAPI
                     $tmp_array = array();
 
                     if ($properties) {
-                        /** @var  $property \SimpleXMLElement*/
                         foreach ($properties as $property) {
                             $attributes = $property->attributes();
                             $name = (string)$attributes['name'];
@@ -239,7 +239,7 @@ class NetLicensingAPI
             $xml = simplexml_load_string($xml);
         }
 
-        if($xml !== false){
+        if ($xml !== false) {
             $children = $xml->children(self::XML_NS);
             $info = (string)$children->infos->info;
         }

@@ -19,7 +19,7 @@ class TokenService extends BaseEntityService
 
     public function getList()
     {
-        return $this->_getList($this->nlic_connect);
+        return $this->_list($this->nlic_connect);
     }
 
     public function get($number)
@@ -46,14 +46,16 @@ class TokenService extends BaseEntityService
             $params['licenseeNumber'] = $licensee_number;
         }
 
-        $response = $this->nlic_connect->post($this->_getServiceUrlPart(), $params);
+        $response = $this->nlic_connect->post($this->_getServiceUrl(), $params);
         $properties_array = NetLicensingAPI::getPropertiesByXml($response);
 
-        if (empty($properties_array)) return FALSE;
+        if (empty($properties_array)) {
+            return FALSE;
+        }
 
         $properties = reset($properties_array);
 
-        $token = $this->_getNewEntity();
+        $token = $this->_createEntity();
         $token->setProperties($properties, TRUE);
 
         return $token;
@@ -65,12 +67,12 @@ class TokenService extends BaseEntityService
         return $this->_delete($number, $this->nlic_connect);
     }
 
-    protected function _getNewEntity()
+    protected function _createEntity()
     {
         return new Token();
     }
 
-    protected function _getServiceUrlPart()
+    protected function _getServiceUrl()
     {
         return self::SERVICE_URL;
     }

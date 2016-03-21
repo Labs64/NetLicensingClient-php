@@ -19,7 +19,7 @@ class TransactionService extends BaseEntityService
 
     public function getList()
     {
-        return $this->_getList($this->nlic_connect);
+        return $this->_list($this->nlic_connect);
     }
 
     public function get($number)
@@ -27,12 +27,12 @@ class TransactionService extends BaseEntityService
         return $this->_get($number, $this->nlic_connect);
     }
 
-    protected function _getNewEntity()
+    protected function _createEntity()
     {
         return new Transaction();
     }
 
-    protected function _getServiceUrlPart()
+    protected function _getServiceUrl()
     {
         return self::SERVICE_URL;
     }

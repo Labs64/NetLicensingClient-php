@@ -7,7 +7,8 @@
  */
 namespace NetLicensing;
 
-class LicenseTemplateService extends BaseEntityService {
+class LicenseTemplateService extends BaseEntityService
+{
 
     const SERVICE_URL = '/licensetemplate';
 
@@ -18,7 +19,7 @@ class LicenseTemplateService extends BaseEntityService {
 
     public function getList()
     {
-        return $this->_getList($this->nlic_connect);
+        return $this->_list($this->nlic_connect);
     }
 
     public function get($number)
@@ -41,12 +42,12 @@ class LicenseTemplateService extends BaseEntityService {
         return $this->_delete($number, $this->nlic_connect, $force_cascade);
     }
 
-    protected function _getNewEntity()
+    protected function _createEntity()
     {
         return new LicenseTemplate();
     }
 
-    protected function _getServiceUrlPart()
+    protected function _getServiceUrl()
     {
         return self::SERVICE_URL;
     }

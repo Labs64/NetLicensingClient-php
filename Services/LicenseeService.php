@@ -18,7 +18,7 @@ class LicenseeService extends BaseEntityService
 
     public function getList()
     {
-        return $this->_getList($this->nlic_connect);
+        return $this->_list($this->nlic_connect);
     }
 
     public function get($number)
@@ -41,17 +41,14 @@ class LicenseeService extends BaseEntityService
         return $this->_delete($number, $this->nlic_connect, $force_cascade);
     }
 
-    /**
-     * @param string $licensee_number
-     * @param array|string $product_number
-     * @param string $license_name
-     */
     public function validate($licensee_number, $product_number = '', $license_name = '')
     {
         $params = array();
         $licensee_number = (string)$licensee_number;
 
-        if (empty($licensee_number)) throw new NetLicensingException('LicenseeNumber can not be empty');
+        if (empty($licensee_number)) {
+            throw new NetLicensingException('Licensee Number cannot be empty');
+        }
 
         //check product number(s)
         if (!empty($product_number)) {
@@ -72,47 +69,53 @@ class LicenseeService extends BaseEntityService
                                 break;
                             case 'object':
                                 if ($number instanceof Product) {
-                                    if (!$number->getOldProperty('number')) throw new NetLicensingException('Unable to request validation, because the product does not have a number');
+                                    if (!$number->getOldProperty('number')) {
+                                        throw new NetLicensingException('Validation error: product number cannot be empty');
+                                    }
 
                                     $params['productNumber' . $index] = $number->getOldProperty('number');
                                 } else {
-                                    throw new NetLicensingException('Unable to request validation, because entity ' . get_class($number) . ' is invalid, entity must be instanceof Product');
+                                    throw new NetLicensingException('Validation error: entity ' . get_class($number) . ' is invalid; must be instanceof Product');
                                 }
                                 break;
                             default:
-                                throw new NetLicensingException('Unable to request validation, because product number can not be' . gettype($product_number));
+                                throw new NetLicensingException('Validation error: product number cannot be ' . gettype($product_number));
                                 break;
                         }
                         if ($count > 1) $index++;
                     }
                     break;
                 default:
-                    if (!is_string($license_name)) throw new NetLicensingException('Unable to request validation, because product number expected string or array, ' . gettype($product_number) . ' given');
+                    if (!is_string($license_name)) {
+                        throw new NetLicensingException('Validation error: wrong product number type provided ' . gettype($product_number));
+                    }
                     break;
             }
         }
 
         if ($license_name) {
-            if (!is_string($license_name)) throw new NetLicensingException('Unable to request validation, because license number expected string, ' . gettype($product_number) . ' given');
+            if (!is_string($license_name)) {
+                throw new NetLicensingException('Validation error: license name is not string ' . gettype($product_number));
+            }
             $params['licenseeName'] = $license_name;
         }
 
-        $response = $this->nlic_connect->get($this->_getServiceRequestPartUrl() . '/' . $licensee_number . '/validate', $params);
+        $response = $this->nlic_connect->get($this->_getServiceRequestUrl() . '/' . $licensee_number . '/validate', $params);
 
-       return NetLicensingAPI::getPropertiesByXml($response);
+        return NetLicensingAPI::getPropertiesByXml($response);
     }
 
     public static function validateByApiKey($api_key)
     {
-
+        // TODO
     }
 
-    protected function _getNewEntity()
+    protected function _createEntity()
     {
         return new Licensee();
     }
 
-    protected function _getServiceUrlPart()
+    protected function _getServiceUrl()
     {
         return self::SERVICE_URL;
     }

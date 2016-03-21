@@ -44,8 +44,9 @@ abstract class BaseEntity
 
     protected function _verifyTypeIsString($value)
     {
-        if (!is_string($value)) return FALSE;
-
+        if (!is_string($value)) {
+            return FALSE;
+        }
         return TRUE;
     }
 

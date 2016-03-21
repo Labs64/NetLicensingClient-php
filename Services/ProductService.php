@@ -7,7 +7,8 @@
  */
 namespace NetLicensing;
 
-class ProductService extends BaseEntityService {
+class ProductService extends BaseEntityService
+{
 
     const SERVICE_URL = '/product';
 
@@ -18,14 +19,9 @@ class ProductService extends BaseEntityService {
 
     public function getList()
     {
-        return $this->_getList($this->nlic_connect);
+        return $this->_list($this->nlic_connect);
     }
 
-    /**
-     * @param $number
-     * @return ProductModule|false
-     * @throws NetLicensingException
-     */
     public function get($number)
     {
         return $this->_get($number, $this->nlic_connect);
@@ -46,12 +42,12 @@ class ProductService extends BaseEntityService {
         return $this->_delete($number, $this->nlic_connect, $force_cascade);
     }
 
-    protected function _getNewEntity()
+    protected function _createEntity()
     {
         return new Product();
     }
 
-    protected function _getServiceUrlPart()
+    protected function _getServiceUrl()
     {
         return self::SERVICE_URL;
     }

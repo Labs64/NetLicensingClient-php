@@ -30,7 +30,7 @@ Bug, feature requests and other issues should be reported to the [GitHub Project
 
 ## License
 
-Composer Merge plugin is licensed under the Apache License, Version 2.0 license. See the [LICENSE](LICENSE) file for more details.
+Labs64 NetLicensing Client (PHP) is licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for more details.
 
 ---
 

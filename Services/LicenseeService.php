@@ -7,42 +7,98 @@
  */
 namespace NetLicensing;
 
+/**
+ * PHP representation of the Licensee Service. See NetLicensingAPI for details:
+ * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services
+ *
+ * Class LicenseeService
+ * @package NetLicensing
+ */
 class LicenseeService extends BaseEntityService
 {
     const SERVICE_URL = '/licensee';
     const LICENSEE_ENDPOINT_PATH_VALIDATE = 'validate';
     const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
 
+    /**
+     * @param NetLicensingAPI $nlic_connect
+     * @return LicenseeService
+     */
     public static function connect(NetLicensingAPI $nlic_connect)
     {
         return new LicenseeService($nlic_connect);
     }
 
+    /**
+     * Returns all licensees of a vendor. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Licenseeslist
+     *
+     * @return array
+     */
     public function getList()
     {
         return $this->_list($this->nlic_connect);
     }
 
+    /**
+     * Gets licensee by its number. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Getlicensee
+     *
+     * @param $number
+     * @return bool
+     */
     public function get($number)
     {
         return $this->_get($number, $this->nlic_connect);
     }
 
+    /**
+     * Creates new licensee object with given properties. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Createlicensee
+     *
+     * @param Licensee $licensee
+     * @return bool
+     */
     public function create(Licensee $licensee)
     {
         return $this->_create($licensee, $this->nlic_connect);
     }
 
+    /**
+     * Updates licensee properties. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Updatelicensee
+     *
+     * @param Licensee $licensee
+     * @return bool
+     */
     public function update(Licensee $licensee)
     {
         return $this->_update($licensee, $this->nlic_connect);
     }
 
+    /**
+     * Deletes licensee. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Deletelicensee
+     *
+     * @param $number
+     * @param bool $force_cascade
+     * @return bool
+     */
     public function delete($number, $force_cascade = FALSE)
     {
         return $this->_delete($number, $this->nlic_connect, $force_cascade);
     }
 
+    /**
+     * Validates active licenses of the licensee. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Validatelicensee
+     *
+     * @param $licensee_number
+     * @param string $product_number
+     * @param string $license_name
+     * @return array
+     * @throws NetLicensingException
+     */
     public function validate($licensee_number, $product_number = '', $license_name = '')
     {
         $params = array();
@@ -138,16 +194,26 @@ class LicenseeService extends BaseEntityService
         $status_code = $this->nlic_connect->getHttpStatusCode();
         return (!empty($status_code) && $status_code == '204') ? TRUE : FALSE;
     }
+
+    /**
+     * @param $api_key
+     */
     public static function validateByApiKey($api_key)
     {
         // TODO
     }
 
+    /**
+     * @return Licensee
+     */
     protected function _createEntity()
     {
         return new Licensee();
     }
 
+    /**
+     * @return string
+     */
     protected function _getServiceUrl()
     {
         return self::SERVICE_URL;

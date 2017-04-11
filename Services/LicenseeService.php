@@ -10,6 +10,7 @@ namespace NetLicensing;
 class LicenseeService extends BaseEntityService
 {
     const SERVICE_URL = '/licensee';
+    const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
 
     public static function connect(NetLicensingAPI $nlic_connect)
     {
@@ -105,6 +106,37 @@ class LicenseeService extends BaseEntityService
         return NetLicensingAPI::getPropertiesByXml($response);
     }
 
+    /**
+     * Transfer licenses between licensees.
+     * TODO(AY): Wiki Link
+     *
+     * @param $licensee_number
+     * @param $sourceLicenseeNumber
+     * @return boolean
+     * @throws NetLicensingException
+     */
+    public function transfer($licensee_number, $sourceLicenseeNumber)
+    {
+        $params = array();
+        $licensee_number = (string)$licensee_number;
+
+        if (empty($licensee_number)) {
+            throw new NetLicensingException('Licensee Number cannot be empty');
+        }
+        if (empty($sourceLicenseeNumber)) {
+            throw new NetLicensingException('Source Licensee Number cannot be empty');
+        }
+
+        if (!is_string($sourceLicenseeNumber)) {
+            throw new NetLicensingException('Transfer error: Source Licensee Number is not string ' . gettype($sourceLicenseeNumber));
+        }
+        $params['sourceLicenseeNumber'] = $sourceLicenseeNumber;
+
+        $this->nlic_connect->post($this->_getServiceRequestUrl() . '/' . $licensee_number . '/' . self::LICENSEE_ENDPOINT_PATH_TRANSFER, $params);
+
+        $status_code = $this->nlic_connect->getHttpStatusCode();
+        return (!empty($status_code) && $status_code == '204') ? TRUE : FALSE;
+    }
     public static function validateByApiKey($api_key)
     {
         // TODO

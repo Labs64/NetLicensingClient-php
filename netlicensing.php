@@ -28,3 +28,4 @@ require_once(__DIR__ . '/Services/LicenseeService.php');
 require_once(__DIR__ . '/Services/LicenseService.php');
 require_once(__DIR__ . '/Services/TokenService.php');
 require_once(__DIR__ . '/Services/TransactionService.php');
+require_once(__DIR__ . '/Services/UtilityService.php');

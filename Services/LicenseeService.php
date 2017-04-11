@@ -10,6 +10,7 @@ namespace NetLicensing;
 class LicenseeService extends BaseEntityService
 {
     const SERVICE_URL = '/licensee';
+    const LICENSEE_ENDPOINT_PATH_VALIDATE = 'validate';
     const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
 
     public static function connect(NetLicensingAPI $nlic_connect)
@@ -101,7 +102,7 @@ class LicenseeService extends BaseEntityService
             $params['licenseeName'] = $license_name;
         }
 
-        $response = $this->nlic_connect->get($this->_getServiceRequestUrl() . '/' . $licensee_number . '/validate', $params);
+        $response = $this->nlic_connect->post($this->_getServiceRequestUrl() . '/' . $licensee_number . '/' . self::LICENSEE_ENDPOINT_PATH_VALIDATE, $params);
 
         return NetLicensingAPI::getPropertiesByXml($response);
     }

@@ -51,6 +51,18 @@ class TransactionService extends BaseEntityService
     }
 
     /**
+     * Creates new transaction object with given properties. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Createtransaction
+     *
+     * @param Transaction $transaction
+     * @return bool
+     */
+    public function create(Transaction $transaction)
+    {
+        return $this->_create($transaction, $this->nlic_connect);
+    }
+
+    /**
      * @return Transaction
      */
     protected function _createEntity()

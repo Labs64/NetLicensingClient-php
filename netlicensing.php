@@ -18,6 +18,7 @@ require_once(__DIR__ . '/Entities/Licensee.php');
 require_once(__DIR__ . '/Entities/License.php');
 require_once(__DIR__ . '/Entities/Token.php');
 require_once(__DIR__ . '/Entities/Transaction.php');
+require_once(__DIR__ . '/Entities/ValidationParameters.php');
 
 // Services
 require_once(__DIR__ . '/Services/BaseEntityService.php');

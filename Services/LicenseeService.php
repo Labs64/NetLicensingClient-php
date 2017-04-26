@@ -20,6 +20,11 @@ class LicenseeService extends BaseEntityService
     const LICENSEE_ENDPOINT_PATH_VALIDATE = 'validate';
     const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
 
+    const PRODUCT_MODULE_NUMBER = "productModuleNumber";
+    const PRODUCT_NUMBER = "productNumber";
+    const LICENSEE_NAME = "licenseeName";
+    const LICENSEE_SECRET = "licenseeSecret";
+
     /**
      * @param NetLicensingAPI $nlic_connect
      * @return LicenseeService
@@ -94,13 +99,58 @@ class LicenseeService extends BaseEntityService
      * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Validatelicensee
      *
      * @param $licensee_number
+     * @param $validationParameters
+     * @return array
+     */
+    public function validate($licensee_number, $validationParameters)
+    {
+        if ($validationParameters instanceof ValidationParameters) {
+            $params = array();
+            if (!empty($validationParameters->getProductNumber())) {
+                $params[self::PRODUCT_NUMBER] = $validationParameters->getProductNumber();
+            }
+            if (!empty($validationParameters->getLicenseeName())) {
+                $params[self::LICENSEE_NAME] = $validationParameters->getLicenseeName();
+            }
+            if (!empty($validationParameters->getLicenseeSecret())) {
+                $params[self::LICENSEE_SECRET] = $validationParameters->getLicenseeSecret();
+            }
+
+            $pmIndex = 0;
+            foreach ($validationParameters->getParameters() as $productModuleName => $parameters) {
+                $params[self::PRODUCT_MODULE_NUMBER . $pmIndex] = $productModuleName;
+                foreach ($parameters as $parameter_key => $parameter_val) {
+                    $params[$parameter_key . $pmIndex] = $parameter_val;
+                }
+                $pmIndex++;
+            }
+
+            $response = $this->nlic_connect->post($this->_getServiceRequestUrl() . '/' . $licensee_number . '/' . self::LICENSEE_ENDPOINT_PATH_VALIDATE, $params);
+            return NetLicensingAPI::getPropertiesByXml($response);
+        }
+
+        //support for old call
+        $args = func_get_args();
+
+        $product_number = !empty($args[1]) ? $args[1] : '';
+        $licensee_name = !empty($args[2]) ? $args[2] : '';
+        return $this->validate_old($licensee_number, $product_number, $licensee_name);
+    }
+
+    /**
+     * Validates active licenses of the licensee. See NetLicensingAPI for details:
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Validatelicensee
+     *
+     * @param $licensee_number
      * @param string $product_number
      * @param string $license_name
      * @return array
      * @throws NetLicensingException
      */
-    public function validate($licensee_number, $product_number = '', $license_name = '')
+    public function validate_old($licensee_number, $product_number = '', $license_name = '')
     {
+        trigger_error('Deprecated method: "validate($licensee_number, $product_number, $license_name)", use validate($licensee_number, $validationParameters)', E_USER_DEPRECATED);
+
         $params = array();
         $licensee_number = (string)$licensee_number;
 
@@ -112,7 +162,7 @@ class LicenseeService extends BaseEntityService
         if (!empty($product_number)) {
             switch (gettype($product_number)) {
                 case 'string':
-                    $params['productNumber'] = $product_number;
+                    $params[self::PRODUCT_NUMBER] = $product_number;
                     break;
                 case 'array':
                     $count = count($product_number);
@@ -120,10 +170,10 @@ class LicenseeService extends BaseEntityService
                     foreach ($product_number as $number) {
                         switch (gettype($number)) {
                             case 'int':
-                                $params['productNumber' . $index] = (string)$number;
+                                $params[self::PRODUCT_NUMBER . $index] = (string)$number;
                                 break;
                             case 'string':
-                                $params['productNumber' . $index] = $number;
+                                $params[self::PRODUCT_NUMBER . $index] = $number;
                                 break;
                             case 'object':
                                 if ($number instanceof Product) {
@@ -131,7 +181,7 @@ class LicenseeService extends BaseEntityService
                                         throw new NetLicensingException('Validation error: product number cannot be empty');
                                     }
 
-                                    $params['productNumber' . $index] = $number->getOldProperty('number');
+                                    $params[self::PRODUCT_NUMBER . $index] = $number->getOldProperty('number');
                                 } else {
                                     throw new NetLicensingException('Validation error: entity ' . get_class($number) . ' is invalid; must be instanceof Product');
                                 }
@@ -155,7 +205,7 @@ class LicenseeService extends BaseEntityService
             if (!is_string($license_name)) {
                 throw new NetLicensingException('Validation error: license name is not string ' . gettype($product_number));
             }
-            $params['licenseeName'] = $license_name;
+            $params[self::LICENSEE_NAME] = $license_name;
         }
 
         $response = $this->nlic_connect->post($this->_getServiceRequestUrl() . '/' . $licensee_number . '/' . self::LICENSEE_ENDPOINT_PATH_VALIDATE, $params);

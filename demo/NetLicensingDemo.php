@@ -167,7 +167,6 @@ class NetLicensingDemo
     {
         try {
 
-
             $licensingModels = \NetLicensing\UtilityService::listLicensingModels($this->context);
 
             $headers = ['Licensing Models'];
@@ -361,7 +360,6 @@ class NetLicensingDemo
 
             $this->success('ProductModuleService::create');
             $this->table($headers, $rows);
-
 
         } catch (Exception $exception) {
             //output

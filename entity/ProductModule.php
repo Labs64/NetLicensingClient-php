@@ -27,7 +27,7 @@ namespace NetLicensing;
  *
  * Licensing model applied to this product module. Defines what license templates can be
  * configured for the product module and how licenses for this product module are processed during validation.
- * @property string licensingModel
+ * @property string $licensingModel
  *
  * Maximum checkout validity (days). Mandatory for 'Floating' licensing model.
  * @property integer $maxCheckoutValidity

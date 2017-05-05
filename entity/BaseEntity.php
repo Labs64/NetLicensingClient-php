@@ -8,9 +8,6 @@
 
 namespace NetLicensing;
 
-
-use NetLicensing\Properties;
-
 /**
  * Defines properties common to all (or most) of other entities.
  *

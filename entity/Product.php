@@ -8,8 +8,6 @@
 
 namespace NetLicensing;
 
-use Curl\Curl;
-
 /**
  * NetLicensing Product entity.
  *
@@ -21,24 +19,24 @@ use Curl\Curl;
  *
  * If set to false, the product is disabled. No new licensees can be registered for the product,
  * existing licensees can not obtain new licenses.
- * @property boolean active
+ * @property boolean $active
  *
  * Product name. Together with the version identifies the product for the end customer.
  * @property string $name
  *
  * Product version. Convenience parameter, additional to the product name.
- * @property float version
+ * @property float $version
  *
  * If set to 'true', non-existing licensees will be created at first validation attempt.
- * @property boolean licenseeAutoCreate
+ * @property boolean $licenseeAutoCreate
  *
  * Product description. Optional.
- * @property string description
+ * @property string $description
  *
  * Licensing information. Optional.
- * @property string licensingInfo
+ * @property string $licensingInfo
  *
- * @property boolean inUse
+ * @property boolean $inUse
  *
  * Arbitrary additional user properties of string type may be associated with each product. The name of user property
  * must not be equal to any of the fixed property names listed above and must be none of id, deleted.

@@ -9,10 +9,6 @@
 namespace NetLicensing;
 
 use Curl\Curl;
-use NetLicensing\BaseEntity;
-use NetLicensing\NetLicensingException;
-use NetLicensing\RestException;
-use NetLicensing\Context;
 
 class NetLicensingService
 {

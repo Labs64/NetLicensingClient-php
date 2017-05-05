@@ -89,8 +89,11 @@ class NetLicensingDemo
         $this->updateLicense();
         $this->listLicense();
 
-//        \cli\line('---------------------------- VALIDATE ----------------------------');
-//        $this->validate();
+        \cli\line('---------------------------- VALIDATE ----------------------------');
+        $this->validate();
+
+        \cli\line('---------------------------- TRANSFER ----------------------------');
+        $this->transfer();
 
         //TransactionService
         \cli\line('---------------------------- TransactionService ----------------------------');
@@ -748,8 +751,6 @@ class NetLicensingDemo
 
             $validationResult = \NetLicensing\LicenseeService::validate($this->context, $this->licensee->getNumber(), $validationParameters);
 
-            NetLicensing\LicenseeService::delete($this->context, $this->licensee->getNumber());
-
             $validation = $validationResult->getProductModuleValidation($this->productModule->getNumber());
 
             //output
@@ -767,6 +768,42 @@ class NetLicensingDemo
         } catch (Exception $exception) {
             //output
             $this->error('LicenseeService::validate', $exception);
+        }
+    }
+
+    public function transfer()
+    {
+        try {
+
+            $licensee = new \NetLicensing\Licensee();
+            $licensee->setNumber($this->faker->bothify('L-########'));
+            $licensee->setName($this->faker->sentence(6, true));
+            $licensee->setActive(true);
+
+            $licensee = \NetLicensing\LicenseeService::create($this->context, $this->product->getNumber(), $licensee);
+
+            $this->licensee->setMarkedForTransfer(true);
+
+            $this->licensee = \NetLicensing\LicenseeService::update($this->context, $this->licensee->getNumber(), $this->licensee);
+
+            \NetLicensing\LicenseeService::transfer($this->context, $licensee->getNumber(), $this->licensee->getNumber());
+
+            $this->licensee = $licensee;
+
+            //output
+            $headers = ['Number', 'Name', 'Active'];
+            $rows[] = [
+                $this->licensee->getNumber(),
+                $this->licensee->getName(),
+                ($this->licensee->getActive()) ? 'true' : 'false',
+            ];
+
+            $this->success('LicenseeService::transfer');
+            $this->table($headers, $rows);
+
+        } catch (Exception $exception) {
+            //output
+            $this->error('LicenseeService::transfer', $exception);
         }
     }
 

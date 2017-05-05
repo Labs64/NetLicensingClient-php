@@ -6,27 +6,36 @@
  * @copyright 2016 Labs64 NetLicensing
  */
 
-require_once(__DIR__ . '/Exceptions/NetLicensingException.php');
-require_once(__DIR__ . '/RestController/NetLicensingAPI.php');
+require_once(__DIR__ . '/vo/Context.php');
+require_once(__DIR__ . '/vo/NetLicensingCurl.php');
+require_once(__DIR__ . '/vo/ValidationParameters.php');
+require_once(__DIR__ . '/vo/ValidationResults.php');
 
-// Entities
-require_once(__DIR__ . '/Entities/BaseEntity.php');
-require_once(__DIR__ . '/Entities/Product.php');
-require_once(__DIR__ . '/Entities/ProductModule.php');
-require_once(__DIR__ . '/Entities/LicenseTemplate.php');
-require_once(__DIR__ . '/Entities/Licensee.php');
-require_once(__DIR__ . '/Entities/License.php');
-require_once(__DIR__ . '/Entities/Token.php');
-require_once(__DIR__ . '/Entities/Transaction.php');
-require_once(__DIR__ . '/Entities/ValidationParameters.php');
+require_once(__DIR__ . '/exception/MalformedArgumentsException.php');
+require_once(__DIR__ . '/exception/NetLicensingException.php');
+require_once(__DIR__ . '/exception/RestException.php');
 
-// Services
-require_once(__DIR__ . '/Services/BaseEntityService.php');
-require_once(__DIR__ . '/Services/ProductService.php');
-require_once(__DIR__ . '/Services/ProductModuleService.php');
-require_once(__DIR__ . '/Services/LicenseTemplateService.php');
-require_once(__DIR__ . '/Services/LicenseeService.php');
-require_once(__DIR__ . '/Services/LicenseService.php');
-require_once(__DIR__ . '/Services/TokenService.php');
-require_once(__DIR__ . '/Services/TransactionService.php');
-require_once(__DIR__ . '/Services/UtilityService.php');
+require_once(__DIR__ . '/util/CheckUtils.php');
+
+require_once(__DIR__ . '/entity/traits/Properties.php');
+require_once(__DIR__ . '/entity/BaseEntity.php');
+require_once(__DIR__ . '/entity/Product.php');
+require_once(__DIR__ . '/entity/ProductDiscount.php');
+require_once(__DIR__ . '/entity/ProductModule.php');
+require_once(__DIR__ . '/entity/LicenseTemplate.php');
+require_once(__DIR__ . '/entity/Licensee.php');
+require_once(__DIR__ . '/entity/License.php');
+require_once(__DIR__ . '/entity/Transaction.php');
+require_once(__DIR__ . '/entity/Token.php');
+require_once(__DIR__ . '/entity/PaymentMethod.php');
+
+require_once(__DIR__ . '/service/NetLicensingService.php');
+require_once(__DIR__ . '/service/ProductService.php');
+require_once(__DIR__ . '/service/ProductModuleService.php');
+require_once(__DIR__ . '/service/LicenseTemplateService.php');
+require_once(__DIR__ . '/service/UtilityService.php');
+require_once(__DIR__ . '/service/LicenseeService.php');
+require_once(__DIR__ . '/service/LicenseService.php');
+require_once(__DIR__ . '/service/TransactionService.php');
+require_once(__DIR__ . '/service/TokenService.php');
+require_once(__DIR__ . '/service/PaymentMethodService.php');

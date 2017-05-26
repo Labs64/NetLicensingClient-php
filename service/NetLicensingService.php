@@ -38,6 +38,11 @@ class NetLicensingService
         return self::$_instance;
     }
 
+    public function curl()
+    {
+        return clone $this->curl;
+    }
+
     /**
      * Helper method for performing GET request to NetLicensing API services. Finds and returns first suitable item with
      * type resultType from the response.

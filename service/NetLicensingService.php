@@ -177,15 +177,13 @@ class NetLicensingService
             case 204:
                 return null;
                 break;
-            case 404:
-                return null;
-                break;
             default:
                 throw new RestException(sprintf("Unsupported response status code %s: %s",
                     $this->getStatusCode(), $this->getReasonPhrase($response)));
                 break;
 
         }
+
     }
 
     protected function validateMethod($method)

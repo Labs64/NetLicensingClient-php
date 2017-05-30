@@ -13,6 +13,10 @@ use Curl\Curl;
 
 class NetLicensingCurl extends Curl
 {
+    public $data;
+    public $query;
+
+
     /**
      * Build Post Data
      *
@@ -23,11 +27,15 @@ class NetLicensingCurl extends Curl
      */
     public function buildPostData($data)
     {
+        $this->data = $data;
+
         $query = parent::buildPostData($data);
 
         foreach ($data as $key => $value) {
             if (is_array($value)) $query = preg_replace('/&' . $key . '%5B%5D=/simU', '&' . $key . '=', $query);
         }
+
+        $this->query = $query;
 
         return $query;
     }

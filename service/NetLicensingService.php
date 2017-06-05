@@ -38,9 +38,9 @@ class NetLicensingService
         return self::$_instance;
     }
 
-    public function curl()
+    public function lastCurlInfo()
     {
-        return clone $this->curl;
+        return (object)$this->curl->toArray();
     }
 
     /**

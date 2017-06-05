@@ -39,4 +39,30 @@ class NetLicensingCurl extends Curl
 
         return $query;
     }
+
+
+    public function toArray()
+    {
+        return [
+            'error' => $this->curl->error,
+            'errorCode' => $this->curl->errorCode,
+            'errorMessage' => $this->curl->errorMessage,
+            'curlError' => $this->curl->curlError,
+            'curlErrorCode' => $this->curl->curlErrorCode,
+            'curlErrorMessage' => $this->curl->curlErrorMessage,
+            'httpError' => $this->curl->httpError,
+            'httpStatusCode' => $this->curl->httpStatusCode,
+            'httpErrorMessage' => $this->curl->httpErrorMessage,
+            'baseUrl' => $this->curl->baseUrl,
+            'url' => $this->curl->url,
+            'effectiveUrl' => $this->curl->effectiveUrl,
+            'requestHeaders' => $this->curl->requestHeaders,
+            'responseHeaders' => $this->curl->responseHeaders,
+            'rawResponseHeaders' => $this->curl->rawResponseHeaders,
+            'response' => $this->curl->response,
+            'rawResponse' => $this->curl->rawResponse,
+            'data' => $this->curl->data,
+            'query' => $this->curl->query,
+        ];
+    }
 }

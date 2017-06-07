@@ -7,4 +7,4 @@ php:
 
 before_script:
   - composer install
-  - php demo/NetLicensingDemo.php
+  #- php demo/NetLicensingDemo.php

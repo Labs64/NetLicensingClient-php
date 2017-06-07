@@ -6,6 +6,5 @@ php:
   - 7.1
 
 before_script:
-  - dpkg -l
-  - composer install --prefer-dist --no-interaction
-  - ls -la
+  - composer install
+  - php demo/NetLicensingDemo.php

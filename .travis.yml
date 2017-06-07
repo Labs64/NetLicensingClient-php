@@ -5,13 +5,10 @@ php:
   - 7.0
   - 7.1
 
-env:
-  - NODEJS_VERSION=6.10.3
-
 before_script:
   - dpkg -l
   - composer install --prefer-dist --no-interaction
   - ls -la
 
 script:
-  - vendor/bin/phpunit
+  #- vendor/bin/phpunit

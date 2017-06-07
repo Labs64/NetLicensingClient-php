@@ -8,3 +8,6 @@ php:
 before_script:
   - composer install
   #- php demo/NetLicensingDemo.php
+
+script:
+  - vendor/bin/phpunit

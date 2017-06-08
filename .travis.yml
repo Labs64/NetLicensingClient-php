@@ -6,7 +6,7 @@ php:
   - 7.1
 
 before_script:
-  - composer install
+  - composer update
   - cd demo
   - php NetLicensingDemo.php
 

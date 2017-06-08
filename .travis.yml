@@ -10,4 +10,5 @@ before_script:
   - cd demo
   - php NetLicensingDemo.php
 
-script: phpunit
+script:
+  - phpunit

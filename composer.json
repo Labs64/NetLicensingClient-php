@@ -3,7 +3,7 @@
     "description": "PHP wrapper for Labs64 NetLicensing RESTful API",
     "type": "library",
     "keywords": [
-        "NetLicensing", "licensing", "license", "client", "API", "REST", "RESTful"
+        "NetLicensing", "licensing", "license", "software license", "licensing model", "license types", "license management", "licensing as a service", "software activation", "subscription", "floating", "pay-per-use", "client", "RESTful", "API", "REST"
     ],
     "homepage": "http://netlicensing.io",
     "license": "Apache-2.0",
@@ -26,6 +26,7 @@
         "php-curl-class/php-curl-class": "^7.3.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "~5.7",
         "fzaninotto/faker": "^1.6",
         "wp-cli/php-cli-tools": "^0.11.2"
     },

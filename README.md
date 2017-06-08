@@ -1,6 +1,10 @@
 # [Labs64 NetLicensing] Client (PHP)
 
-[![Latest Stable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/stable)](https://packagist.org/packages/labs64/netlicensingclient-php) [![Total Downloads](https://poser.pugx.org/labs64/netlicensingclient-php/downloads)](https://packagist.org/packages/labs64/netlicensingclient-php) [![Latest Unstable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/unstable)](https://packagist.org/packages/labs64/netlicensingclient-php) [![License](https://poser.pugx.org/labs64/netlicensingclient-php/license)](https://packagist.org/packages/labs64/netlicensingclient-php)
+[![Build Status](https://travis-ci.org/Labs64/NetLicensingClient-php.svg?branch=master)](https://travis-ci.org/Labs64/NetLicensingClient-php)
+[![Latest Stable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/stable)](https://packagist.org/packages/labs64/netlicensingclient-php)
+[![Total Downloads](https://poser.pugx.org/labs64/netlicensingclient-php/downloads)](https://packagist.org/packages/labs64/netlicensingclient-php)
+[![Latest Unstable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/unstable)](https://packagist.org/packages/labs64/netlicensingclient-php)
+[![License](https://poser.pugx.org/labs64/netlicensingclient-php/license)](https://packagist.org/packages/labs64/netlicensingclient-php)
 
 PHP wrapper for Labs64 NetLicensing [RESTful API]
 
@@ -15,7 +19,7 @@ $ composer require labs64/netlicensingclient-php
 ```
 {
     "require": {
-        "labs64/netlicensingclient-php": "dev-master"
+        "labs64/netlicensingclient-php": "^2.3.7"
     }
 }
 ```

@@ -9,6 +9,3 @@ before_script:
   - composer update
   - cd demo
   - php NetLicensingDemo.php
-
-script:
-  - vendor/bin/phpunit

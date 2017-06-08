@@ -22,7 +22,7 @@
         "docs": "https://www.labs64.de/confluence/display/NLICPUB"
     },
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.6",
         "php-curl-class/php-curl-class": "^7.3.0"
     },
     "require-dev": {

@@ -8,7 +8,7 @@ php:
 before_script:
   - composer install
   - cd demo
-  - php demo/NetLicensingDemo.php
+  - php NetLicensingDemo.php
 
 script:
   - vendor/bin/phpunit

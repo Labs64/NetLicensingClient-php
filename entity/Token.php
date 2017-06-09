@@ -38,7 +38,7 @@ namespace NetLicensing;
  * @method string getVendorNumber($default = null)
  * @method string getTokenType($default = null)
  * @method string getLicenseeNumber($default = null)
- * @method string getShopUrl($default = null)
+ * @method string getShopURL($default = null)
  * @method string getSuccessURL($default = null)
  * @method string getSuccessURLTitle($default = null)
  * @method string getCancelURL($default = null)

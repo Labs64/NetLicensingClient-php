@@ -66,12 +66,12 @@ class ValidationResults
     }
 
 
-    public function getTTL()
+    public function getTtl()
     {
         return $this->ttl;
     }
 
-    public function setTTL($ttl)
+    public function setTtl($ttl)
     {
         $this->ttl = $ttl;
 

@@ -23,6 +23,7 @@ namespace NetLicensing;
 class ValidationResults
 {
     protected $validators = [];
+    protected $ttl;
 
     public function getValidations()
     {
@@ -62,5 +63,18 @@ class ValidationResults
         $data .= ']';
 
         return $data;
+    }
+
+
+    public function getTTL()
+    {
+        return $this->ttl;
+    }
+
+    public function setTTL($ttl)
+    {
+        $this->ttl = $ttl;
+
+        return $this;
     }
 }

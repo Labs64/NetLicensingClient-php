@@ -181,7 +181,7 @@ class LicenseeService
 
         $validationResults = new ValidationResults();
         $validationResults->setProductModuleValidation($data['productModuleNumber'], $data);
-        $validationResults->setTTL(strtotime((string)NetLicensingService::getInstance()->lastCurlInfo()->response['ttl']));
+        $validationResults->setTtl(strtotime((string)NetLicensingService::getInstance()->lastCurlInfo()->response['ttl']));
 
         return $validationResults;
     }

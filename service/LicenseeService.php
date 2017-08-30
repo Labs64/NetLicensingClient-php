@@ -188,6 +188,7 @@ class LicenseeService
 
     /**
      * Transfer licenses between licensees.
+     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Transferlicensee
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context

@@ -112,12 +112,12 @@ class Product extends BaseEntity
     /**
      * Remove discount from product
      *
-     * @param float|ProductDiscount $totalPrice
+     * @param float|ProductDiscount $discount
      * @return $this
      */
-    public function removeDiscount($totalPrice)
+    public function removeDiscount($discount)
     {
-        $totalPrice = ($totalPrice instanceof ProductDiscount) ? $totalPrice->getTotalPrice() : $totalPrice;
+        $totalPrice = ($discount instanceof ProductDiscount) ? $discount->getTotalPrice() : $discount;
 
         if ($this->productDiscounts) {
             /** @var  $productDiscount ProductDiscount */
@@ -134,18 +134,18 @@ class Product extends BaseEntity
     /**
      * Remove discounts from product
      *
-     * @param array $totalPrices
+     * @param array $discounts
      * @return $this
      */
-    public function removeDiscounts(array $totalPrices = [])
+    public function removeDiscounts(array $discounts = [])
     {
-        if (!$totalPrices) {
+        if (!$discounts) {
             $this->productDiscounts = [];
             return $this;
         }
 
-        foreach ($totalPrices as $totalPrice) {
-            $this->removeDiscount($totalPrice);
+        foreach ($discounts as $discount) {
+            $this->removeDiscount($discount);
         }
 
         return $this;

@@ -74,6 +74,7 @@ class Product extends BaseEntity
     ];
 
     protected $productDiscounts = [];
+    protected $productDiscountsTouched = false;
 
     public function getProductDiscounts()
     {
@@ -93,6 +94,7 @@ class Product extends BaseEntity
         }
 
         $this->productDiscounts = $productDiscounts;
+        $this->productDiscountsTouched = true;
 
         return $this;
     }
@@ -105,6 +107,7 @@ class Product extends BaseEntity
     public function addDiscount(ProductDiscount $discount)
     {
         $this->productDiscounts[] = $discount;
+        $this->productDiscountsTouched = true;
 
         return $this;
     }
@@ -124,6 +127,7 @@ class Product extends BaseEntity
             foreach ($this->productDiscounts as $key => $productDiscount) {
                 if ($productDiscount->getTotalPrice() == $totalPrice) {
                     unset($this->productDiscounts[$key]);
+                    $this->productDiscountsTouched = true;
                 }
             }
         }
@@ -167,13 +171,17 @@ class Product extends BaseEntity
     {
         $map = $this->toArray();
 
-        $map['discount'] = '';
-
         if ($this->productDiscounts) {
+            $map['discount'] = [];
             foreach ($this->productDiscounts as $productDiscount) {
                 $map['discount'][] = (string)$productDiscount;
             }
         }
+
+        if (empty($map['discount']) && $this->productDiscountsTouched) {
+            $map['discount'] = '';
+        }
+
         return $map;
     }
 }

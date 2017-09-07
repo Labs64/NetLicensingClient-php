@@ -67,7 +67,7 @@ class Product extends BaseEntity
      * @var array
      */
     protected $casts = [
-        'version' => 'float',
+        'version' => 'string',
         'licenseeAutoCreate' => 'boolean_string',
         'active' => 'boolean_string',
         'inUse' => 'boolean_string',
@@ -80,6 +80,12 @@ class Product extends BaseEntity
         return $this->productDiscounts;
     }
 
+    /**
+     * Set discounts to product
+     *
+     * @param array $productDiscounts
+     * @return $this
+     */
     public function setProductDiscounts(array $productDiscounts)
     {
         foreach ($productDiscounts as &$productDiscount) {
@@ -91,6 +97,11 @@ class Product extends BaseEntity
         return $this;
     }
 
+    /**
+     * Add discount to product
+     * @param ProductDiscount $discount
+     * @return $this
+     */
     public function addDiscount(ProductDiscount $discount)
     {
         $this->productDiscounts[] = $discount;
@@ -98,15 +109,65 @@ class Product extends BaseEntity
         return $this;
     }
 
+    /**
+     * Remove discount from product
+     *
+     * @param float|ProductDiscount $totalPrice
+     * @return $this
+     */
+    public function removeDiscount($totalPrice)
+    {
+        $totalPrice = ($totalPrice instanceof ProductDiscount) ? $totalPrice->getTotalPrice() : $totalPrice;
+
+        if ($this->productDiscounts) {
+            /** @var  $productDiscount ProductDiscount */
+            foreach ($this->productDiscounts as $key => $productDiscount) {
+                if ($productDiscount->getTotalPrice() == $totalPrice) {
+                    unset($this->productDiscounts[$key]);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove discounts from product
+     *
+     * @param array $totalPrices
+     * @return $this
+     */
+    public function removeDiscounts(array $totalPrices = [])
+    {
+        if (!$totalPrices) {
+            $this->productDiscounts = [];
+            return $this;
+        }
+
+        foreach ($totalPrices as $totalPrice) {
+            $this->removeDiscount($totalPrice);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set discount to product
+     *
+     * @param $discount
+     * @return $this
+     */
     protected function setDiscount($discount)
     {
-        $this->setProductDiscounts($discount);
+        $this->setProductDiscounts([$discount]);
         return $this;
     }
 
     public function asPropertiesMap()
     {
         $map = $this->toArray();
+
+        $map['discount'] = '';
 
         if ($this->productDiscounts) {
             foreach ($this->productDiscounts as $productDiscount) {

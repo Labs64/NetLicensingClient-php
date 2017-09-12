@@ -87,12 +87,16 @@ class Product extends BaseEntity
      * @param array $productDiscounts
      * @return $this
      */
-    public function setProductDiscounts(array $productDiscounts)
+    public function setProductDiscounts($productDiscounts = [])
     {
-        foreach ($productDiscounts as &$productDiscount) {
-            $productDiscount = ($productDiscount instanceof ProductDiscount) ? $productDiscount : new ProductDiscount($productDiscount);
-        }
+        $productDiscounts = (is_null($productDiscounts)) ? [] : $productDiscounts;
 
+        if ($productDiscounts) {
+            foreach ($productDiscounts as &$productDiscount) {
+                $productDiscount = ($productDiscount instanceof ProductDiscount) ? $productDiscount : new ProductDiscount($productDiscount);
+            }
+        }
+        
         $this->productDiscounts = $productDiscounts;
         $this->productDiscountsTouched = true;
 
@@ -108,49 +112,6 @@ class Product extends BaseEntity
     {
         $this->productDiscounts[] = $discount;
         $this->productDiscountsTouched = true;
-
-        return $this;
-    }
-
-    /**
-     * Remove discount from product
-     *
-     * @param float|ProductDiscount $discount
-     * @return $this
-     */
-    public function removeDiscount($discount)
-    {
-        $totalPrice = ($discount instanceof ProductDiscount) ? $discount->getTotalPrice() : $discount;
-
-        if ($this->productDiscounts) {
-            /** @var  $productDiscount ProductDiscount */
-            foreach ($this->productDiscounts as $key => $productDiscount) {
-                if ($productDiscount->getTotalPrice() == $totalPrice) {
-                    unset($this->productDiscounts[$key]);
-                    $this->productDiscountsTouched = true;
-                }
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove discounts from product
-     *
-     * @param array $discounts
-     * @return $this
-     */
-    public function removeDiscounts(array $discounts = [])
-    {
-        if (!$discounts) {
-            $this->productDiscounts = [];
-            return $this;
-        }
-
-        foreach ($discounts as $discount) {
-            $this->removeDiscount($discount);
-        }
 
         return $this;
     }

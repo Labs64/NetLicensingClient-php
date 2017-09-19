@@ -38,9 +38,9 @@ Labs64 NetLicensing Client (PHP) is licensed under the Apache License, Version 2
 
 ---
 
-Visit Labs64 NetLicensing at http://netlicensing.io
+Visit Labs64 NetLicensing at https://netlicensing.io
 
-[Labs64 NetLicensing]: http://netlicensing.io
+[Labs64 NetLicensing]: https://netlicensing.io
 [RESTful API]: http://l64.cc/nl10
 [GitHub project]: https://github.com/Labs64/NetLicensingClient-php
 [PSR-2 Coding Standard]: https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md

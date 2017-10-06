@@ -35,7 +35,7 @@ class ProductDiscount extends BaseEntity
      * @var array
      */
     protected $casts = [
-        'totalPrice' => 'int',
+        'totalPrice' => 'float',
         'amountFix' => 'float',
         'amountPercent' => 'int',
     ];

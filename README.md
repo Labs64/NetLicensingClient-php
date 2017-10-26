@@ -1,4 +1,6 @@
-# [Labs64 NetLicensing] Client (PHP)
+<a href="https://netlicensing.io"><img src="https://netlicensing.io/img/netlicensing-stage-twitter.jpg" alt="Innovative License Management Solution"></a>
+
+# [Labs64 NetLicensing](https://netlicensing.io) Client (PHP)
 
 [![Build Status](https://travis-ci.org/Labs64/NetLicensingClient-php.svg?branch=master)](https://travis-ci.org/Labs64/NetLicensingClient-php)
 [![Latest Stable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/stable)](https://packagist.org/packages/labs64/netlicensingclient-php)
@@ -6,7 +8,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/unstable)](https://packagist.org/packages/labs64/netlicensingclient-php)
 [![License](https://poser.pugx.org/labs64/netlicensingclient-php/license)](https://packagist.org/packages/labs64/netlicensingclient-php)
 
-PHP wrapper for Labs64 NetLicensing [RESTful API]
+PHP wrapper for Labs64 NetLicensing [RESTful API](http://l64.cc/nl10)
 
 ## Installation
 

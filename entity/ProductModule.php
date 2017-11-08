@@ -64,6 +64,15 @@ namespace NetLicensing;
  */
 class ProductModule extends BaseEntity
 {
+    const LICENSING_MODEL_TRY_AND_BUY = "TryAndBuy";
+    const LICENSING_MODEL_RENTAL = "Rental";
+    const LICENSING_MODEL_SUBSCRIPTION = "Subscription";
+    const LICENSING_MODEL_FLOATING = "Floating";
+    const LICENSING_MODEL_MULTI_FEATURE = "MultiFeature";
+    const LICENSING_MODEL_MULTI_PAY_PER_USE = "PayPerUse";
+    const LICENSING_MODEL_PRICING_PLANS = "PricingPlans";
+    const LICENSING_MODEL_QUOTA = "Quota";
+
     /**
      * The attributes that should be cast to native types.
      *

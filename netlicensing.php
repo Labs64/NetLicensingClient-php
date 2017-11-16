@@ -6,6 +6,8 @@
  * @copyright 2017 Labs64 NetLicensing
  */
 
+require_once(__DIR__ . '/Constants.php');
+
 require_once(__DIR__ . '/vo/Context.php');
 require_once(__DIR__ . '/vo/NetLicensingCurl.php');
 require_once(__DIR__ . '/vo/ValidationParameters.php');

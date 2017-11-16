@@ -17,6 +17,10 @@ class Constants
     const LICENSING_MODEL_FLOATING = "Floating";
     const LICENSING_MODEL_MULTI_FEATURE = "MultiFeature";
     const LICENSING_MODEL_MULTI_PAY_PER_USE = "PayPerUse";
-    const LICENSING_MODEL_PRICING_PLANS = "PricingPlans";
+    const LICENSING_MODEL_PRICING_TABLE = "PricingTable";
     const LICENSING_MODEL_QUOTA = "Quota";
 }
+
+
+
+

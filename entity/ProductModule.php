@@ -103,9 +103,9 @@ class ProductModule extends BaseEntity
     /**
      * @deprecated
      * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_PRICING_PLANS instead.
+     * Use class Constants::LICENSING_MODEL_PRICING_TABLE instead.
      */
-    const LICENSING_MODEL_PRICING_PLANS = "PricingPlans";
+    const LICENSING_MODEL_PRICING_TABLE = "PricingTable";
     /**
      * @deprecated
      * No longer used by internal code and not recommended, will be removed in future versions.

@@ -16,8 +16,23 @@ namespace NetLicensing;
  */
 class LicenseeService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::LICENSEE_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'licensee';
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::LICENSEE_ENDPOINT_PATH_VALIDATE instead.
+     */
     const ENDPOINT_PATH_VALIDATE = 'validate';
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::LICENSEE_ENDPOINT_PATH_TRANSFER instead.
+     */
     const ENDPOINT_PATH_TRANSFER = 'transfer';
 
     /**
@@ -43,7 +58,7 @@ class LicenseeService
 
         $licensee->setProperty('productNumber', $productNumber);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $licensee->asPropertiesMap(), $licensee);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH, $licensee->asPropertiesMap(), $licensee);
     }
 
     /**
@@ -63,7 +78,7 @@ class LicenseeService
     {
         CheckUtils::paramNotEmpty($number, 'number');
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], Licensee::class);
+        return NetLicensingService::getInstance()->get($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, [], Licensee::class);
     }
 
     /**
@@ -83,7 +98,7 @@ class LicenseeService
     {
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, Licensee::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::LICENSEE_ENDPOINT_PATH, $queryParams, Licensee::class);
     }
 
     /**
@@ -106,7 +121,7 @@ class LicenseeService
     {
         CheckUtils::paramNotEmpty($number, 'number');
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $licensee->asPropertiesMap(), $licensee);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $licensee->asPropertiesMap(), $licensee);
     }
 
     /**
@@ -130,7 +145,7 @@ class LicenseeService
 
         $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()->delete($context, self::ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()->delete($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 
 
@@ -177,7 +192,7 @@ class LicenseeService
             $pmIndex++;
         }
 
-        $data = NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number . '/' . self::ENDPOINT_PATH_VALIDATE, $queryParams);
+        $data = NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_VALIDATE, $queryParams);
 
         $validationResults = new ValidationResults();
         $validationResults->setProductModuleValidation($data['productModuleNumber'], $data);
@@ -208,6 +223,6 @@ class LicenseeService
 
         $queryParams['sourceLicenseeNumber'] = $sourceLicenseeNumber;
 
-        NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number . '/' . self::ENDPOINT_PATH_TRANSFER, $queryParams);
+        NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_TRANSFER, $queryParams);
     }
 }

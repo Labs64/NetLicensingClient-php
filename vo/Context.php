@@ -53,9 +53,16 @@ namespace NetLicensing;
 class Context
 {
     /**
-     * Security mode constants
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::BASIC_AUTHENTICATION instead.
      */
     const BASIC_AUTHENTICATION = 'BASIC_AUTH';
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::APIKEY_IDENTIFICATION instead.
+     */
     const APIKEY_IDENTIFICATION = 'APIKEY';
 
     /**
@@ -64,7 +71,7 @@ class Context
      */
     protected $baseUrl = 'https://go.netlicensing.io/core/v2/rest';
 
-    protected $securityMode = self::BASIC_AUTHENTICATION;
+    protected $securityMode = Constants::BASIC_AUTHENTICATION;
 
     /**
      * The context values.

@@ -16,6 +16,11 @@ namespace NetLicensing;
  */
 class PaymentMethodService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::PAYMENT_METHOD_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'paymentmethod';
 
     /**
@@ -37,7 +42,7 @@ class PaymentMethodService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], PaymentMethod::class);
+        return NetLicensingService::getInstance()->get($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number, [], PaymentMethod::class);
     }
 
     /**
@@ -59,7 +64,7 @@ class PaymentMethodService
 
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, PaymentMethod::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH, $queryParams, PaymentMethod::class);
     }
 
     /**
@@ -84,6 +89,6 @@ class PaymentMethodService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $paymentMethod->asPropertiesMap(), $paymentMethod);
+        return NetLicensingService::getInstance()->post($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number, $paymentMethod->asPropertiesMap(), $paymentMethod);
     }
 }

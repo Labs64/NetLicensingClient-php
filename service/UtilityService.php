@@ -15,6 +15,11 @@ namespace NetLicensing;
  */
 class UtilityService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::UTILITY_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'utility';
 
     /**
@@ -31,7 +36,7 @@ class UtilityService
     {
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH . '/licenseTypes');
+        return NetLicensingService::getInstance()->getList($context, Constants::UTILITY_ENDPOINT_PATH . '/licenseTypes');
     }
 
     /**
@@ -48,6 +53,6 @@ class UtilityService
     {
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH . '/licensingModels');
+        return NetLicensingService::getInstance()->getList($context, Constants::UTILITY_ENDPOINT_PATH . '/licensingModels');
     }
 }

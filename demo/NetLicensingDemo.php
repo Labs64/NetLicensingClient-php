@@ -13,7 +13,7 @@ require_once '../vendor/autoload.php';
 class NetLicensingDemo
 {
     const BASE_URL = 'https://go.netlicensing.io/core/v2/rest';
-    const SECURITY_MODE = \NetLicensing\Context::BASIC_AUTHENTICATION;
+    const SECURITY_MODE = \NetLicensing\Constants::BASIC_AUTHENTICATION;
     const USERNAME = 'demo';
     const PASSWORD = 'demo';
 

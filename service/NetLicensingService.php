@@ -14,6 +14,11 @@ class NetLicensingService
 {
     private static $_instance = null;
 
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::XML_NS instead.
+     */
     const XML_NS = 'http://netlicensing.labs64.com/schema/context';
 
     /**
@@ -249,7 +254,7 @@ class NetLicensingService
         }
 
         if ($response !== false) {
-            $children = $response->children(self::XML_NS);
+            $children = $response->children(Constants::XML_NS);
             $reason = (string)$children->infos->info;
         }
 
@@ -269,13 +274,13 @@ class NetLicensingService
         }
 
         if ($response instanceof \SimpleXMLElement) {
-            $response->registerXPathNamespace('nl', self::XML_NS);
+            $response->registerXPathNamespace('nl', Constants::XML_NS);
             $items = $response->xpath('//nl:item');
 
             if ($items) {
                 foreach ($items as $item) {
 
-                    $properties = $item->children(self::XML_NS);
+                    $properties = $item->children(Constants::XML_NS);
                     $tmp_array = array();
 
                     if ($properties) {

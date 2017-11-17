@@ -16,6 +16,11 @@ namespace NetLicensing;
  */
 class TokenService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::TOKEN_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'token';
 
     /**
@@ -33,7 +38,7 @@ class TokenService
      */
     public static function create(Context $context, Token $token)
     {
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $token->asPropertiesMap(), $token);
+        return NetLicensingService::getInstance()->post($context, Constants::TOKEN_ENDPOINT_PATH, $token->asPropertiesMap(), $token);
     }
 
     /**
@@ -53,7 +58,7 @@ class TokenService
     {
         CheckUtils::paramNotEmpty($number, 'number');
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], Token::class);
+        return NetLicensingService::getInstance()->get($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number, [], Token::class);
     }
 
     /**
@@ -73,7 +78,7 @@ class TokenService
     {
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, Token::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::TOKEN_ENDPOINT_PATH, $queryParams, Token::class);
     }
 
     /**
@@ -92,6 +97,6 @@ class TokenService
     {
         CheckUtils::paramNotEmpty($number, 'number');
 
-        return NetLicensingService::getInstance()->delete($context, self::ENDPOINT_PATH . '/' . $number);
+        return NetLicensingService::getInstance()->delete($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number);
     }
 }

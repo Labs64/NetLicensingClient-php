@@ -24,6 +24,11 @@ namespace NetLicensing;
  */
 class TransactionService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::TRANSACTION_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'transaction';
 
     /**
@@ -44,7 +49,7 @@ class TransactionService
     {
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $transaction->asPropertiesMap(), $transaction);
+        return NetLicensingService::getInstance()->post($context, Constants::TRANSACTION_ENDPOINT_PATH, $transaction->asPropertiesMap(), $transaction);
     }
 
     /**
@@ -66,7 +71,7 @@ class TransactionService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], Transaction::class);
+        return NetLicensingService::getInstance()->get($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number, [], Transaction::class);
     }
 
     /**
@@ -88,7 +93,7 @@ class TransactionService
 
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, Transaction::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::TRANSACTION_ENDPOINT_PATH, $queryParams, Transaction::class);
     }
 
     /**
@@ -113,6 +118,6 @@ class TransactionService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $transaction->asPropertiesMap(), $transaction);
+        return NetLicensingService::getInstance()->post($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number, $transaction->asPropertiesMap(), $transaction);
     }
 }

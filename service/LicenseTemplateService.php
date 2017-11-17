@@ -16,6 +16,11 @@ namespace NetLicensing;
  */
 class LicenseTemplateService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::LICENSE_TEMPLATE_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'licensetemplate';
 
     /**
@@ -43,7 +48,7 @@ class LicenseTemplateService
 
         $licenseTemplate->setProperty('productModuleNumber', $productModuleNumber);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
     }
 
     /**
@@ -65,7 +70,7 @@ class LicenseTemplateService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], LicenseTemplate::class);
+        return NetLicensingService::getInstance()->get($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, [], LicenseTemplate::class);
     }
 
     /**
@@ -87,7 +92,7 @@ class LicenseTemplateService
 
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, LicenseTemplate::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $queryParams, LicenseTemplate::class);
     }
 
     /**
@@ -112,7 +117,7 @@ class LicenseTemplateService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
     }
 
     /**
@@ -138,6 +143,6 @@ class LicenseTemplateService
 
         $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()->delete($context, self::ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()->delete($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

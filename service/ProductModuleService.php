@@ -16,6 +16,11 @@ namespace NetLicensing;
  */
 class ProductModuleService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::PRODUCT_MODULE_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'productmodule';
 
     /**
@@ -43,7 +48,7 @@ class ProductModuleService
 
         $productModule->setProperty('productNumber', $productNumber);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $productModule->asPropertiesMap(), $productModule);
+        return NetLicensingService::getInstance()->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $productModule->asPropertiesMap(), $productModule);
     }
 
     /**
@@ -65,7 +70,7 @@ class ProductModuleService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], ProductModule::class);
+        return NetLicensingService::getInstance()->get($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, [], ProductModule::class);
     }
 
     /**
@@ -87,7 +92,7 @@ class ProductModuleService
 
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, ProductModule::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $queryParams, ProductModule::class);
     }
 
     /**
@@ -112,7 +117,7 @@ class ProductModuleService
 
         $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $productModule->asPropertiesMap(), $productModule);
+        return NetLicensingService::getInstance()->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $productModule->asPropertiesMap(), $productModule);
     }
 
     /**
@@ -138,6 +143,6 @@ class ProductModuleService
 
         $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()->delete($context, self::ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()->delete($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

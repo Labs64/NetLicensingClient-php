@@ -16,6 +16,11 @@ namespace NetLicensing;
  */
 class LicenseService
 {
+    /**
+     * @deprecated
+     * No longer used by internal code and not recommended, will be removed in future versions.
+     * Use class Constants::LICENSE_ENDPOINT_PATH instead.
+     */
     const ENDPOINT_PATH = 'license';
 
     /**
@@ -56,7 +61,7 @@ class LicenseService
 
         if ($transactionNumber) $license->setProperty('transactionNumber', $transactionNumber);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH, $license->asPropertiesMap(), $license);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_ENDPOINT_PATH, $license->asPropertiesMap(), $license);
     }
 
     /**
@@ -78,7 +83,7 @@ class LicenseService
 
         CheckUtils::paramNotEmpty($number, 'number');
 
-        return NetLicensingService::getInstance()->get($context, self::ENDPOINT_PATH . '/' . $number, [], License::class);
+        return NetLicensingService::getInstance()->get($context, Constants::LICENSE_ENDPOINT_PATH . '/' . $number, [], License::class);
     }
 
     /**
@@ -100,7 +105,7 @@ class LicenseService
 
         $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, self::ENDPOINT_PATH, $queryParams, License::class);
+        return NetLicensingService::getInstance()->getList($context, Constants::LICENSE_ENDPOINT_PATH, $queryParams, License::class);
     }
 
     /**
@@ -131,7 +136,7 @@ class LicenseService
 
         if ($transactionNumber) $license->setProperty('transactionNumber', $transactionNumber);
 
-        return NetLicensingService::getInstance()->post($context, self::ENDPOINT_PATH . '/' . $number, $license->asPropertiesMap(), $license);
+        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_ENDPOINT_PATH . '/' . $number, $license->asPropertiesMap(), $license);
     }
 
     /**
@@ -159,6 +164,6 @@ class LicenseService
 
         $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()->delete($context, self::ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()->delete($context, Constants::LICENSE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

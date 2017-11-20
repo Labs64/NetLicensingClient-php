@@ -65,55 +65,6 @@ namespace NetLicensing;
 class ProductModule extends BaseEntity
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_TRY_AND_BUY instead.
-     */
-    const LICENSING_MODEL_TRY_AND_BUY = "TryAndBuy";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_RENTAL instead.
-     */
-    const LICENSING_MODEL_RENTAL = "Rental";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_SUBSCRIPTION instead.
-     */
-    const LICENSING_MODEL_SUBSCRIPTION = "Subscription";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_FLOATING instead.
-     */
-    const LICENSING_MODEL_FLOATING = "Floating";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_MULTI_FEATURE instead.
-     */
-    const LICENSING_MODEL_MULTI_FEATURE = "MultiFeature";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_MULTI_PAY_PER_USE instead.
-     */
-    const LICENSING_MODEL_MULTI_PAY_PER_USE = "PayPerUse";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_PRICING_TABLE instead.
-     */
-    const LICENSING_MODEL_PRICING_TABLE = "PricingTable";
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSING_MODEL_QUOTA instead.
-     */
-    const LICENSING_MODEL_QUOTA = "Quota";
-
-    /**
      * The attributes that should be cast to native types.
      *
      * @var array

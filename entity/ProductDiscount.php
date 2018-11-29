@@ -35,9 +35,9 @@ class ProductDiscount extends BaseEntity
      * @var array
      */
     protected $casts = [
-        'totalPrice' => 'float',
-        'amountFix' => 'float',
-        'amountPercent' => 'int',
+        'totalPrice' => 'double',
+        'amountFix' => 'double',
+        'amountPercent' => 'double',
     ];
 
     public function setAmountFix($amountFix)

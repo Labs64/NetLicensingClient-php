@@ -1220,4 +1220,5 @@ class NetLicensingDemo
     }
 }
 
-//NetLicensingDemo::run();
+
+NetLicensingDemo::run();

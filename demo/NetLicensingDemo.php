@@ -1210,6 +1210,8 @@ class NetLicensingDemo
         \cli\line((string)$exception);
 
         $this->statuses[$apiMethod] = [$apiMethod, 'ERROR', $exception->getMessage()];
+
+        exit();
     }
 
     private function table(array $headers, array $rows = null, array $footer = null)

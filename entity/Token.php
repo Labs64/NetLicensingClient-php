@@ -34,7 +34,7 @@ namespace NetLicensing;
  *
  * @method string getNumber($default = null)
  * @method boolean getActive($default = null)
- * @method string getExpirationTime($default = null)
+ * @method \DateTime getExpirationTime($default = null)
  * @method string getVendorNumber($default = null)
  * @method string getTokenType($default = null)
  * @method string getLicenseeNumber($default = null)
@@ -43,6 +43,7 @@ namespace NetLicensing;
  * @method string getSuccessURLTitle($default = null)
  * @method string getCancelURL($default = null)
  * @method string getCancelURLTitle($default = null)
+ * @method string getApiKey($default = null)
  * @method Token setNumber($number)
  * @method Token setActive($active)
  * @method Token setExpirationTime($expirationTime)
@@ -53,6 +54,7 @@ namespace NetLicensing;
  * @method Token setSuccessURLTitle($successURLTitle)
  * @method Token setCancelURL($cancelURL)
  * @method Token setCancelURLTitle($cancelURLTitle)
+ * @method Token setApiKey($apiKey)
  *
  * @package NetLicensing
  */
@@ -65,5 +67,6 @@ class Token extends BaseEntity
      */
     protected $casts = [
         'active' => 'boolean_string',
+        'expirationTime' => 'datetime',
     ];
 }

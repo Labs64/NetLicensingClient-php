@@ -17,25 +17,6 @@ namespace NetLicensing;
 class LicenseeService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSEE_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'licensee';
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSEE_ENDPOINT_PATH_VALIDATE instead.
-     */
-    const ENDPOINT_PATH_VALIDATE = 'validate';
-    /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSEE_ENDPOINT_PATH_TRANSFER instead.
-     */
-    const ENDPOINT_PATH_TRANSFER = 'transfer';
-
-    /**
      * Creates new licensee object with given properties.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Createlicensee
      *
@@ -50,15 +31,28 @@ class LicenseeService
      * @param Licensee $licensee
      *
      * return the newly created licensee object
-     * @return mixed|\NetLicensing\Licensee|null
+     * @return Licensee|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function create(Context $context, $productNumber, Licensee $licensee)
     {
-        CheckUtils::paramNotEmpty($productNumber, 'productNumber');
+        CheckUtils::paramNotEmpty($productNumber, Constants::PRODUCT_NUMBER);
 
-        $licensee->setProperty('productNumber', $productNumber);
+        $licensee->setProperty(Constants::PRODUCT_NUMBER, $productNumber);
 
-        return NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH, $licensee->asPropertiesMap(), $licensee);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::LICENSEE_ENDPOINT_PATH, $licensee->asPropertiesMap());
+
+        $createdLicensee = null;
+
+        if (!empty($response->items->item[0])) {
+            $createdLicensee = ItemToLicenseeConverter::convert($response->items->item[0]);
+            $createdLicensee->exists = true;
+        }
+
+        return $createdLicensee;
     }
 
     /**
@@ -72,13 +66,26 @@ class LicenseeService
      * @param $number
      *
      * return the licensee
-     * @return mixed|\NetLicensing\Licensee|null
+     * @return Licensee|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        return NetLicensingService::getInstance()->get($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, [], Licensee::class);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number);
+
+        $licensee = null;
+
+        if (!empty($response->items->item[0])) {
+            $licensee = ItemToLicenseeConverter::convert($response->items->item[0]);
+            $licensee->exists = true;
+        }
+
+        return $licensee;
     }
 
     /**
@@ -92,13 +99,33 @@ class LicenseeService
      * @param null $filter
      *
      * array of licensees (of all products) or empty array if nothing found.
-     * @return array
+     * @return Page
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, Constants::LICENSEE_ENDPOINT_PATH, $queryParams, Licensee::class);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::LICENSEE_ENDPOINT_PATH, $queryParams);
+
+        $licensees = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $licensee = ItemToLicenseeConverter::convert($item);
+                $licensee->exists = true;
+
+                $licensees[] = $licensee;
+            }
+        }
+
+        return new Page($licensees, $pageNumber, $itemsNumber, $totalPages, $totalItems);
     }
 
     /**
@@ -115,13 +142,26 @@ class LicenseeService
      * @param Licensee $licensee
      *
      * return updated licensee.
-     * @return mixed|null
+     * @return Licensee|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function update(Context $context, $number, Licensee $licensee)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        return NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $licensee->asPropertiesMap(), $licensee);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $licensee->asPropertiesMap());
+
+        $updatedLicensee = null;
+
+        if (!empty($response->items->item[0])) {
+            $updatedLicensee = ItemToLicenseeConverter::convert($response->items->item[0]);
+            $updatedLicensee->exists = true;
+        }
+
+        return $updatedLicensee;
     }
 
     /**
@@ -138,14 +178,18 @@ class LicenseeService
      * @param bool $forceCascade
      *
      * @return bool
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function delete(Context $context, $number, $forceCascade = false)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
+        $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()->delete($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()
+            ->delete($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 
 
@@ -163,7 +207,11 @@ class LicenseeService
      * @param ValidationParameters $validationParameters
      *
      * @return ValidationResults
+     * @throws MalformedArgumentsException
+     * @throws RestException
+     * @throws \ErrorException
      */
+
     public static function validate(Context $context, $number, ValidationParameters $validationParameters)
     {
         CheckUtils::paramNotEmpty($number, 'number');
@@ -171,32 +219,41 @@ class LicenseeService
         $queryParams = [];
 
         if ($validationParameters->getProductNumber()) {
-            $queryParams['productNumber'] = $validationParameters->getProductNumber();
+            $queryParams[Constants::PRODUCT_NUMBER] = $validationParameters->getProductNumber();
         }
 
         if ($validationParameters->getLicenseeName()) {
-            $queryParams['licenseeName'] = $validationParameters->getLicenseeName();
+            $queryParams[Constants::LICENSEE_PROP_LICENSEE_NAME] = $validationParameters->getLicenseeName();
         }
 
         if ($validationParameters->getLicenseeSecret()) {
-            $queryParams['licenseeSecret'] = $validationParameters->getLicenseeSecret();
+            $queryParams[Constants::LICENSEE_PROP_LICENSEE_SECRET] = $validationParameters->getLicenseeSecret();
         }
 
         $pmIndex = 0;
 
         foreach ($validationParameters->getParameters() as $productModuleName => $parameters) {
-            $queryParams['productModuleNumber' . $pmIndex] = $productModuleName;
+            $queryParams[Constants::PRODUCT_MODULE_NUMBER . $pmIndex] = $productModuleName;
             foreach ($parameters as $key => $value) {
                 $queryParams[$key . $pmIndex] = $value;
             }
             $pmIndex++;
         }
 
-        $data = NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_VALIDATE, $queryParams);
+        $urlTemplate = Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_VALIDATE;
+
+        $response = NetLicensingService::getInstance()->post($context, $urlTemplate, $queryParams);
 
         $validationResults = new ValidationResults();
-        $validationResults->setProductModuleValidation($data['productModuleNumber'], $data);
-        $validationResults->setTtl(strtotime((string)NetLicensingService::getInstance()->lastCurlInfo()->response['ttl']));
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $array = ItemToArrayConverter::convert($item);
+                $validationResults->setProductModuleValidation($array[Constants::PRODUCT_MODULE_NUMBER], $array);
+            }
+
+            $validationResults->setTtl(new \DateTime($response->ttl));
+        }
 
         return $validationResults;
     }
@@ -215,14 +272,18 @@ class LicenseeService
      * @param $sourceLicenseeNumber
      *
      * @return void
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function transfer(Context $context, $number, $sourceLicenseeNumber)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
-        CheckUtils::paramNotEmpty($sourceLicenseeNumber, 'sourceLicenseeNumber');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
+        CheckUtils::paramNotEmpty($sourceLicenseeNumber, Constants::LICENSEE_SOURCE_LICENSEE_NUMBER);
 
-        $queryParams['sourceLicenseeNumber'] = $sourceLicenseeNumber;
+        $queryParams[Constants::LICENSEE_SOURCE_LICENSEE_NUMBER] = $sourceLicenseeNumber;
 
-        NetLicensingService::getInstance()->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_TRANSFER, $queryParams);
+        NetLicensingService::getInstance()
+            ->post($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_TRANSFER, $queryParams);
     }
 }

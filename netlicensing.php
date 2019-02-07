@@ -8,10 +8,23 @@
 
 require_once(__DIR__ . '/common/Constants.php');
 
+require_once(__DIR__ . '/converter/ItemToArrayConverter.php');
+require_once(__DIR__ . '/converter/ItemsToArrayConverter.php');
+require_once(__DIR__ . '/converter/ItemToProductConverter.php');
+require_once(__DIR__ . '/converter/ItemToProductModuleConverter.php');
+require_once(__DIR__ . '/converter/ItemToLicenseTemplateConverter.php');
+require_once(__DIR__ . '/converter/ItemToLicenseeConverter.php');
+require_once(__DIR__ . '/converter/ItemToLicenseConverter.php');
+require_once(__DIR__ . '/converter/ItemToTransactionConverter.php');
+require_once(__DIR__ . '/converter/ItemToTokenConverter.php');
+require_once(__DIR__ . '/converter/ItemToPaymentMethodConverter.php');
+require_once(__DIR__ . '/converter/ItemToCountryConverter.php');
+
 require_once(__DIR__ . '/vo/Context.php');
 require_once(__DIR__ . '/vo/NetLicensingCurl.php');
 require_once(__DIR__ . '/vo/ValidationParameters.php');
 require_once(__DIR__ . '/vo/ValidationResults.php');
+require_once(__DIR__ . '/vo/Page.php');
 
 require_once(__DIR__ . '/exception/MalformedArgumentsException.php');
 require_once(__DIR__ . '/exception/NetLicensingException.php');
@@ -30,6 +43,7 @@ require_once(__DIR__ . '/entity/License.php');
 require_once(__DIR__ . '/entity/Transaction.php');
 require_once(__DIR__ . '/entity/Token.php');
 require_once(__DIR__ . '/entity/PaymentMethod.php');
+require_once(__DIR__ . '/entity/Country.php');
 
 require_once(__DIR__ . '/service/NetLicensingService.php');
 require_once(__DIR__ . '/service/ProductService.php');

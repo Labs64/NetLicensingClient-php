@@ -9,6 +9,8 @@
 namespace NetLicensing;
 
 
+use DateTimeInterface;
+
 trait Properties
 {
     /**
@@ -278,7 +280,7 @@ trait Properties
         // are different types. This is in case the two values are not the same type
         // we can do a fair comparison of the two values to know if this is dirty.
         return is_numeric($current) && is_numeric($original)
-        && strcmp((string)$current, (string)$original) === 0;
+            && strcmp((string)$current, (string)$original) === 0;
     }
 
     /**
@@ -314,6 +316,8 @@ trait Properties
             case 'array':
             case 'json':
                 return json_decode($value, true);
+            case 'datetime':
+                return new \DateTime($value);
             default:
                 return $value;
         }
@@ -352,6 +356,8 @@ trait Properties
             case 'array':
             case 'json':
                 return json_decode($value, true);
+            case 'datetime':
+                return $this->asDateTime($value);
             default:
                 return $value;
         }
@@ -367,5 +373,31 @@ trait Properties
     protected function fromJson($value, $asObject = false)
     {
         return json_decode($value, !$asObject);
+    }
+
+    /**
+     * Return a DatetTime/timestamp as time string.
+     *
+     * @param $value
+     * @return string
+     */
+    protected function asDateTime($value)
+    {
+
+        // If the value is already a DateTime instance, we will just skip the rest of
+        // these checks since they will be a waste of time, and hinder performance
+        // when checking the field. We will just return the DateTime right away.
+        if ($value instanceof DateTimeInterface) {
+            return $value->format('Y-m-d\TH:i:sP');
+        }
+
+        // If this value is an integer, we will assume it is a UNIX timestamp's value
+        // and format a Carbon object from this timestamp. This allows flexibility
+        // when defining your date fields as they might be UNIX timestamps here.
+        if (is_numeric($value)) {
+            return (new \DateTime())->setTimestamp($value)->format('Y-m-d\TH:i:sP');
+        }
+
+        return $value;
     }
 }

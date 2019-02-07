@@ -11,16 +11,16 @@ namespace NetLicensing;
 /**
  * Class ProductDiscount
  *
- * @property int $totalPrice
+ * @property double $totalPrice
  * @property string $currency
- * @property int $amountFix
- * @property int $amountPercent
+ * @property double $amountFix
+ * @property double $amountPercent
  *
  *
- * @method int getTotalPrice($default = null)
+ * @method double getTotalPrice($default = null)
  * @method string getCurrency($default = null)
- * @method int getAmountFix($default = null)
- * @method int getAmountPercent($default = null)
+ * @method double getAmountFix($default = null)
+ * @method double getAmountPercent($default = null)
  * @method ProductDiscount setTotalPrice($totalPrice)
  * @method ProductDiscount setCurrency($currency)
  *
@@ -39,6 +39,19 @@ class ProductDiscount extends BaseEntity
         'amountFix' => 'double',
         'amountPercent' => 'double',
     ];
+
+    protected $product;
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+        return $this;
+    }
 
     public function setAmountFix($amountFix)
     {

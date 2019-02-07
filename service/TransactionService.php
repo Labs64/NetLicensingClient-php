@@ -25,13 +25,6 @@ namespace NetLicensing;
 class TransactionService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::TRANSACTION_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'transaction';
-
-    /**
      * Creates new transaction object with given properties.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Createtransaction
      *
@@ -43,13 +36,23 @@ class TransactionService
      * @param Transaction $transaction
      *
      * return the newly created transaction object
-     * @return mixed|\NetLicensing\Transaction|null
+     * @return Transaction|null
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function create(Context $context, Transaction $transaction)
     {
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::TRANSACTION_ENDPOINT_PATH, $transaction->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::TRANSACTION_ENDPOINT_PATH, $transaction->asPropertiesMap(), $transaction);
+        $createdTransaction = null;
+
+        if (!empty($response->items->item[0])) {
+            $createdTransaction = ItemToTransactionConverter::convert($response->items->item[0]);
+            $createdTransaction->exists = true;
+        }
+
+        return $createdTransaction;
     }
 
     /**
@@ -63,15 +66,26 @@ class TransactionService
      * @param $number
      *
      * return the transaction
-     * @return mixed|\NetLicensing\Transaction|null
+     * @return Transaction|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number);
 
-        return NetLicensingService::getInstance()->get($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number, [], Transaction::class);
+        $transaction = null;
+
+        if (!empty($response->items->item[0])) {
+            $transaction = ItemToTransactionConverter::convert($response->items->item[0]);
+            $transaction->exists = true;
+        }
+
+        return $transaction;
     }
 
     /**
@@ -85,16 +99,34 @@ class TransactionService
      * @param string $filter
      *
      * array of transaction entities or empty array if nothing found.
-     * @return array
+     * @return Page
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::TRANSACTION_ENDPOINT_PATH, $queryParams);
 
-        return NetLicensingService::getInstance()->getList($context, Constants::TRANSACTION_ENDPOINT_PATH, $queryParams, Transaction::class);
-    }
+        $transactions = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $transaction = ItemToTransactionConverter::convert($item);
+                $transaction->exists = true;
+
+                $transactions[] = $transaction;
+            }
+        }
+
+        return new Page($transactions, $pageNumber, $itemsNumber, $totalPages, $totalItems);
+}
 
     /**
      * Updates transaction properties.See NetLicensingAPI for details:
@@ -110,14 +142,25 @@ class TransactionService
      * @param \NetLicensing\Transaction $transaction
      *
      * return updated transaction.
-     * @return mixed|\NetLicensing\Transaction|null
+     * @return Transaction|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function update(Context $context, $number, Transaction $transaction)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number, $transaction->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::TRANSACTION_ENDPOINT_PATH . '/' . $number, $transaction->asPropertiesMap(), $transaction);
-    }
+        $updatedTransaction = null;
+
+        if (!empty($response->items->item[0])) {
+            $updatedTransaction = ItemToTransactionConverter::convert($response->items->item[0]);
+            $updatedTransaction->exists = true;
+        }
+
+        return $updatedTransaction;
+      }
 }

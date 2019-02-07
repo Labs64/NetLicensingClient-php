@@ -44,7 +44,7 @@ namespace NetLicensing;
  * @method string  getNumber($default = null)
  * @method boolean getActive($default = null)
  * @method string  getName($default = null)
- * @method float   getVersion($default = null)
+ * @method string  getVersion($default = null)
  * @method boolean getLicenseeAutoCreate($default = null)
  * @method string  getDescription($default = null)
  * @method string  getLicensingInfo($default = null)
@@ -76,38 +76,62 @@ class Product extends BaseEntity
     protected $productDiscounts = [];
     protected $productDiscountsTouched = false;
 
+    protected $productModules = [];
+
+    protected $licensees = [];
+
+    public function getProductModules()
+    {
+        return $this->productModules;
+    }
+
+    public function setProductModules(array $productModules)
+    {
+        $this->productModules = $productModules;
+        return $this;
+    }
+
+    public function getLicensees()
+    {
+        return $this->licensees;
+    }
+
+    public function setLicensees(array $licensees)
+    {
+        $this->licensees = $licensees;
+        return $this;
+    }
+
+    public function getDiscount(){
+
+    }
+
+
     public function getProductDiscounts()
     {
         return $this->productDiscounts;
     }
 
-    /**
-     * Set discounts to product
-     *
-     * @param array $productDiscounts
-     * @return $this
-     */
     public function setProductDiscounts($productDiscounts = [])
     {
-        $productDiscounts = (is_null($productDiscounts)) ? [] : $productDiscounts;
+        $discounts = [];
 
-        if ($productDiscounts) {
-            foreach ($productDiscounts as &$productDiscount) {
-                $productDiscount = ($productDiscount instanceof ProductDiscount) ? $productDiscount : new ProductDiscount($productDiscount);
+
+        if (!empty($productDiscounts)) {
+            foreach ($productDiscounts as $productDiscount) {
+                if (!($productDiscount instanceof ProductDiscount)) {
+                    $productDiscount = new ProductDiscount($productDiscount);
+                }
+                $discounts[] = $productDiscount;
             }
         }
-        
-        $this->productDiscounts = $productDiscounts;
+
+        $this->productDiscounts = $discounts;
         $this->productDiscountsTouched = true;
 
         return $this;
     }
 
-    /**
-     * Add discount to product
-     * @param ProductDiscount $discount
-     * @return $this
-     */
     public function addDiscount(ProductDiscount $discount)
     {
         $this->productDiscounts[] = $discount;
@@ -117,8 +141,7 @@ class Product extends BaseEntity
     }
 
     /**
-     * Set discount to product
-     *
+     * @deprecated use setProductDiscounts or addDiscount instead
      * @param $discount
      * @return $this
      */

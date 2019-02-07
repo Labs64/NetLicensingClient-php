@@ -17,13 +17,6 @@ namespace NetLicensing;
 class PaymentMethodService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::PAYMENT_METHOD_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'paymentmethod';
-
-    /**
      *  Gets payment method by its number.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/Payment+Method+Services#PaymentMethodServices-Getpaymentmethod
      *
@@ -34,15 +27,26 @@ class PaymentMethodService
      * @param $number
      *
      * return the payment method
-     * @return mixed|\NetLicensing\PaymentMethod|null
+     * @return PaymentMethod|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number);
 
-        return NetLicensingService::getInstance()->get($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number, [], PaymentMethod::class);
+        $paymentMethod = null;
+
+        if (!empty($response->items->item[0])) {
+            $paymentMethod = ItemToPaymentMethodConverter::convert($response->items->item[0]);
+            $paymentMethod->exists = true;
+        }
+
+        return $paymentMethod;
     }
 
     /**
@@ -56,15 +60,33 @@ class PaymentMethodService
      * @param string $filter
      *
      * array of payment method entities or empty array if nothing found.
-     * @return array
+     * @return Page
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH, $queryParams);
 
-        return NetLicensingService::getInstance()->getList($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH, $queryParams, PaymentMethod::class);
+        $paymentMethods = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $paymentMethod = ItemToPaymentMethodConverter::convert($item);
+                $paymentMethod->exists = true;
+
+                $paymentMethods[] = $paymentMethod;
+            }
+        }
+
+        return new Page($paymentMethods, $pageNumber, $itemsNumber, $totalPages, $totalItems);
     }
 
     /**
@@ -82,13 +104,24 @@ class PaymentMethodService
      *
      * return updated payment method.
      * @return mixed|\NetLicensing\PaymentMethod|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function update(Context $context, $number, PaymentMethod $paymentMethod)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number, $paymentMethod->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::PAYMENT_METHOD_ENDPOINT_PATH . '/' . $number, $paymentMethod->asPropertiesMap(), $paymentMethod);
+        $paymentMethod = null;
+
+        if (!empty($response->items->item[0])) {
+            $paymentMethod = ItemToPaymentMethodConverter::convert($response->items->item[0]);
+            $paymentMethod->exists = true;
+        }
+
+        return $paymentMethod;
     }
 }

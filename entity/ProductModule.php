@@ -71,11 +71,35 @@ class ProductModule extends BaseEntity
      */
     protected $casts = [
         'active' => 'boolean_string',
-        'inUse' => 'boolean_string',
-        'licensingModel' => 'string',
         'maxCheckoutValidity' => 'int',
         'yellowThreshold' => 'int',
         'redThreshold' => 'int',
-        'licenseTemplate' => 'string',
+        'inUse' => 'boolean_string',
     ];
+
+    protected $product;
+
+    protected $licenseTemplates = [];
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+        return $this;
+    }
+
+    public function getLicenseTemplates()
+    {
+        return $this->licenseTemplates;
+    }
+
+    public function setLicenseTemplates(array $licenseTemplates)
+    {
+        $this->licenseTemplates = $licenseTemplates;
+        return $this;
+    }
 }

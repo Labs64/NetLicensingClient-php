@@ -60,4 +60,36 @@ class Licensee extends BaseEntity
         'markedForTransfer' => 'boolean_string',
         'inUse' => 'boolean_string',
     ];
+
+    protected $product;
+
+    protected $licenses = [];
+
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $licensees = $product->getLicensees();
+
+        $licensees[] = $this;
+        $product->setLicensees($licensees);
+
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getLicenses()
+    {
+        return $this->licenses;
+    }
+
+    public function setLicenses(array $licenses)
+    {
+        $this->licenses = $licenses;
+        return $this;
+    }
 }

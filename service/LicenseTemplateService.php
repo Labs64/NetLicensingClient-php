@@ -17,13 +17,6 @@ namespace NetLicensing;
 class LicenseTemplateService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::LICENSE_TEMPLATE_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'licensetemplate';
-
-    /**
      * Creates new license template object with given properties.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Createlicensetemplate
      *
@@ -31,24 +24,35 @@ class LicenseTemplateService
      * @param Context $context
      *
      * parent product module to which the new license template is to be added
-     * @param productModuleNumber
+     * @param $productModuleNumber
      *
      * non-null properties will be taken for the new object, null properties will either stay null, or will
      * be set to a default value, depending on property.
      * @param LicenseTemplate $licenseTemplate
      *
      * the newly created license template object
-     * @return mixed|\NetLicensing\LicenseTemplate|null
+     * @return LicenseTemplate|null
+     * @throws MalformedArgumentsException
+     * @throws RestException
+     * @throws \ErrorException
      */
     public static function create(Context $context, $productModuleNumber, LicenseTemplate $licenseTemplate)
     {
-        CheckUtils::paramNotEmpty($productModuleNumber, 'productModuleNumber');
+        CheckUtils::paramNotEmpty($productModuleNumber, Constants::PRODUCT_MODULE_NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $licenseTemplate->setProperty(Constants::PRODUCT_MODULE_NUMBER, $productModuleNumber);
 
-        $licenseTemplate->setProperty('productModuleNumber', $productModuleNumber);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $licenseTemplate->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
+        $createdLicenseTemplate = null;
+
+        if (!empty($response->items->item[0])) {
+            $createdLicenseTemplate = ItemToLicenseTemplateConverter::convert($response->items->item[0]);
+            $createdLicenseTemplate->exists = true;
+        }
+
+        return $createdLicenseTemplate;
     }
 
     /**
@@ -62,15 +66,26 @@ class LicenseTemplateService
      * @param string $number
      *
      * return the license template object
-     * @return mixed|\NetLicensing\Product|null
+     * @return LicenseTemplate|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number);
 
-        return NetLicensingService::getInstance()->get($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, [], LicenseTemplate::class);
+        $licenseTemplate = null;
+
+        if (!empty($response->items->item[0])) {
+            $licenseTemplate = ItemToLicenseTemplateConverter::convert($response->items->item[0]);
+            $licenseTemplate->exists = true;
+        }
+
+        return $licenseTemplate;
     }
 
     /**
@@ -84,15 +99,33 @@ class LicenseTemplateService
      * @param string $filter
      *
      * array of license templates (of all products/modules) or null/empty list if nothing found.
-     * @return array
+     * @return Page
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $queryParams);
 
-        return NetLicensingService::getInstance()->getList($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH, $queryParams, LicenseTemplate::class);
+        $licenseTemplates = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $licenseTemplate = ItemToLicenseTemplateConverter::convert($item);
+                $licenseTemplate->exists = true;
+
+                $licenseTemplates[] = $licenseTemplate;
+            }
+        }
+
+        return new Page($licenseTemplates, $pageNumber, $itemsNumber, $totalPages, $totalItems);
     }
 
     /**
@@ -106,18 +139,29 @@ class LicenseTemplateService
      * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param \NetLicensing\LicenseTemplate $licenseTemplate
+     * @param LicenseTemplate $licenseTemplate
      *
      * updated license template.
-     * @return mixed|\NetLicensing\Product|null
+     * @return LicenseTemplate|null
+     * @throws \ErrorException
+     * @throws RestException
+     * @throws MalformedArgumentsException
      */
     public static function update(Context $context, $number, LicenseTemplate $licenseTemplate)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $licenseTemplate->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $licenseTemplate->asPropertiesMap(), $licenseTemplate);
+        $updatedLicenseTemplate = null;
+
+        if (!empty($response->items->item[0])) {
+            $updatedLicenseTemplate = ItemToLicenseTemplateConverter::convert($response->items->item[0]);
+            $updatedLicenseTemplate->exists = true;
+        }
+
+        return $updatedLicenseTemplate;
     }
 
     /**
@@ -134,15 +178,17 @@ class LicenseTemplateService
      * @param bool $forceCascade
      *
      * @return bool
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function delete(Context $context, $number, $forceCascade = false)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
-
-        return NetLicensingService::getInstance()->delete($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()
+            ->delete($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

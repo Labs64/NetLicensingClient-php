@@ -103,4 +103,16 @@ class LicenseTemplate extends BaseEntity
         'maxSessions' => 'int',
         'quantity' => 'int',
     ];
+
+    protected $licenses = [];
+
+    public function getLicenses()
+    {
+        return $this->licenses;
+    }
+
+    public function setLicenses(array $licenses)
+    {
+
+    }
 }

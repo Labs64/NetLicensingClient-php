@@ -41,16 +41,14 @@ namespace NetLicensing;
  * Date closed. Optional.
  * @property string $dateClosed
  *
- * @method string getNumber($default = true)
- * @method string getName($default = true)
- * @method boolean getActive($default = true)
- * @method string getStatus($default = true)
- * @method string getSource($default = true)
- * @method float getGrandTotal($default = true)
- * @method float getDiscount($default = true)
- * @method string getCurrency($default = true)
- * @method string getDateCreated($default = true)
- * @method string getDateClosed($default = true)
+ * @method string getNumber($default = null)
+ * @method string getName($default = null)
+ * @method boolean getActive($default = null)
+ * @method string getStatus($default = null)
+ * @method string getSource($default = null)
+ * @method float getGrandTotal($default = null)
+ * @method float getDiscount($default = null)
+ * @method string getCurrency($default = null)
  * @method Transaction setNumber($number)
  * @method Transaction setName($name)
  * @method Transaction setStatus($status)
@@ -58,8 +56,6 @@ namespace NetLicensing;
  * @method Transaction setGrandTotal($grandTotal)
  * @method Transaction setDiscount($discount)
  * @method Transaction setCurrency($currency)
- * @method Transaction setDateCreated($dateCreated)
- * @method Transaction setDateClosed($dateClosed)
  *
  * @package NetLicensing
  */
@@ -74,6 +70,8 @@ class Transaction extends BaseEntity
         'active' => 'boolean_string',
         'grandTotal' => 'float',
         'discount' => 'float',
+        'datecreated' => 'datetime',
+        'dateclosed' => 'datetime',
     ];
 
     public function __construct(array $properties = [], $exists = false)
@@ -86,5 +84,25 @@ class Transaction extends BaseEntity
     protected function setActive()
     {
         return $this->setProperty('active', true);
+    }
+
+    public function setDateCreated($dateCreated)
+    {
+        return $this->setProperty(Constants::TRANSACTION_DATE_CREATED, $dateCreated);
+    }
+
+    public function getDateCreated($default = null)
+    {
+        return $this->getProperty(Constants::TRANSACTION_DATE_CREATED, $default);
+    }
+
+    public function setDateClosed($dateClosed)
+    {
+        return $this->setProperty(Constants::TRANSACTION_DATE_CLOSED, $dateClosed);
+    }
+
+    public function getDateClosed($default = null)
+    {
+        return $this->getProperty(Constants::TRANSACTION_DATE_CLOSED, $default);
     }
 }

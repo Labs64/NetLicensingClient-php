@@ -17,13 +17,6 @@ namespace NetLicensing;
 class ProductModuleService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::PRODUCT_MODULE_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'productmodule';
-
-    /**
      * Creates new product module object with given properties.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Createproductmodule
      *
@@ -38,17 +31,28 @@ class ProductModuleService
      * @param ProductModule $productModule
      *
      * the newly created product module object
-     * @return mixed|\NetLicensing\ProductModule|null
+     * @return ProductModule|null
+     * @throws MalformedArgumentsException
+     * @throws RestException
+     * @throws \ErrorException
      */
     public static function create(Context $context, $productNumber, ProductModule $productModule)
     {
-        CheckUtils::paramNotEmpty($productNumber, 'productNumber');
+        CheckUtils::paramNotEmpty($productNumber, Constants::PRODUCT_NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $productModule->setProperty(Constants::PRODUCT_NUMBER, $productNumber);
 
-        $productModule->setProperty('productNumber', $productNumber);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $productModule->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $productModule->asPropertiesMap(), $productModule);
+        $createdProductModule = null;
+
+        if (!empty($response->items->item[0])) {
+            $createdProductModule = ItemToProductModuleConverter::convert($response->items->item[0]);
+            $createdProductModule->exists = true;
+        }
+
+        return $createdProductModule;
     }
 
     /**
@@ -62,15 +66,26 @@ class ProductModuleService
      * @param string $number
      *
      * return the product module object
-     * @return mixed|\NetLicensing\Product|null
+     * @return ProductModule|null
+     * @throws MalformedArgumentsException
+     * @throws RestException
+     * @throws \ErrorException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number);
 
-        return NetLicensingService::getInstance()->get($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, [], ProductModule::class);
+        $productModule = null;
+
+        if (!empty($response->items->item[0])) {
+            $productModule = ItemToProductModuleConverter::convert($response->items->item[0]);
+            $productModule->exists = true;
+        }
+
+        return $productModule;
     }
 
     /**
@@ -84,15 +99,33 @@ class ProductModuleService
      * @param string $filter
      *
      * array of product modules entities or empty array if nothing found.
-     * @return array
+     * @return Page
+     * @throws RestException
+     * @throws \ErrorException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $queryParams);
 
-        return NetLicensingService::getInstance()->getList($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH, $queryParams, ProductModule::class);
+        $productModules = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $productModule = ItemToProductModuleConverter::convert($item);
+                $productModule->exists = true;
+
+                $productModules[] = $productModule;
+            }
+        }
+
+        return new Page($productModules, $pageNumber, $itemsNumber, $totalPages, $totalItems);
     }
 
     /**
@@ -109,15 +142,26 @@ class ProductModuleService
      * @param \NetLicensing\ProductModule $productModule
      *
      * updated product module.
-     * @return mixed|\NetLicensing\Product|null
+     * @return ProductModule|null
+     * @throws MalformedArgumentsException
+     * @throws RestException
+     * @throws \ErrorException
      */
     public static function update(Context $context, $number, ProductModule $productModule)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $productModule->asPropertiesMap());
 
-        return NetLicensingService::getInstance()->post($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $productModule->asPropertiesMap(), $productModule);
+        $updatedProductModule = null;
+
+        if (!empty($response->items->item[0])) {
+            $updatedProductModule = ItemToProductModuleConverter::convert($response->items->item[0]);
+            $updatedProductModule->exists = true;
+        }
+
+        return $updatedProductModule;
     }
 
     /**
@@ -134,15 +178,17 @@ class ProductModuleService
      * @param bool $forceCascade
      *
      * @return bool
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function delete(Context $context, $number, $forceCascade = false)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $context->setSecurityMode(Context::BASIC_AUTHENTICATION);
+        $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        $queryParams['forceCascade'] = ((bool)$forceCascade) ? 'true' : 'false';
-
-        return NetLicensingService::getInstance()->delete($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $queryParams);
+        return NetLicensingService::getInstance()
+            ->delete($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

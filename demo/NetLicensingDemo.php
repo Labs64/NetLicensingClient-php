@@ -53,6 +53,7 @@ class NetLicensingDemo
         \cli\line('---------------------------- UtilityService ----------------------------');
         $this->listLicenseTypes();
         $this->listLicenseModels();
+        $this->listCountries();
 
         //ProductService
         \cli\line('---------------------------- ProductService ----------------------------');
@@ -89,9 +90,11 @@ class NetLicensingDemo
         $this->updateLicense();
         $this->listLicense();
 
+        //LicenseeService
         \cli\line('---------------------------- VALIDATE ----------------------------');
         $this->validate();
 
+        //LicenseeService
         \cli\line('---------------------------- TRANSFER ----------------------------');
         $this->transfer();
 
@@ -185,6 +188,35 @@ class NetLicensingDemo
             $this->error('UtilityService::listLicensingModels', $exception);
         }
     }
+
+    public function listCountries()
+    {
+        try {
+
+            $countries = \NetLicensing\UtilityService::listCountries($this->context);
+
+            $headers = ['Code', 'Name', 'Vat Percent', 'Is Eu'];
+
+            $rows = [];
+            /** @var  $country \NetLicensing\Country */
+            foreach ($countries as $country) {
+                $rows[] = [
+                    $country->getCode(),
+                    $country->getName(),
+                    $country->getVatPercent(),
+                    $country->getIsEu(),
+                ];
+            }
+
+            $this->success('UtilityService::listCountries');
+            $this->table($headers, $rows);
+
+        } catch (Exception $exception) {
+            //output
+            $this->error('UtilityService::listCountries', $exception);
+        }
+    }
+
 
     public function createProduct()
     {
@@ -427,7 +459,6 @@ class NetLicensingDemo
     public function updateProductModule()
     {
         try {
-
             if (!$this->productModule) throw new Exception('ProductModule not found');
 
             $number = $this->productModule->getNumber();
@@ -445,12 +476,12 @@ class NetLicensingDemo
                 $this->productModule->getLicensingModel()
             ];
 
-            $this->success('ProductService::update');
+            $this->success('ProductModuleService::update');
             $this->table($headers, $rows);
 
         } catch (Exception $exception) {
             //output
-            $this->error('ProductService::update', $exception);
+            $this->error('ProductModuleService::update', $exception);
         }
     }
 

@@ -46,18 +46,18 @@ namespace NetLicensing;
  * @method string getNumber($default = null)
  * @method string getName($default = null)
  * @method boolean getActive($default = null)
- * @method float getPrice($default = null)
+ * @method double getPrice($default = null)
  * @method string getCurrency($default = null)
  * @method boolean getHidden($default = null)
  * @method boolean getInUse($default = null)
- * @method string getParentfeature($default = null)
+ * @method string getParentFeature($default = null)
  * @method int getTimeVolume($default = null)
  * @method int getStartDate($default = null)
  * @method License setNumber($number)
  * @method License setName($name)
  * @method License setActive($active)
  * @method License setHidden($hidden)
- * @method License setParentfeature ($parentfeature)
+ * @method License setParentFeature ($parentFeature)
  * @method License setTimeVolume($timeVolume)
  * @method License setStartDate($startDate)
  *
@@ -73,9 +73,58 @@ class License extends BaseEntity
      */
     protected $casts = [
         'active' => 'boolean_string',
-        'price' => 'float',
+        'price' => 'double',
         'hidden' => 'boolean_string',
         'inUse' => 'boolean_string',
         'timeVolume' => 'int',
     ];
+
+    protected $licensee;
+
+    protected $licenseTemplate;
+
+    protected $licenseTransactionJoins = [];
+
+    public function getLicensee()
+    {
+        return $this->licensee;
+    }
+
+    public function setLicensee(Licensee $licensee)
+    {
+        $licenses = $licensee->getLicenses();
+        $licenses[] = $this;
+
+        $licensee->setLicenses($licenses);
+        $this->licensee = $licensee;
+
+        return $this;
+    }
+
+    public function getLicenseTemplate()
+    {
+        return $this->licenseTemplate;
+    }
+
+    public function setLicenseTemplate(LicenseTemplate $licenseTemplate)
+    {
+        $licenses = $licenseTemplate->getLicenses();
+        $licenses[] = $this;
+
+        $licenseTemplate->setLicenses($licenses);
+        $this->licenseTemplate = $licenseTemplate;
+
+        return $this;
+    }
+
+    public function getLicenseTransactionJoins()
+    {
+        return $this->licenseTransactionJoins;
+    }
+
+    public function setLicenseTransactionJoins(array $licenseTransactionJoins)
+    {
+        $this->licenseTransactionJoins = $licenseTransactionJoins;
+        return $this;
+    }
 }

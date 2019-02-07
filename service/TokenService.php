@@ -17,13 +17,6 @@ namespace NetLicensing;
 class TokenService
 {
     /**
-     * @deprecated
-     * No longer used by internal code and not recommended, will be removed in future versions.
-     * Use class Constants::TOKEN_ENDPOINT_PATH instead.
-     */
-    const ENDPOINT_PATH = 'token';
-
-    /**
      * Creates new token.See NetLicensingAPI for details:
      * https://www.labs64.de/confluence/display/NLICPUB/Token+Services#TokenServices-Createtoken
      *
@@ -34,11 +27,23 @@ class TokenService
      * @param Token $token
      *
      * return created token
-     * @return mixed|\NetLicensing\Token|null
+     * @return Token|null
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function create(Context $context, Token $token)
     {
-        return NetLicensingService::getInstance()->post($context, Constants::TOKEN_ENDPOINT_PATH, $token->asPropertiesMap(), $token);
+        $response = NetLicensingService::getInstance()
+            ->post($context, Constants::TOKEN_ENDPOINT_PATH, $token->asPropertiesMap());
+
+        $createdToken = null;
+
+        if (!empty($response->items->item[0])) {
+            $createdToken = ItemToTokenConverter::convert($response->items->item[0]);
+            $createdToken->exists = true;
+        }
+
+        return $createdToken;
     }
 
     /**
@@ -52,13 +57,26 @@ class TokenService
      * @param $number
      *
      * return the token
-     * @return mixed|\NetLicensing\Token|null
+     * @return Token|null
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function get(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        return NetLicensingService::getInstance()->get($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number, [], Token::class);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number);
+
+        $token = null;
+
+        if (!empty($response->items->item[0])) {
+            $token = ItemToTokenConverter::convert($response->items->item[0]);
+            $token->exists = true;
+        }
+
+        return $token;
     }
 
     /**
@@ -72,13 +90,33 @@ class TokenService
      * @param string $filter
      *
      * array of token entities or empty array if nothing found.
-     * @return array
+     * @return Page
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
     {
-        $queryParams = (!is_null($filter)) ? ['filter' => $filter] : [];
+        $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
-        return NetLicensingService::getInstance()->getList($context, Constants::TOKEN_ENDPOINT_PATH, $queryParams, Token::class);
+        $response = NetLicensingService::getInstance()
+            ->get($context, Constants::TOKEN_ENDPOINT_PATH, $queryParams);
+
+        $tokens = [];
+        $pageNumber = !empty($response->items->pagenumber) ? $response->items->pagenumber : 0;
+        $itemsNumber = !empty($response->items->itemsnumber) ? $response->items->itemsnumber : 0;
+        $totalPages = !empty($response->items->totalpages) ? $response->items->totalpages : 0;
+        $totalItems = !empty($response->items->totalitems) ? $response->items->totalitems : 0;
+
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
+                $token = ItemToTokenConverter::convert($item);
+                $token->exists = true;
+
+                $tokens[] = $token;
+            }
+        }
+
+        return new Page($tokens, $pageNumber, $itemsNumber, $totalPages, $totalItems);
     }
 
     /**
@@ -92,11 +130,15 @@ class TokenService
      * @param string $number
      *
      * @return bool
+     * @throws MalformedArgumentsException
+     * @throws \ErrorException
+     * @throws RestException
      */
     public static function delete(Context $context, $number)
     {
-        CheckUtils::paramNotEmpty($number, 'number');
+        CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        return NetLicensingService::getInstance()->delete($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number);
+        return NetLicensingService::getInstance()
+            ->delete($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number);
     }
 }

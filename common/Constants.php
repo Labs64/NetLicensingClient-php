@@ -11,12 +11,19 @@ namespace NetLicensing;
 
 class Constants
 {
+    const NUMBER = 'number';
+    const CASCADE = 'forceCascade';
+    const FILTER = 'filter';
+
     /**
      * Security modes
      */
     const BASIC_AUTHENTICATION = 'BASIC_AUTH';
     const APIKEY_IDENTIFICATION = 'APIKEY';
 
+    /**
+     * @deprecated
+     */
     const XML_NS = 'http://netlicensing.labs64.com/schema/context';
 
     /**
@@ -37,6 +44,10 @@ class Constants
     const LICENSEE_ENDPOINT_PATH = 'licensee';
     const LICENSEE_ENDPOINT_PATH_VALIDATE = 'validate';
     const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
+    const LICENSEE_NUMBER = 'licenseeNumber';
+    const LICENSEE_PROP_LICENSEE_NAME = 'licenseeName';
+    const LICENSEE_PROP_LICENSEE_SECRET = 'licenseeSecret';
+    const LICENSEE_SOURCE_LICENSEE_NUMBER = 'sourceLicenseeNumber';
 
     /**
      * License
@@ -47,6 +58,7 @@ class Constants
      * License Template
      */
     const LICENSE_TEMPLATE_ENDPOINT_PATH = 'licensetemplate';
+    const LICENSE_TEMPLATE_NUMBER = 'licenseTemplateNumber';
 
     /**
      * Payment Method
@@ -57,26 +69,40 @@ class Constants
      * Product Module
      */
     const PRODUCT_MODULE_ENDPOINT_PATH = 'productmodule';
+    const PRODUCT_MODULE_NUMBER = 'productModuleNumber';
 
     /*
      * Product
      */
     const PRODUCT_ENDPOINT_PATH = 'product';
+    const PRODUCT_NUMBER = 'productNumber';
 
     /*
     * Token
     */
     const TOKEN_ENDPOINT_PATH = 'token';
+    const TOKEN_EXPIRATION_TIME = 'expirationTime';
 
     /*
     * Transaction
     */
     const TRANSACTION_ENDPOINT_PATH = 'transaction';
+    const TRANSACTION_NUMBER = 'transactionNumber';
+    const TRANSACTION_DATE_CREATED = "datecreated";
+    const TRANSACTION_DATE_CLOSED = "dateclosed";
 
     /**
      * Utility
      */
     const UTILITY_ENDPOINT_PATH = 'utility';
+    const UTILITY_ENDPOINT_PATH_LICENSE_TYPES = 'licenseTypes';
+    const UTILITY_ENDPOINT_PATH_LICENSING_MODELS = 'licensingModels';
+    const UTILITY_ENDPOINT_PATH_COUNTRIES = 'countries';
+
+    /**
+     * Vendor
+     */
+    const VENDOR_NUMBER = 'vendorNumber';
 }
 
 

@@ -72,6 +72,8 @@ class Transaction extends BaseEntity
         'discount' => 'float',
     ];
 
+    protected $licenseTransactionJoins = [];
+
     public function __construct(array $properties = [], $exists = false)
     {
         $properties['active'] = true;
@@ -102,5 +104,16 @@ class Transaction extends BaseEntity
     public function getDateClosed($default = null)
     {
         return $this->getProperty(Constants::TRANSACTION_DATE_CLOSED, $default);
+    }
+
+    public function getLicenseTransactionJoins()
+    {
+        return $this->licenseTransactionJoins;
+    }
+
+    public function setLicenseTransactionJoins($licenseTransactionJoins = [])
+    {
+        $this->licenseTransactionJoins = $licenseTransactionJoins;
+        return $this;
     }
 }

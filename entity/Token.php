@@ -34,7 +34,7 @@ namespace NetLicensing;
  *
  * @method string getNumber($default = null)
  * @method boolean getActive($default = null)
- * @method \DateTime getExpirationTime($default = null)
+ * @method string getExpirationTime($default = null)
  * @method string getVendorNumber($default = null)
  * @method string getTokenType($default = null)
  * @method string getLicenseeNumber($default = null)
@@ -67,6 +67,5 @@ class Token extends BaseEntity
      */
     protected $casts = [
         'active' => 'boolean_string',
-        'expirationTime' => 'datetime',
     ];
 }

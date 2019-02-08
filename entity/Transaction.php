@@ -70,8 +70,6 @@ class Transaction extends BaseEntity
         'active' => 'boolean_string',
         'grandTotal' => 'float',
         'discount' => 'float',
-        'datecreated' => 'datetime',
-        'dateclosed' => 'datetime',
     ];
 
     public function __construct(array $properties = [], $exists = false)

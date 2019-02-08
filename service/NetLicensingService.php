@@ -119,14 +119,12 @@ class NetLicensingService
      * The REST query parameters values. May be null if there are no parameters.
      * @param array $queryParams
      *
-     * @return bool
+     * @return mixed|null
      * @throws RestException
      */
     public function delete(Context $context, $urlTemplate, array $queryParams = [])
     {
-        $this->request($context, 'delete', $urlTemplate, $queryParams);
-
-        return ($this->getStatusCode() == 204);
+        return $this->request($context, 'delete', $urlTemplate, $queryParams);
     }
 
     /**
@@ -234,6 +232,8 @@ class NetLicensingService
                 if (!$context->getApiKey()) throw new RestException('Missing parameter "apiKey"');
 
                 $this->curl->setHeader('Authorization', 'Basic ' . base64_encode("apiKey:" . $context->getApiKey()));
+                break;
+            case Constants::ANONYMOUS_IDENTIFICATION:
                 break;
             default:
                 throw new RestException("Unknown security mode");

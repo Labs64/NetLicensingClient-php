@@ -20,6 +20,7 @@ class Constants
      */
     const BASIC_AUTHENTICATION = 'BASIC_AUTH';
     const APIKEY_IDENTIFICATION = 'APIKEY';
+    const ANONYMOUS_IDENTIFICATION = 'ANONYMOUS';
 
     /**
      * @deprecated

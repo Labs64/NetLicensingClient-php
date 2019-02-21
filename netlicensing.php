@@ -44,6 +44,7 @@ require_once(__DIR__ . '/entity/Transaction.php');
 require_once(__DIR__ . '/entity/Token.php');
 require_once(__DIR__ . '/entity/PaymentMethod.php');
 require_once(__DIR__ . '/entity/Country.php');
+require_once(__DIR__ . '/entity/LicenseTransactionJoin.php');
 
 require_once(__DIR__ . '/service/NetLicensingService.php');
 require_once(__DIR__ . '/service/ProductService.php');

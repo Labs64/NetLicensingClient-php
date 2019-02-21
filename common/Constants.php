@@ -54,6 +54,7 @@ class Constants
      * License
      */
     const LICENSE_ENDPOINT_PATH = 'license';
+    const LICENSE_NUMBER = 'licenseNumber';
 
     /*
      * License Template

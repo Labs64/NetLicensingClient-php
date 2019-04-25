@@ -26,7 +26,7 @@ namespace NetLicensing;
  * @property boolean $active
  *
  * Licensee Secret for licensee
- * @property string $licenseeSecret
+ * @property @deprecated string $licenseeSecret
  *
  * Mark licensee for transfer.
  * @property boolean $markedForTransfer
@@ -37,13 +37,13 @@ namespace NetLicensing;
  * @method string getNumber($default = null)
  * @method string getName($default = null)
  * @method string getActive($default = null)
- * @method string getLicenseeSecret($default = null)
+ * @method @deprecated string getLicenseeSecret($default = null)
  * @method boolean getMarkedForTransfer($default = null)
  * @method boolean getInUse($default = null)
  * @method Licensee setNumber($number)
  * @method Licensee setName($name)
  * @method Licensee setActive($active)
- * @method Licensee setLicenseeSecret($licenseeSecret)
+ * @method @deprecated Licensee setLicenseeSecret($licenseeSecret)
  * @method Licensee setMarkedForTransfer($markedForTransfer)
  *
  * @package NetLicensing

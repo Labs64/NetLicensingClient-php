@@ -38,6 +38,7 @@ class Constants
     const LICENSING_MODEL_MULTI_PAY_PER_USE = "PayPerUse";
     const LICENSING_MODEL_PRICING_TABLE = "PricingTable";
     const LICENSING_MODEL_QUOTA = "Quota";
+    const LICENSING_MODEL_NODE_LOCKED = "NodeLocked";
 
     /**
      * Licensee
@@ -47,6 +48,9 @@ class Constants
     const LICENSEE_ENDPOINT_PATH_TRANSFER = 'transfer';
     const LICENSEE_NUMBER = 'licenseeNumber';
     const LICENSEE_PROP_LICENSEE_NAME = 'licenseeName';
+    /**
+     * @deprecated please use License::LICENSE_PROP_LICENSEE_SECRET instead.
+     */
     const LICENSEE_PROP_LICENSEE_SECRET = 'licenseeSecret';
     const LICENSEE_SOURCE_LICENSEE_NUMBER = 'sourceLicenseeNumber';
 
@@ -55,12 +59,14 @@ class Constants
      */
     const LICENSE_ENDPOINT_PATH = 'license';
     const LICENSE_NUMBER = 'licenseNumber';
+    const LICENSE_PROP_LICENSEE_SECRET = 'licenseeSecret';
 
     /*
      * License Template
      */
     const LICENSE_TEMPLATE_ENDPOINT_PATH = 'licensetemplate';
     const LICENSE_TEMPLATE_NUMBER = 'licenseTemplateNumber';
+    const LICENSE_TEMPLATE_PROP_LICENSEE_SECRET = 'licenseeSecret';
 
     /**
      * Payment Method
@@ -72,6 +78,7 @@ class Constants
      */
     const PRODUCT_MODULE_ENDPOINT_PATH = 'productmodule';
     const PRODUCT_MODULE_NUMBER = 'productModuleNumber';
+    const PRODUCT_MODULE_PROP_LICENSEE_SECRET_MODE = 'licenseeSecretMode';
 
     /*
      * Product

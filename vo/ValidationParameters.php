@@ -62,6 +62,7 @@ class ValidationParameters
      * Sets the licensee secret
      *
      * licensee secret stored on the client side. Refer to Licensee Secret documentation for details.
+     * @deprecated use 'NodeLocked' licensing model instead
      * @param $licenseeSecret
      *
      * @return $this
@@ -73,6 +74,9 @@ class ValidationParameters
         return $this;
     }
 
+    /**
+     * @deprecated use 'NodeLocked' licensing model instead
+     */
     public function getLicenseeSecret()
     {
         return $this->licenseeSecret;

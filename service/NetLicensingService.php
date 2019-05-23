@@ -27,7 +27,7 @@ class NetLicensingService
     {
         $this->curl = new NetLicensingCurl();
         $this->curl->setHeader('Accept', 'application/json');
-        $this->curl->setUserAgent('NetLicensing/PHP ' . PHP_VERSION . ' (https://netlicensing.io)' . '; ' . $_SERVER['HTTP_USER_AGENT']);
+        $this->curl->setUserAgent('NetLicensing/PHP ' . PHP_VERSION . ' (https://netlicensing.io)');
     }
 
     protected function __clone()

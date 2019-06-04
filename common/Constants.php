@@ -11,6 +11,8 @@ namespace NetLicensing;
 
 class Constants
 {
+    const NETLICENSING_VERSION = '2.5.0';
+
     const NUMBER = 'number';
     const CASCADE = 'forceCascade';
     const FILTER = 'filter';

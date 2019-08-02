@@ -23,7 +23,7 @@ $ composer require labs64/netlicensingclient-php
 ```
 {
     "require": {
-        "labs64/netlicensingclient-php": "^2.3.9"
+        "labs64/netlicensingclient-php": "^2.4.0"
     }
 }
 ```

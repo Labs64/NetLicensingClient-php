@@ -2,7 +2,7 @@
 /**
  * @author    Labs64 <netlicensing@labs64.com>
  * @license   Apache-2.0
- * @link      http://netlicensing.io
+ * @link      https://netlicensing.io
  * @copyright 2017 Labs64 NetLicensing
  */
 
@@ -10,14 +10,14 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the Utility Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Utility+Services
+ * https://netlicensing.io/wiki/utility-services
  * @package NetLicensing
  */
 class UtilityService
 {
     /**
      * Returns all license types. See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Utility+Services#UtilityServices-LicenseTypeslist
+     * https://netlicensing.io/wiki/utility-services#license-types-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -49,7 +49,7 @@ class UtilityService
 
     /**
      * Returns all license models. See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Utility+Services#UtilityServices-LicensingModelslist
+     * https://netlicensing.io/wiki/utility-services#licensing-models-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context

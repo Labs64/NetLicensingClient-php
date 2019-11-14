@@ -2,7 +2,7 @@
 /**
  * @author    Labs64 <netlicensing@labs64.com>
  * @license   Apache-2.0
- * @link      http://netlicensing.io
+ * @link      https://netlicensing.io
  * @copyright 2017 Labs64 NetLicensing
  */
 
@@ -29,7 +29,7 @@ namespace NetLicensing;
  *
  * @property string $securityMode
  * Determines the security mode used for accessing the NetLicensing API.
- * See https://www.labs64.de/confluence/x/pwCo#NetLicensingAPI%28RESTful%29-Security for details.
+ * See https://netlicensing.io/wiki/security for details.
  *
  * @property string $vendorNumber
  * External number of the vendor.

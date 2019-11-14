@@ -2,7 +2,7 @@
 /**
  * @author    Labs64 <netlicensing@labs64.com>
  * @license   Apache-2.0
- * @link      http://netlicensing.io
+ * @link      https://netlicensing.io
  * @copyright 2017 Labs64 NetLicensing
  */
 
@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the Licensee Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services
+ * https://netlicensing.io/wiki/licensee-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class LicenseeService
 {
     /**
      * Creates new licensee object with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Createlicensee
+     * https://netlicensing.io/wiki/licensee-services#create-licensee
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -57,7 +57,7 @@ class LicenseeService
 
     /**
      * Gets licensee by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Getlicensee
+     * https://netlicensing.io/wiki/licensee-services#get-licensee
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -90,7 +90,7 @@ class LicenseeService
 
     /**
      * Returns all licensees of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Licenseeslist
+     * https://netlicensing.io/wiki/licensee-services#licensees-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -130,7 +130,7 @@ class LicenseeService
 
     /**
      * Updates licensee properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Updatelicensee
+     * https://netlicensing.io/wiki/licensee-services#update-licensee
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -166,7 +166,7 @@ class LicenseeService
 
     /**
      * Deletes licensee.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Deletelicensee
+     * https://netlicensing.io/wiki/licensee-services#delete-licensee
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -195,7 +195,7 @@ class LicenseeService
 
     /**
      * Validates active licenses of the licensee. See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Validatelicensee
+     * https://netlicensing.io/wiki/licensee-services#validate-licensee
      *
      * @param Context $context
      *
@@ -260,7 +260,7 @@ class LicenseeService
 
     /**
      * Transfer licenses between licensees.
-     * https://www.labs64.de/confluence/display/NLICPUB/Licensee+Services#LicenseeServices-Transferlicensee
+     * https://netlicensing.io/wiki/licensee-services#transfer-licenses
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context

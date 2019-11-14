@@ -8,7 +8,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/unstable)](https://packagist.org/packages/labs64/netlicensingclient-php)
 [![License](https://poser.pugx.org/labs64/netlicensingclient-php/license)](https://packagist.org/packages/labs64/netlicensingclient-php)
 
-PHP wrapper for Labs64 NetLicensing [RESTful API](http://l64.cc/nl10)
+PHP wrapper for Labs64 NetLicensing [RESTful API](https://netlicensing.io/wiki/restful-api)
 
 Visit Labs64 NetLicensing at https://netlicensing.io
 

@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the ProductModule Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services
+ * https://netlicensing.io/wiki/license-template-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class LicenseTemplateService
 {
     /**
      * Creates new license template object with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Createlicensetemplate
+     * https://netlicensing.io/wiki/license-template-services#create-license-template
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -57,7 +57,7 @@ class LicenseTemplateService
 
     /**
      * Gets license template by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Getlicensetemplate
+     * https://netlicensing.io/wiki/license-template-services#get-license-template
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -90,7 +90,7 @@ class LicenseTemplateService
 
     /**
      * Returns all license templates of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Licensetemplateslist
+     * https://netlicensing.io/wiki/license-template-services#license-templates-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -130,7 +130,7 @@ class LicenseTemplateService
 
     /**
      * Updates license template properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Updatelicensetemplate
+     * https://netlicensing.io/wiki/license-template-services#update-license-template
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -166,7 +166,7 @@ class LicenseTemplateService
 
     /**
      * Deletes license template.See NetLicensingAPI JavaDoc for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Template+Services#LicenseTemplateServices-Deletelicensetemplate
+     * https://netlicensing.io/wiki/license-template-services#delete-license-template
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the Token Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Token+Services
+ * https://netlicensing.io/wiki/token-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class TokenService
 {
     /**
      * Creates new token.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Token+Services#TokenServices-Createtoken
+     * https://netlicensing.io/wiki/token-services#create-token
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -48,7 +48,7 @@ class TokenService
 
     /**
      * Gets token by its number..See NetLicensingAPI for details:
-     * https://www.labs64.de/conluence/display/NLICPUB/Token+Services#TokenServices-Gettoken
+     * https://netlicensing.io/wiki/token-services#get-token
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -81,7 +81,7 @@ class TokenService
 
     /**
      * Returns tokens of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Token+Services#TokenServices-Tokenslist
+     * https://netlicensing.io/wiki/token-services#tokens-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -121,7 +121,7 @@ class TokenService
 
     /**
      * Delete token by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Token+Services#TokenServices-Deletetoken
+     * https://netlicensing.io/wiki/token-services#delete-token
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

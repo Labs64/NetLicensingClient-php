@@ -10,15 +10,15 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the PaymentMethodService Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Payment+Method+Services
+ * https://netlicensing.io/wiki/payment-method-services
  *
  * @package NetLicensing
  */
 class PaymentMethodService
 {
     /**
-     *  Gets payment method by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Payment+Method+Services#PaymentMethodServices-Getpaymentmethod
+     * Gets payment method by its number.See NetLicensingAPI for details:
+     * https://netlicensing.io/wiki/payment-method-services#get-payment-method
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -51,7 +51,7 @@ class PaymentMethodService
 
     /**
      * Returns payment methods of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Payment+Method+Services#PaymentMethodServices-Paymentmethodslist
+     * https://netlicensing.io/wiki/payment-method-services#payment-methods-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -91,7 +91,7 @@ class PaymentMethodService
 
     /**
      * Updates payment method properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Payment+Method+Services#PaymentMethodServices-Updatepaymentmethod
+     * https://netlicensing.io/wiki/payment-method-services#update-payment-method
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

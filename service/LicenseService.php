@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the License Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/License+Services
+ * https://netlicensing.io/wiki/license-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class LicenseService
 {
     /**
      * Creates new license object with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Services#LicenseServices-Createlicense
+     * https://netlicensing.io/wiki/license-services#create-license
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -69,7 +69,7 @@ class LicenseService
 
     /**
      * Gets license by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Services#LicenseServices-Getlicense
+     * https://netlicensing.io/wiki/license-services#get-license
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -101,7 +101,7 @@ class LicenseService
 
     /**
      * Returns licenses of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Services#LicenseServices-Licenseslist
+     * https://netlicensing.io/wiki/license-services#licenses-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -141,7 +141,7 @@ class LicenseService
 
     /**
      * Updates license properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Services#LicenseServices-Updatelicense
+     * https://netlicensing.io/wiki/license-services#update-license
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -183,7 +183,7 @@ class LicenseService
 
     /**
      * Deletes license.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/License+Services#LicenseServices-Deletelicense
+     * https://netlicensing.io/wiki/license-services#delete-license
      *
      * When any license is deleted, corresponding transaction is created automatically.
      *

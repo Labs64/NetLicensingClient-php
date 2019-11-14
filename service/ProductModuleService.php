@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the ProductModule Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services
+ * https://netlicensing.io/wiki/product-module-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class ProductModuleService
 {
     /**
      * Creates new product module object with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Createproductmodule
+     * https://netlicensing.io/wiki/product-module-services#create-product-module
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -57,7 +57,7 @@ class ProductModuleService
 
     /**
      * Gets product module by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Getproductmodule
+     * https://netlicensing.io/wiki/product-module-services#get-product-module
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -90,7 +90,7 @@ class ProductModuleService
 
     /**
      * Returns all product modules of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Productmoduleslist
+     * https://netlicensing.io/wiki/product-module-services#product-modules-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -130,7 +130,7 @@ class ProductModuleService
 
     /**
      * Updates product module properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Updateproductmodule
+     * https://netlicensing.io/wiki/product-module-services#update-product-module
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -166,7 +166,7 @@ class ProductModuleService
 
     /**
      * Deletes product module.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Module+Services#ProductModuleServices-Deleteproductmodule
+     * https://netlicensing.io/wiki/product-module-services#delete-product-module
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

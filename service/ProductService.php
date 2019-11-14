@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the Product Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Product+Services
+ * https://netlicensing.io/wiki/product-services
  *
  * @package NetLicensing
  */
@@ -18,7 +18,7 @@ class ProductService
 {
     /**
      * Creates new product with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Services#ProductServices-Createproduct
+     * https://netlicensing.io/wiki/product-services#create-product
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -49,7 +49,7 @@ class ProductService
 
     /**
      * Gets product by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Services#ProductServices-Getproduct
+     * https://netlicensing.io/wiki/product-services#get-product
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -82,7 +82,7 @@ class ProductService
 
     /**
      * Returns products of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Services#ProductServices-Productslist
+     * https://netlicensing.io/wiki/product-services#products-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -122,7 +122,7 @@ class ProductService
 
     /**
      * Updates product properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Services#ProductServices-Updateproduct
+     * https://netlicensing.io/wiki/product-services#update-product
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -158,7 +158,7 @@ class ProductService
 
     /**
      * Deletes product.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Product+Services#ProductServices-Deleteproduct
+     * https://netlicensing.io/wiki/product-services#delete-product
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

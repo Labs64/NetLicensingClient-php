@@ -10,7 +10,7 @@ namespace NetLicensing;
 
 /**
  * PHP representation of the Transaction Service. See NetLicensingAPI for details:
- * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services
+ * https://netlicensing.io/wiki/transaction-services
  *
  * Transaction is created each time change to  LicenseService licenses happens. For instance licenses are
  * obtained by a licensee, licenses disabled by vendor, licenses deleted, etc. Transaction is created no matter what
@@ -26,7 +26,7 @@ class TransactionService
 {
     /**
      * Creates new transaction object with given properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Createtransaction
+     * https://netlicensing.io/wiki/transaction-services#create-transaction
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -57,7 +57,7 @@ class TransactionService
 
     /**
      * Gets transaction by its number.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Gettransaction
+     * https://netlicensing.io/wiki/transaction-services#get-transaction
      *
      * determines the vendor on whose behalf the call is performed
      * @param Context $context
@@ -90,7 +90,7 @@ class TransactionService
 
     /**
      * Returns all transactions of a vendor.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Transactionslist
+     * https://netlicensing.io/wiki/transaction-services#transactions-list
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context
@@ -130,7 +130,7 @@ class TransactionService
 
     /**
      * Updates transaction properties.See NetLicensingAPI for details:
-     * https://www.labs64.de/confluence/display/NLICPUB/Transaction+Services#TransactionServices-Updatetransaction
+     * https://netlicensing.io/wiki/transaction-services#update-transaction
      *
      * determines the vendor on whose behalf the call is performed
      * @param \NetLicensing\Context $context

@@ -5,8 +5,9 @@
 [![Build Status](https://travis-ci.org/Labs64/NetLicensingClient-php.svg?branch=master)](https://travis-ci.org/Labs64/NetLicensingClient-php)
 [![Latest Stable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/stable)](https://packagist.org/packages/labs64/netlicensingclient-php)
 [![Total Downloads](https://poser.pugx.org/labs64/netlicensingclient-php/downloads)](https://packagist.org/packages/labs64/netlicensingclient-php)
-[![Latest Unstable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/unstable)](https://packagist.org/packages/labs64/netlicensingclient-php)
-[![License](https://poser.pugx.org/labs64/netlicensingclient-php/license)](https://packagist.org/packages/labs64/netlicensingclient-php)
+[![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Labs64/NetLicensingClient-php/blob/master/LICENSE)
+[![📖 Documentation](https://img.shields.io/badge/📖%20Documentation-Wiki-AB6543.svg)](https://netlicensing.io/wiki/restful-api)
+[![NetLicensing @ LinkedIn](https://img.shields.io/badge/NetLicensing-0077B5.svg?logo=LinkedIn)](https://www.linkedin.com/showcase/netlicensing)
 
 PHP wrapper for Labs64 NetLicensing [RESTful API](https://netlicensing.io/wiki/restful-api)
 

@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Init project
       run: |
-        composer create-project composer/semver netlicensing-php-dependency 0.0.1
+        composer create-project composer/semver netlicensing-php-dependency
 
     - name: Install dependencies
       run: |

@@ -2,7 +2,7 @@ name: PHP Client - Dependency Test
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Init project
       run: |
-        php composer.phar create-project composer/semver
+        composer create-project composer/semver netlicensing-php-dependency 0.0.1
 
     - name: Install dependencies
       run: |

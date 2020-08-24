@@ -2,7 +2,7 @@ name: PHP Client - Dependency Test
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/30 * * * *'
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     steps:
     - name: Init project
       run: |
-        php composer.phar create-project phpunit/phpunit
+        php composer.phar create-project composer/semver
 
     - name: Install dependencies
       run: |

@@ -49,7 +49,6 @@ namespace NetLicensing;
  *
  * @package NetLicensing\Rest
  */
-
 class Context
 {
     /**
@@ -72,6 +71,8 @@ class Context
     protected $baseUrl = 'https://go.netlicensing.io/core/v2/rest';
 
     protected $securityMode = Constants::BASIC_AUTHENTICATION;
+
+    private $publicKey = '';
 
     /**
      * The context values.
@@ -96,8 +97,8 @@ class Context
     /**
      * Get an value from the context.
      *
-     * @param  string $key
-     * @param  mixed $default
+     * @param string $key
+     * @param mixed $default
      * @return mixed
      */
     public function getValue($key, $default = null)
@@ -120,8 +121,8 @@ class Context
     /**
      * Set a given values on the context.
      *
-     * @param  string $key
-     * @param  mixed $value
+     * @param string $key
+     * @param mixed $value
      * @return $this
      */
     public function setValue($key, $value)
@@ -133,7 +134,7 @@ class Context
     /**
      * Set the array of context values.
      *
-     * @param  array $values
+     * @param array $values
      * @return $this
      */
     public function setValues(array $values)
@@ -144,9 +145,26 @@ class Context
     }
 
     /**
+     * Sets the public key
+     *
+     * @param $publicKey string stored on the client side.
+     * @return $this
+     */
+    public function setPublicKey($publicKey)
+    {
+        $this->publicKey = $publicKey;
+        return $this;
+    }
+
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /**
      * Dynamically retrieve values on the context.
      *
-     * @param  string $key
+     * @param string $key
      * @return mixed
      */
     public function __get($key)
@@ -157,8 +175,8 @@ class Context
     /**
      * Dynamically set values on the context.
      *
-     * @param  string $key
-     * @param  mixed $value
+     * @param string $key
+     * @param mixed $value
      * @return void
      */
     public function __set($key, $value)
@@ -169,7 +187,7 @@ class Context
     /**
      * Determine if an values exists on the context.
      *
-     * @param  string $key
+     * @param string $key
      * @return bool
      */
     public function __isset($key)
@@ -180,7 +198,7 @@ class Context
     /**
      * Unset an values on the context.
      *
-     * @param  string $key
+     * @param string $key
      * @return void
      */
     public function __unset($key)
@@ -191,8 +209,8 @@ class Context
     /**
      * Handle dynamic method calls into the context.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

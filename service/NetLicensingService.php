@@ -27,7 +27,7 @@ class NetLicensingService
     {
         $this->curl = new NetLicensingCurl();
         $this->curl->setHeader('Accept', 'application/json');
-        $this->curl->setUserAgent('NetLicensing/PHP ' . Constants::NETLICENSING_VERSION .'/' . PHP_VERSION. ' (https://netlicensing.io)');
+        $this->curl->setUserAgent('NetLicensing/PHP ' . Constants::NETLICENSING_VERSION . '/' . PHP_VERSION . ' (https://netlicensing.io)');
     }
 
     protected function __clone()
@@ -256,8 +256,8 @@ class NetLicensingService
     /**
      * Handle dynamic static method calls into the method.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array $parameters
      * @return mixed
      * @throws \ErrorException
      */

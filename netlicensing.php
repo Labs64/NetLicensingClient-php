@@ -29,8 +29,10 @@ require_once(__DIR__ . '/vo/Page.php');
 require_once(__DIR__ . '/exception/MalformedArgumentsException.php');
 require_once(__DIR__ . '/exception/NetLicensingException.php');
 require_once(__DIR__ . '/exception/RestException.php');
+require_once(__DIR__ . '/exception/BadSignatureException.php');
 
 require_once(__DIR__ . '/util/CheckUtils.php');
+require_once(__DIR__ . '/util/SignatureUtils.php');
 
 require_once(__DIR__ . '/entity/traits/Properties.php');
 require_once(__DIR__ . '/entity/BaseEntity.php');
@@ -56,3 +58,4 @@ require_once(__DIR__ . '/service/LicenseService.php');
 require_once(__DIR__ . '/service/TransactionService.php');
 require_once(__DIR__ . '/service/TokenService.php');
 require_once(__DIR__ . '/service/PaymentMethodService.php');
+require_once(__DIR__ . '/service/ValidationService.php');

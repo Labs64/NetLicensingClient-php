@@ -1,11 +1,31 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use NetLicensing\Context;
+use NetLicensing\ValidationService;
 
 class OfflineValidation extends TestCase
 {
     public function testOfflineValidation()
     {
-        $this->assertEquals(true, true);
+        try {
+            // 1. Create context, for offline validation you only need to provide the public key.
+            $publicKey = file_get_contents(__DIR__ . '../resources/rsa_public.pem');
+            $context = new Context();
+            $context->setPublicKey($publicKey);
+
+            // 2. Read the validation file.
+            $offlineValidation = file_get_contents(__DIR__ . '../resources/Isb-DEMO.xml');
+            $validationFile = new DOMDocument();
+            $validationFile->loadXML($offlineValidation);
+
+            // 3. Validate. ValidationResult is same as if validation would be executed against the
+            // NetLicensing service online.
+            $meta = [];
+            $validationResult = ValidationService::validateOffline($context, $validationFile, $meta);
+            $this->assertNotEmpty($validationResult);
+        } catch (Exception $e) {
+            $this->fail($e->getMessage());
+        }
     }
 }

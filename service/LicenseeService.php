@@ -8,6 +8,8 @@
 
 namespace NetLicensing;
 
+use ErrorException;
+
 /**
  * PHP representation of the Licensee Service. See NetLicensingAPI for details:
  * https://netlicensing.io/wiki/licensee-services
@@ -33,7 +35,7 @@ class LicenseeService
      * return the newly created licensee object
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function create(Context $context, $productNumber, Licensee $licensee)
@@ -68,7 +70,7 @@ class LicenseeService
      * return the licensee
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function get(Context $context, $number)
@@ -100,7 +102,7 @@ class LicenseeService
      *
      * array of licensees (of all products) or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function getList(Context $context, $filter = null)
@@ -144,7 +146,7 @@ class LicenseeService
      * return updated licensee.
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function update(Context $context, $number, Licensee $licensee)
@@ -179,7 +181,7 @@ class LicenseeService
      *
      * @return bool
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function delete(Context $context, $number, $forceCascade = false)
@@ -207,56 +209,16 @@ class LicenseeService
      * details.
      * @param ValidationParameters $validationParameters
      *
+     * @param array $meta optional parameter, receiving messages returned within response <infos> section.
+     *
      * @return ValidationResults
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
+     * @throws ErrorException
      */
-
-    public static function validate(Context $context, $number, ValidationParameters $validationParameters)
+    public static function validate(Context $context, $number, ValidationParameters $validationParameters, array &$meta = [])
     {
-        CheckUtils::paramNotEmpty($number, 'number');
-
-        $queryParams = [];
-
-        if ($validationParameters->getProductNumber()) {
-            $queryParams[Constants::PRODUCT_NUMBER] = $validationParameters->getProductNumber();
-        }
-
-        if ($validationParameters->getLicenseeName()) {
-            $queryParams[Constants::LICENSEE_PROP_LICENSEE_NAME] = $validationParameters->getLicenseeName();
-        }
-
-        if ($validationParameters->getLicenseeSecret()) {
-            $queryParams[Constants::LICENSEE_PROP_LICENSEE_SECRET] = $validationParameters->getLicenseeSecret();
-        }
-
-        $pmIndex = 0;
-
-        foreach ($validationParameters->getParameters() as $productModuleName => $parameters) {
-            $queryParams[Constants::PRODUCT_MODULE_NUMBER . $pmIndex] = $productModuleName;
-            foreach ($parameters as $key => $value) {
-                $queryParams[$key . $pmIndex] = $value;
-            }
-            $pmIndex++;
-        }
-
-        $urlTemplate = Constants::LICENSEE_ENDPOINT_PATH . '/' . $number . '/' . Constants::LICENSEE_ENDPOINT_PATH_VALIDATE;
-
-        $response = NetLicensingService::getInstance()->post($context, $urlTemplate, $queryParams);
-
-        $validationResults = new ValidationResults();
-
-        if (!empty($response->items->item)) {
-            foreach ($response->items->item as $item) {
-                $array = ItemToArrayConverter::convert($item);
-                $validationResults->setProductModuleValidation($array[Constants::PRODUCT_MODULE_NUMBER], $array);
-            }
-
-            $validationResults->setTtl(new \DateTime($response->ttl));
-        }
-
-        return $validationResults;
+        return ValidationService::validate($context, $number, $validationParameters, $meta);
     }
 
     /**
@@ -274,7 +236,7 @@ class LicenseeService
      *
      * @return void
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
+     * @throws ErrorException
      * @throws RestException
      */
     public static function transfer(Context $context, $number, $sourceLicenseeNumber)

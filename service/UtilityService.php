@@ -27,7 +27,7 @@ class UtilityService
      * @throws \ErrorException
      * @throws RestException
      */
-    public static function listLicenseTypes(Context $context)
+    public static function listLicenseTypes(Context $context): Page
     {
         $response = NetLicensingService::getInstance()
             ->get($context, Constants::UTILITY_ENDPOINT_PATH . '/' . Constants::UTILITY_ENDPOINT_PATH_LICENSE_TYPES);
@@ -59,7 +59,7 @@ class UtilityService
      * @throws \ErrorException
      * @throws RestException
      */
-    public static function listLicensingModels(Context $context)
+    public static function listLicensingModels(Context $context): Page
     {
         $response = NetLicensingService::getInstance()
             ->get($context, Constants::UTILITY_ENDPOINT_PATH . '/' . Constants::UTILITY_ENDPOINT_PATH_LICENSING_MODELS);
@@ -92,7 +92,7 @@ class UtilityService
      * @throws RestException
      * @throws \ErrorException
      */
-    public static function listCountries(Context $context, $filter = null)
+    public static function listCountries(Context $context, $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 

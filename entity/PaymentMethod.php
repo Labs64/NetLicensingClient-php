@@ -17,8 +17,8 @@ namespace NetLicensing;
  *
  * @method string getNumber($default = null)
  * @method boolean getActive($default = null)
- * @method boolean setNumber($number)
- * @method boolean setActive($active)
+ * @method boolean setNumber(string $number)
+ * @method boolean setActive(boolean $active)
  *
  *
  * @package NetLicensing

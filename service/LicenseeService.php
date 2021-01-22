@@ -105,7 +105,7 @@ class LicenseeService
      * @throws ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -179,7 +179,6 @@ class LicenseeService
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
      *
-     * @return bool
      * @throws MalformedArgumentsException
      * @throws ErrorException
      * @throws RestException
@@ -190,7 +189,7 @@ class LicenseeService
 
         $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()
+        NetLicensingService::getInstance()
             ->delete($context, Constants::LICENSEE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 
@@ -211,7 +210,7 @@ class LicenseeService
      *
      * @param array $meta optional parameter, receiving messages returned within response <infos> section.
      *
-     * @return ValidationResults
+     * @return ValidationResults|null
      * @throws MalformedArgumentsException
      * @throws RestException
      * @throws ErrorException

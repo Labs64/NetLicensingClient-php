@@ -188,7 +188,7 @@ class ProductModuleService
 
         $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()
+        NetLicensingService::getInstance()
             ->delete($context, Constants::PRODUCT_MODULE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

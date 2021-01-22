@@ -114,7 +114,7 @@ class LicenseService
      * @throws \ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -206,7 +206,7 @@ class LicenseService
 
         $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
 
-        return NetLicensingService::getInstance()
+        NetLicensingService::getInstance()
             ->delete($context, Constants::LICENSE_ENDPOINT_PATH . '/' . $number, $queryParams);
     }
 }

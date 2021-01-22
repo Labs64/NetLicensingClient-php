@@ -48,16 +48,14 @@ namespace NetLicensing;
  * @method integer getMaxCheckoutValidity($default = null)
  * @method integer getYellowThreshold($default = null)
  * @method integer getRedThreshold($default = null)
- * @method string  getLicenseTemplate($default = null)
  * @method boolean getInUse($default = null)
- * @method ProductModule setNumber($number)
- * @method ProductModule setActive($active)
- * @method ProductModule setName($name)
- * @method ProductModule setLicensingModel($licensingModel)
- * @method ProductModule setMaxCheckoutValidity($maxCheckoutValidity)
- * @method ProductModule setYellowThreshold($yellowThreshold)
- * @method ProductModule setRedThreshold($redThresholdy)
- * @method ProductModule setLicenseTemplate($licenseTemplate)
+ * @method ProductModule setNumber(string $number)
+ * @method ProductModule setActive(boolean $active)
+ * @method ProductModule setName(string $name)
+ * @method ProductModule setLicensingModel(string $licensingModel)
+ * @method ProductModule setMaxCheckoutValidity(int $maxCheckoutValidity)
+ * @method ProductModule setYellowThreshold(int $yellowThreshold)
+ * @method ProductModule setRedThreshold(int $redThreshold)
  *
  *
  * @package NetLicensing
@@ -81,25 +79,25 @@ class ProductModule extends BaseEntity
 
     protected $licenseTemplates = [];
 
-    public function getProduct()
-    {
-        return $this->product;
-    }
-
     public function setProduct(Product $product)
     {
         $this->product = $product;
         return $this;
     }
 
-    public function getLicenseTemplates()
+    public function getProduct()
     {
-        return $this->licenseTemplates;
+        return $this->product;
     }
 
     public function setLicenseTemplates(array $licenseTemplates)
     {
         $this->licenseTemplates = $licenseTemplates;
         return $this;
+    }
+
+    public function getLicenseTemplates(): array
+    {
+        return $this->licenseTemplates;
     }
 }

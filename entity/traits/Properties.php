@@ -41,7 +41,7 @@ trait Properties
      * @param  mixed $default
      * @return mixed
      */
-    public function getProperty($property, $default = null)
+    public function getProperty(string $property, $default = null)
     {
         if (!$property) return $default;
 
@@ -62,7 +62,7 @@ trait Properties
      *
      * @return array
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -74,7 +74,7 @@ trait Properties
      * @param  mixed $value
      * @return $this
      */
-    public function setProperty($property, $value)
+    public function setProperty(string $property, $value)
     {
         $this->properties[$property] = ($this->hasCast($property)) ? $this->castSetProperty($property, $value) : $value;
         return $this;
@@ -89,7 +89,8 @@ trait Properties
      */
     public function addProperty($property, $value)
     {
-        return $this->setProperty($property, $value);
+        $this->setProperty($property, $value);
+        return $this;
     }
 
 
@@ -137,12 +138,11 @@ trait Properties
      *
      * @param  string|null $property
      * @param  mixed $default
-     * @return mixed|array
+     * @return mixed
      */
     public function getOriginal($property = null, $default = null)
     {
         if (is_null($property)) return $this->original;
-
         return isset($this->original[$property]) ? $this->original[$property] : $default;
     }
 
@@ -165,21 +165,20 @@ trait Properties
      * @param  string $property
      * @return $this
      */
-    public function syncOriginalProperty($property)
+    public function syncOriginalProperty(string $property)
     {
         $this->original[$property] = $this->properties[$property];
-
         return $this;
     }
 
     /**
      * Determine whether an attribute should be cast to a native type.
      *
-     * @param  string $property
-     * @param  array|string|null $types
+     * @param string $property
+     * @param array|string|null $types
      * @return bool
      */
-    public function hasCast($property, $types = null)
+    public function hasCast(string $property, $types = null): bool
     {
         if (array_key_exists($property, $this->casts)) {
             return $types ? in_array($this->getCastType($property), (array)$types, true) : true;
@@ -191,10 +190,10 @@ trait Properties
     /**
      * Get the type of cast for a entity attribute.
      *
-     * @param  string $property
+     * @param string $property
      * @return string
      */
-    protected function getCastType($property)
+    protected function getCastType(string $property): string
     {
         return trim(strtolower($this->casts[$property]));
     }
@@ -205,7 +204,7 @@ trait Properties
      * @param  array|string|null $attributes
      * @return bool
      */
-    public function isClean($attributes = null)
+    public function isClean($attributes = null): bool
     {
         return !$this->isDirty(...func_get_args());
     }
@@ -216,7 +215,7 @@ trait Properties
      * @param  array|string|null $properties
      * @return bool
      */
-    public function isDirty($properties = null)
+    public function isDirty($properties = null): bool
     {
         $dirty = $this->getDirty();
 
@@ -247,7 +246,7 @@ trait Properties
      *
      * @return array
      */
-    public function getDirty()
+    public function getDirty(): array
     {
         $dirty = [];
 
@@ -267,10 +266,10 @@ trait Properties
     /**
      * Determine if the new and old values for a given key are numerically equivalent.
      *
-     * @param  string $property
+     * @param string $property
      * @return bool
      */
-    protected function originalIsNumericallyEquivalent($property)
+    protected function originalIsNumericallyEquivalent(string $property): bool
     {
         $current = $this->properties[$property];
 
@@ -286,14 +285,14 @@ trait Properties
     /**
      * Cast an property to a native PHP type.
      *
-     * @param  string $property
-     * @param  mixed $value
+     * @param string $property
+     * @param mixed $value
      * @return mixed
      */
-    protected function castGetProperty($property, $value)
+    protected function castGetProperty(string $property, $value)
     {
         if (is_null($value)) {
-            return $value;
+            return null;
         }
 
         switch ($this->getCastType($property)) {
@@ -326,14 +325,14 @@ trait Properties
     /**
      * Cast an property to a native PHP type.
      *
-     * @param  string $property
-     * @param  mixed $value
+     * @param string $property
+     * @param mixed $value
      * @return mixed
      */
-    protected function castSetProperty($property, $value)
+    protected function castSetProperty(string $property, $value)
     {
         if (is_null($value)) {
-            return $value;
+            return null;
         }
 
         switch ($this->getCastType($property)) {
@@ -366,11 +365,11 @@ trait Properties
     /**
      * Decode the given JSON back into an array or object.
      *
-     * @param  string $value
-     * @param  bool $asObject
+     * @param string $value
+     * @param bool $asObject
      * @return mixed
      */
-    protected function fromJson($value, $asObject = false)
+    protected function fromJson(string $value, $asObject = false)
     {
         return json_decode($value, !$asObject);
     }
@@ -381,7 +380,7 @@ trait Properties
      * @param $value
      * @return string
      */
-    protected function asDateTime($value)
+    protected function asDateTime($value): string
     {
 
         // If the value is already a DateTime instance, we will just skip the rest of

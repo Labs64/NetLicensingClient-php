@@ -83,7 +83,8 @@ class Transaction extends BaseEntity
 
     protected function setActive()
     {
-        return $this->setProperty('active', true);
+        $this->setProperty('active', true);
+        return $this;
     }
 
     public function setDateCreated($dateCreated)
@@ -106,7 +107,7 @@ class Transaction extends BaseEntity
         return $this->getProperty(Constants::TRANSACTION_DATE_CLOSED, $default);
     }
 
-    public function getLicenseTransactionJoins()
+    public function getLicenseTransactionJoins(): array
     {
         return $this->licenseTransactionJoins;
     }

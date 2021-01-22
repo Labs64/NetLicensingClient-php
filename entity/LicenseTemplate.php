@@ -70,18 +70,18 @@ namespace NetLicensing;
  * @method integer getMaxSessions($default = null)
  * @method integer getQuantity($default = null)
  * @method boolean getInUse($default = null)
- * @method LicenseTemplate setNumber($number)
- * @method LicenseTemplate setActive($active)
- * @method LicenseTemplate setName($name)
- * @method LicenseTemplate setLicenseType($licenseType)
+ * @method LicenseTemplate setNumber(string $number)
+ * @method LicenseTemplate setActive(boolean $active)
+ * @method LicenseTemplate setName(string $name)
+ * @method LicenseTemplate setLicenseType(string $licenseType)
  * @method LicenseTemplate setPrice($price)
- * @method LicenseTemplate setCurrency($currency)
- * @method LicenseTemplate setAutomatic($automatic)
- * @method LicenseTemplate setHidden($hidden)
- * @method LicenseTemplate setHideLicenses($hideLicenses)
- * @method LicenseTemplate setTimeVolume($timeVolume)
- * @method LicenseTemplate setMaxSessions($maxSessions)
- * @method LicenseTemplate setQuantity($quantity)
+ * @method LicenseTemplate setCurrency(string $currency)
+ * @method LicenseTemplate setAutomatic(boolean $automatic)
+ * @method LicenseTemplate setHidden(boolean $hidden)
+ * @method LicenseTemplate setHideLicenses(boolean $hideLicenses)
+ * @method LicenseTemplate setTimeVolume(int $timeVolume)
+ * @method LicenseTemplate setMaxSessions(int $maxSessions)
+ * @method LicenseTemplate setQuantity(int $quantity)
  *
  * @package NetLicensing
  */
@@ -106,13 +106,14 @@ class LicenseTemplate extends BaseEntity
 
     protected $licenses = [];
 
-    public function getLicenses()
-    {
-        return $this->licenses;
-    }
-
     public function setLicenses(array $licenses)
     {
+        $this->licenses = $licenses;
+        return $this;
+    }
 
+    public function getLicenses(): array
+    {
+        return $this->licenses;
     }
 }

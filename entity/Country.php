@@ -25,10 +25,10 @@ namespace NetLicensing;
  * @method string  getName($default = null)
  * @method double  getVatPercent($default = null)
  * @method boolean getIsEu($default = null)
- * @method Country setCode($code)
- * @method Country setName($name)
- * @method Country setVatPercent($vatPercent)
- * @method Country setIsEu($isEu)
+ * @method Country setCode(string $code)
+ * @method Country setName(string $name)
+ * @method Country setVatPercent(double $vatPercent)
+ * @method Country setIsEu(bool $isEu)
  *
  * @package NetLicensing
  */

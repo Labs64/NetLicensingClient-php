@@ -87,7 +87,7 @@ class ValidationService
      * @param ValidationParameters $validationParameters
      * @return array
      */
-    static private function convertValidationParameters(ValidationParameters $validationParameters)
+    static private function convertValidationParameters(ValidationParameters $validationParameters): array
     {
         $queryParams = [];
 

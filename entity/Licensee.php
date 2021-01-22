@@ -40,11 +40,11 @@ namespace NetLicensing;
  * @method @deprecated string getLicenseeSecret($default = null)
  * @method boolean getMarkedForTransfer($default = null)
  * @method boolean getInUse($default = null)
- * @method Licensee setNumber($number)
- * @method Licensee setName($name)
- * @method Licensee setActive($active)
+ * @method Licensee setNumber(string $number)
+ * @method Licensee setName(string $name)
+ * @method Licensee setActive(boolean $active)
  * @method @deprecated Licensee setLicenseeSecret($licenseeSecret)
- * @method Licensee setMarkedForTransfer($markedForTransfer)
+ * @method Licensee setMarkedForTransfer(boolean $markedForTransfer)
  *
  * @package NetLicensing
  */
@@ -82,7 +82,7 @@ class Licensee extends BaseEntity
         return $this;
     }
 
-    public function getLicenses()
+    public function getLicenses(): array
     {
         return $this->licenses;
     }

@@ -22,7 +22,7 @@ namespace NetLicensing;
  * @method double getAmountFix($default = null)
  * @method double getAmountPercent($default = null)
  * @method ProductDiscount setTotalPrice($totalPrice)
- * @method ProductDiscount setCurrency($currency)
+ * @method ProductDiscount setCurrency(string $currency)
  *
  *
  * @package NetLicensing
@@ -69,7 +69,7 @@ class ProductDiscount extends BaseEntity
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $totalPrice = $this->getTotalPrice();
         $currency = $this->getCurrency();

@@ -138,7 +138,7 @@ class TokenService
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        return NetLicensingService::getInstance()
+        NetLicensingService::getInstance()
             ->delete($context, Constants::TOKEN_ENDPOINT_PATH . '/' . $number);
     }
 }

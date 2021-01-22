@@ -8,6 +8,8 @@
 
 namespace NetLicensing;
 
+use phpDocumentor\Reflection\Types\Boolean;
+
 /**
  * Defines properties common to all (or most) of other entities.
  *
@@ -49,7 +51,7 @@ abstract class BaseEntity
      *
      * @return string
      */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return $this->primaryKey;
     }
@@ -67,10 +69,10 @@ abstract class BaseEntity
     /**
      * Dynamically retrieve properties on the entity.
      *
-     * @param  string $key
+     * @param string $key
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->getProperty($key);
     }
@@ -78,11 +80,11 @@ abstract class BaseEntity
     /**
      * Dynamically set properties on the entity.
      *
-     * @param  string $key
-     * @param  mixed $value
+     * @param string $key
+     * @param mixed $value
      * @return void
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value)
     {
         $this->setProperty($key, $value);
     }
@@ -90,10 +92,10 @@ abstract class BaseEntity
     /**
      * Determine if an property on the entity.
      *
-     * @param  string $key
+     * @param string $key
      * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key): bool
     {
         return !is_null($this->getProperty($key));
     }
@@ -101,10 +103,10 @@ abstract class BaseEntity
     /**
      * Unset an property on the entity.
      *
-     * @param  string $key
+     * @param string $key
      * @return void
      */
-    public function __unset($key)
+    public function __unset(string $key)
     {
         unset($this->properties[$key]);
     }
@@ -112,11 +114,11 @@ abstract class BaseEntity
     /**
      * Handle dynamic method calls into the entity.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         //convert method to snake case
         $delimiter = '_';
@@ -151,7 +153,7 @@ abstract class BaseEntity
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->properties;
     }
@@ -159,7 +161,7 @@ abstract class BaseEntity
     /**
      * Convert the entity instance to an array.
      */
-    public function asPropertiesMap()
+    public function asPropertiesMap(): array
     {
         return $this->properties;
     }
@@ -167,10 +169,10 @@ abstract class BaseEntity
     /**
      * Convert the entity instance to JSON.
      *
-     * @param  int $options
+     * @param int $options
      * @return string
      */
-    public function toJson($options = 0)
+    public function toJson($options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }
@@ -180,7 +182,7 @@ abstract class BaseEntity
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -190,7 +192,7 @@ abstract class BaseEntity
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }

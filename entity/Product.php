@@ -49,12 +49,12 @@ namespace NetLicensing;
  * @method string  getDescription($default = null)
  * @method string  getLicensingInfo($default = null)
  * @method boolean getInUse($default = null)
- * @method Product setNumber($number)
- * @method Product setActive($active)
- * @method Product setName($name)
+ * @method Product setNumber(string $number)
+ * @method Product setActive(boolean $active)
+ * @method Product setName(string $name)
  * @method Product setVersion($version)
- * @method Product setLicenseeAutoCreate($licenseeAutoCreate)
- * @method Product setDescription($description)
+ * @method Product setLicenseeAutoCreate(boolean $licenseeAutoCreate)
+ * @method Product setDescription(string $description)
  * @method Product setLicensingInfo($licensingInfo)
  *
  * @package NetLicensing\EntitiesNew
@@ -80,7 +80,7 @@ class Product extends BaseEntity
 
     protected $licensees = [];
 
-    public function getProductModules()
+    public function getProductModules(): array
     {
         return $this->productModules;
     }
@@ -91,7 +91,7 @@ class Product extends BaseEntity
         return $this;
     }
 
-    public function getLicensees()
+    public function getLicensees(): array
     {
         return $this->licensees;
     }
@@ -102,12 +102,7 @@ class Product extends BaseEntity
         return $this;
     }
 
-    public function getDiscount(){
-
-    }
-
-
-    public function getProductDiscounts()
+    public function getProductDiscounts(): array
     {
         return $this->productDiscounts;
     }
@@ -151,7 +146,7 @@ class Product extends BaseEntity
         return $this;
     }
 
-    public function asPropertiesMap()
+    public function asPropertiesMap(): array
     {
         $map = $this->toArray();
 

@@ -53,12 +53,12 @@ namespace NetLicensing;
  * @method string getParentFeature($default = null)
  * @method int getTimeVolume($default = null)
  * @method int getStartDate($default = null)
- * @method License setNumber($number)
- * @method License setName($name)
- * @method License setActive($active)
- * @method License setHidden($hidden)
- * @method License setParentFeature ($parentFeature)
- * @method License setTimeVolume($timeVolume)
+ * @method License setNumber(string $number)
+ * @method License setName(string $name)
+ * @method License setActive(boolean $active)
+ * @method License setHidden(boolean $hidden)
+ * @method License setParentFeature (string $parentFeature)
+ * @method License setTimeVolume(int $timeVolume)
  * @method License setStartDate($startDate)
  *
  *
@@ -117,7 +117,7 @@ class License extends BaseEntity
         return $this;
     }
 
-    public function getLicenseTransactionJoins()
+    public function getLicenseTransactionJoins(): array
     {
         return $this->licenseTransactionJoins;
     }

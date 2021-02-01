@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 use NetLicensing\Context;
 use NetLicensing\ValidationService;
 
-class OfflineValidation extends TestCase
+class OfflineValidationTest extends TestCase
 {
     public function testOfflineValidation()
     {

@@ -1,5 +1,7 @@
 # Examples
 
+**Attention**, when executing these commands, you must be in the root of the project.
+
 ## Project setup
 ```
 composer install

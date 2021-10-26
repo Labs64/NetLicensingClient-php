@@ -114,6 +114,13 @@ class Constants
      * Vendor
      */
     const VENDOR_NUMBER = 'vendorNumber';
+
+    /**
+     * Warning Level
+     */
+    const WARNING_LEVEL_GREEN = 'GREEN';
+    const WARNING_LEVEL_YELLOW = 'YELLOW';
+    const WARNING_LEVEL_RED = 'RED';
 }
 
 

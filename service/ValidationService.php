@@ -32,9 +32,9 @@ class ValidationService
      * @throws RestException
      * @throws Exception
      */
-    static public function validate(Context $context, $number, ValidationParameters $validationParameters, array &$meta = [])
+    static public function validate(Context $context, string $number, ValidationParameters $validationParameters, array &$meta = [])
     {
-        return self::convertValidationResult(self::retrieveValidationFile($context, $number, $validationParameters));
+        return self::convertValidationResult(self::retrieveValidationFile($context, $number, $validationParameters), $meta);
     }
 
     /**
@@ -44,7 +44,7 @@ class ValidationService
      *
      * @param Context $context determines the vendor on whose behalf the call is performed
      *
-     * @param $number licensee number
+     * @param string $number licensee number
      *
      * @param ValidationParameters $validationParameters optional validation parameters. See ValidationParameters and
      * licensing model documentation for details.
@@ -54,7 +54,7 @@ class ValidationService
      * @throws RestException
      * @throws ErrorException
      */
-    static public function retrieveValidationFile(Context $context, $number, ValidationParameters $validationParameters)
+    static public function retrieveValidationFile(Context $context, string $number, ValidationParameters $validationParameters)
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -76,6 +76,7 @@ class ValidationService
      *
      * @return ValidationResults|null result of the validation
      * @throws BadSignatureException
+     * @throws Exception
      */
     static public function validateOffline(Context $context, $validationFile, array &$meta = [])
     {
@@ -95,12 +96,8 @@ class ValidationService
             $queryParams[Constants::PRODUCT_NUMBER] = $validationParameters->getProductNumber();
         }
 
-        if ($validationParameters->getLicenseeName()) {
-            $queryParams[Constants::LICENSEE_PROP_LICENSEE_NAME] = $validationParameters->getLicenseeName();
-        }
-
-        if ($validationParameters->getLicenseeSecret()) {
-            $queryParams[Constants::LICENSEE_PROP_LICENSEE_SECRET] = $validationParameters->getLicenseeSecret();
+        foreach ($validationParameters->getLicenseeProperties() as $key => $value) {
+            $queryParams[$key] = $value;
         }
 
         $pmIndex = 0;
@@ -130,19 +127,18 @@ class ValidationService
 
         $validationResults = new ValidationResults();
 
-        if (!empty($response->items->item)) {
-            foreach ($response->items->item as $item) {
+        if (!empty($validationFile->items->item)) {
+            foreach ($validationFile->items->item as $item) {
                 $array = ItemToArrayConverter::convert($item);
                 $validationResults->setProductModuleValidation($array[Constants::PRODUCT_MODULE_NUMBER], $array);
             }
 
-            $validationResults->setTtl(new DateTime($response->ttl));
+            $validationResults->setTtl(new DateTime($validationFile->ttl));
         }
 
-        if (!empty($response->infos->infos)) {
-            foreach ($response->infos->infos as $info) {
-                // TODO(RVA): just do it
-                print_r($info);
+        if (!empty($validationFile->infos->info)) {
+            foreach ($validationFile->infos->info as $info) {
+                $meta[] = $info;
             }
         }
 

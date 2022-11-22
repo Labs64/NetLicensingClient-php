@@ -112,7 +112,7 @@ class ValidationService
 
         return $queryParams;
     }
-
+    
     /**
      * @param $validationFile
      * @param array $meta
@@ -127,18 +127,19 @@ class ValidationService
 
         $validationResults = new ValidationResults();
 
-        if (!empty($validationFile->items->item)) {
-            foreach ($validationFile->items->item as $item) {
+        if (!empty($response->items->item)) {
+            foreach ($response->items->item as $item) {
                 $array = ItemToArrayConverter::convert($item);
                 $validationResults->setProductModuleValidation($array[Constants::PRODUCT_MODULE_NUMBER], $array);
             }
 
-            $validationResults->setTtl(new DateTime($validationFile->ttl));
+            $validationResults->setTtl(new DateTime($response->ttl));
         }
 
-        if (!empty($validationFile->infos->info)) {
-            foreach ($validationFile->infos->info as $info) {
-                $meta[] = $info;
+        if (!empty($response->infos->infos)) {
+            foreach ($response->infos->infos as $info) {
+                // TODO(RVA): just do it
+                print_r($info);
             }
         }
 

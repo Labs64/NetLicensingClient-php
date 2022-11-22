@@ -155,7 +155,7 @@ class NetLicensingService
         if ($context->getVendorNumber()) {
             $queryParams[Constants::VENDOR_NUMBER] = $context->getVendorNumber();
         }
-print_r($queryParams);
+
         $response = $this->curl->{$method}($restUrl, $queryParams);
 
         switch ($this->getStatusCode()) {

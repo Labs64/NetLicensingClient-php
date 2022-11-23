@@ -12,8 +12,7 @@ namespace NetLicensing;
 class ValidationParameters
 {
     protected $productNumber;
-    protected $licenseeName;
-    protected $licenseeSecret;
+    protected $licenseeProperties = [];
     protected $parameters = [];
 
     /**
@@ -24,7 +23,7 @@ class ValidationParameters
      *
      * @return $this
      */
-    public function setProductNumber($productNumber)
+    public function setProductNumber($productNumber): ValidationParameters
     {
         $this->productNumber = $productNumber;
 
@@ -37,6 +36,41 @@ class ValidationParameters
     }
 
     /**
+     * Get all licensee properties
+     *
+     * @return array
+     */
+    public function getLicenseeProperties(): array
+    {
+        return $this->licenseeProperties;
+    }
+
+    /**
+     * Set licensee property
+     *
+     * @param string $key
+     * @param $value
+     * @return $this
+     */
+    public function setLicenseeProperty(string $key, $value): ValidationParameters
+    {
+        $this->licenseeProperties[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get licensee property
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function getLicenseeProperty(string $key)
+    {
+        return $this->licenseeProperties[$key];
+    }
+
+    /**
      * Sets the name for the new licensee
      *
      * optional human-readable licensee name in case licensee will be auto-created. This parameter must not
@@ -46,30 +80,30 @@ class ValidationParameters
      *
      * @return $this
      */
-    public function setLicenseeName($licenseeName)
+    public function setLicenseeName($licenseeName): ValidationParameters
     {
-        $this->licenseeName = $licenseeName;
+        $this->setLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME, $licenseeName);
 
         return $this;
     }
 
     public function getLicenseeName()
     {
-        return $this->licenseeName;
+        return $this->getLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME);
     }
 
     /**
      * Sets the licensee secret
      *
      * licensee secret stored on the client side. Refer to Licensee Secret documentation for details.
-     * @deprecated use 'NodeLocked' licensing model instead
      * @param $licenseeSecret
      *
      * @return $this
+     * @deprecated use 'NodeLocked' licensing model instead
      */
-    public function setLicenseeSecret($licenseeSecret)
+    public function setLicenseeSecret($licenseeSecret): ValidationParameters
     {
-        $this->licenseeSecret = $licenseeSecret;
+        $this->setLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET, $licenseeSecret);
 
         return $this;
     }
@@ -79,10 +113,10 @@ class ValidationParameters
      */
     public function getLicenseeSecret()
     {
-        return $this->licenseeSecret;
+        return $this->getLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET);
     }
 
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }

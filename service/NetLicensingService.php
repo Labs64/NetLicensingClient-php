@@ -9,10 +9,11 @@
 namespace NetLicensing;
 
 use Curl\Curl;
+use ErrorException;
 
 class NetLicensingService
 {
-    private static $_instance = null;
+    private static ?NetLicensingService $_instance = null;
 
     /**
      * @var $curl Curl
@@ -21,7 +22,6 @@ class NetLicensingService
 
     /**
      * NetLicensingService constructor.
-     * @throws \ErrorException
      */
     private function __construct()
     {
@@ -36,9 +36,8 @@ class NetLicensingService
 
     /**
      * @return NetLicensingService|null
-     * @throws \ErrorException
      */
-    static public function getInstance()
+    static public function getInstance(): ?NetLicensingService
     {
         if (is_null(self::$_instance)) self::$_instance = new self();
         return self::$_instance;
@@ -59,7 +58,7 @@ class NetLicensingService
      *
      * @return object
      */
-    public function lastCurlInfo()
+    public function lastCurlInfo(): object
     {
         return (object)$this->curl->toArray();
     }
@@ -132,7 +131,7 @@ class NetLicensingService
      * @param $method
      * @param $urlTemplate
      * @param array $queryParams
-     * @return array|null
+     * @return mixed|null
      * @throws RestException
      */
     public function request(Context $context, $method, $urlTemplate, array $queryParams = [])
@@ -161,14 +160,11 @@ class NetLicensingService
         switch ($this->getStatusCode()) {
             case 200:
                 return $response;
-                break;
             case 204:
                 return null;
-                break;
             default:
                 throw new RestException(sprintf("Unsupported response status code %s: %s",
                     $this->getStatusCode(), $this->getReasonPhrase($response)));
-                break;
 
         }
     }
@@ -177,7 +173,7 @@ class NetLicensingService
      * @param $method
      * @throws RestException
      */
-    protected function validateMethod($method)
+    protected function validateMethod($method): void
     {
         if (!in_array(strtolower($method), ['get', 'post', 'delete'])) {
             throw new RestException('Invalid request type:' . $method . ', allowed requests types: GET, POST, DELETE.');
@@ -188,7 +184,7 @@ class NetLicensingService
      * @param Context $context
      * @throws RestException
      */
-    protected function validateBaseUrl(Context $context)
+    protected function validateBaseUrl(Context $context): void
     {
 
         if (!$context->getBaseUrl()) {
@@ -202,13 +198,16 @@ class NetLicensingService
 
     /**
      * @param $restUrl
+     * @return bool
      * @throws RestException
      */
-    protected function validateRestUrl($restUrl)
+    protected function validateRestUrl($restUrl): bool
     {
         if (filter_var($restUrl, FILTER_VALIDATE_URL) === false) {
             throw new RestException('Rest url"' . $restUrl . '" is not a valid URL');
         }
+
+        return true;
     }
 
     /**
@@ -237,16 +236,15 @@ class NetLicensingService
                 break;
             default:
                 throw new RestException("Unknown security mode");
-                break;
         }
     }
 
-    private function getStatusCode()
+    private function getStatusCode(): int
     {
         return $this->curl->httpStatusCode;
     }
 
-    private function getReasonPhrase($response)
+    private function getReasonPhrase($response): string
     {
         return !empty($response->infos->info[0]->value)
             ? $response->infos->info[0]->value
@@ -259,9 +257,9 @@ class NetLicensingService
      * @param string $method
      * @param array $parameters
      * @return mixed
-     * @throws \ErrorException
+     * @throws ErrorException
      */
-    public static function __callStatic($method, $parameters)
+    public static function __callStatic(string $method, array $parameters)
     {
         return (new static)->$method(...$parameters);
     }

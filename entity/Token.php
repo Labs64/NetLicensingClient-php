@@ -65,7 +65,7 @@ class Token extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
     ];
 }

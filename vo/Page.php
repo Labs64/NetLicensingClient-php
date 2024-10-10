@@ -14,43 +14,42 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      * The content of this page
      * @var array
      */
-    protected $content;
+    protected array $content;
 
     /**
      * The number of the current page
      * @var int
      */
-    protected $pageNumber;
+    protected int $pageNumber;
 
     /**
      * The number of elements on the page
      * @var int
      */
-    protected $itemsNumber;
+    protected int $itemsNumber;
 
     /**
      * The number of total pages
      * @var int
      */
-    protected $totalPages;
+    protected int $totalPages;
 
     /**
      * The total amount of elements
      * @var int
      */
-    protected $totalItems;
+    protected int $totalItems;
 
     /**
      * Page constructor.
      *
      * @param array $content
-     * @param $pageNumber
-     * @param $itemsNumber
-     * @param $totalPages
-     * @param $totalItems
-     * @param $hasNext
+     * @param int $pageNumber
+     * @param int $itemsNumber
+     * @param int $totalPages
+     * @param int $totalItems
      */
-    public function __construct(array $content, $pageNumber, $itemsNumber, $totalPages, $totalItems)
+    public function __construct(array $content, int $pageNumber, int $itemsNumber, int $totalPages, int $totalItems)
     {
         $this->content = $content;
         $this->pageNumber = $pageNumber;
@@ -63,7 +62,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      * Get the slice of items being paginated.
      * @return array
      */
-    public function getContent()
+    public function getContent(): array
     {
         return $this->content;
     }
@@ -73,7 +72,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return int
      */
-    public function getPageNumber()
+    public function getPageNumber(): int
     {
         return $this->pageNumber;
     }
@@ -83,7 +82,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return int
      */
-    public function getItemsNumber()
+    public function getItemsNumber(): int
     {
         return $this->itemsNumber;
     }
@@ -93,7 +92,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return int
      */
-    public function getTotalPages()
+    public function getTotalPages(): int
     {
         return $this->totalPages;
     }
@@ -103,7 +102,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return int
      */
-    public function getTotalItems()
+    public function getTotalItems(): int
     {
         return $this->totalItems;
     }
@@ -113,7 +112,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return ($this->totalPages > $this->pageNumber + 1);
     }
@@ -121,50 +120,50 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
     /**
      * Determine if the given item exists.
      *
-     * @param  mixed $key
+     * @param  mixed $offset
      * @return bool
      */
-    public function offsetExists($key)
+    public function offsetExists($offset): bool
     {
-        return array_key_exists($key, $this->content);
+        return array_key_exists($offset, $this->content);
     }
 
     /**
      * Get the item at the given offset.
      *
-     * @param  mixed $key
+     * @param  mixed $offset
      * @return mixed
      */
-    public function offsetGet($key)
+    public function offsetGet($offset)
     {
-        return $this->content[$key];
+        return $this->content[$offset];
     }
 
     /**
      * Set the item at the given offset.
      *
-     * @param  mixed $key
+     * @param  mixed $offset
      * @param  mixed $value
      * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($offset, $value)
     {
-        if (is_null($key)) {
+        if (is_null($offset)) {
             $this->content[] = $value;
         } else {
-            $this->content[$key] = $value;
+            $this->content[$offset] = $value;
         }
     }
 
     /**
      * Unset the item at the given key.
      *
-     * @param  mixed $key
+     * @param  mixed $offset
      * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($offset)
     {
-        unset($this->content[$key]);
+        unset($this->content[$offset]);
     }
 
     /**
@@ -172,7 +171,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->content);
     }
@@ -180,9 +179,9 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
     /**
      * Get an iterator for the items.
      *
-     * @return \ArrayIterator
+     * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->content);
     }
@@ -192,7 +191,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'content' => $this->getContent(),
@@ -209,7 +208,7 @@ class Page implements ArrayAccess, Countable, IteratorAggregate, JsonSerializabl
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }

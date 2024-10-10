@@ -8,6 +8,8 @@
 
 namespace NetLicensing;
 
+use Exception;
+
 /**
  * Transaction entity used internally by NetLicensing.
  *
@@ -66,13 +68,13 @@ class Transaction extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
         'grandTotal' => 'float',
         'discount' => 'float',
     ];
 
-    protected $licenseTransactionJoins = [];
+    protected array $licenseTransactionJoins = [];
 
     public function __construct(array $properties = [], $exists = false)
     {
@@ -81,27 +83,33 @@ class Transaction extends BaseEntity
         parent::__construct($properties, $exists);
     }
 
-    protected function setActive()
+    protected function setActive(): Transaction
     {
         $this->setProperty('active', true);
         return $this;
     }
 
-    public function setDateCreated($dateCreated)
+    public function setDateCreated($dateCreated): Transaction
     {
         return $this->setProperty(Constants::TRANSACTION_DATE_CREATED, $dateCreated);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getDateCreated($default = null)
     {
         return $this->getProperty(Constants::TRANSACTION_DATE_CREATED, $default);
     }
 
-    public function setDateClosed($dateClosed)
+    public function setDateClosed($dateClosed): Transaction
     {
         return $this->setProperty(Constants::TRANSACTION_DATE_CLOSED, $dateClosed);
     }
 
+    /**
+     * @throws Exception
+     */
     public function getDateClosed($default = null)
     {
         return $this->getProperty(Constants::TRANSACTION_DATE_CLOSED, $default);
@@ -112,7 +120,7 @@ class Transaction extends BaseEntity
         return $this->licenseTransactionJoins;
     }
 
-    public function setLicenseTransactionJoins($licenseTransactionJoins = [])
+    public function setLicenseTransactionJoins($licenseTransactionJoins = []): Transaction
     {
         $this->licenseTransactionJoins = $licenseTransactionJoins;
         return $this;

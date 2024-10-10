@@ -10,9 +10,9 @@ namespace NetLicensing;
 
 class LicenseTransactionJoin
 {
-    protected $transaction;
+    protected ?Transaction $transaction = null;
 
-    protected $license;
+    protected ?License $license = null;
 
     public function __construct(Transaction $transaction = null, License $license = null)
     {
@@ -20,24 +20,24 @@ class LicenseTransactionJoin
         $this->license = $license;
     }
 
-    public function setTransaction(Transaction $transaction)
+    public function setTransaction(Transaction $transaction): LicenseTransactionJoin
     {
         $this->transaction = $transaction;
         return $this;
     }
 
-    public function getTransaction()
+    public function getTransaction(): ?Transaction
     {
         return $this->transaction;
     }
 
-    public function setLicense(License $license)
+    public function setLicense(License $license): LicenseTransactionJoin
     {
         $this->license = $license;
         return $this;
     }
 
-    public function getLicense()
+    public function getLicense(): ?License
     {
         return $this->license;
     }

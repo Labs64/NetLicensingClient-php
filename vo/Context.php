@@ -40,12 +40,12 @@ namespace NetLicensing;
  * @method string getApiKey($default = null)
  * @method string getSecurityMode($default = null)
  * @method string getVendorNumber($default = null)
- * @method \NetLicensing\Context setBaseUrl($baseurl)
- * @method \NetLicensing\Context setUsername($username)
- * @method \NetLicensing\Context setPassword($password)
- * @method \NetLicensing\Context setApiKey($apiKey)
- * @method \NetLicensing\Context setSecurityMode($securityMode)
- * @method \NetLicensing\Context setVendorNumber($vendorNumber)
+ * @method Context setBaseUrl($baseurl)
+ * @method Context setUsername($username)
+ * @method Context setPassword($password)
+ * @method Context setApiKey($apiKey)
+ * @method Context setSecurityMode($securityMode)
+ * @method Context setVendorNumber($vendorNumber)
  *
  * @package NetLicensing\Rest
  */
@@ -68,18 +68,18 @@ class Context
      * Context defaults
      * @var string
      */
-    protected $baseUrl = 'https://go.netlicensing.io/core/v2/rest';
+    protected string $baseUrl = 'https://go.netlicensing.io/core/v2/rest';
 
-    protected $securityMode = Constants::BASIC_AUTHENTICATION;
+    protected string $securityMode = Constants::BASIC_AUTHENTICATION;
 
-    private $publicKey = '';
+    private string $publicKey = '';
 
     /**
      * The context values.
      *
      * @var array
      */
-    private $values = [];
+    private array $values = [];
 
     /**
      * Create a new context instance.
@@ -105,7 +105,7 @@ class Context
     {
         if (!$key) return $default;
 
-        return isset($this->values[$key]) ? $this->values[$key] : $default;
+        return $this->values[$key] ?? $default;
     }
 
     /**
@@ -113,7 +113,7 @@ class Context
      *
      * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -125,7 +125,7 @@ class Context
      * @param mixed $value
      * @return $this
      */
-    public function setValue($key, $value)
+    public function setValue(string $key, $value): Context
     {
         $this->values[$key] = $value;
         return $this;
@@ -137,7 +137,7 @@ class Context
      * @param array $values
      * @return $this
      */
-    public function setValues(array $values)
+    public function setValues(array $values): Context
     {
         $this->values = $values;
 
@@ -150,13 +150,13 @@ class Context
      * @param $publicKey string stored on the client side.
      * @return $this
      */
-    public function setPublicKey($publicKey)
+    public function setPublicKey(string $publicKey): Context
     {
         $this->publicKey = $publicKey;
         return $this;
     }
 
-    public function getPublicKey()
+    public function getPublicKey(): string
     {
         return $this->publicKey;
     }
@@ -167,7 +167,7 @@ class Context
      * @param string $key
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->getValue($key);
     }
@@ -179,7 +179,7 @@ class Context
      * @param mixed $value
      * @return void
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value)
     {
         $this->setValue($key, $value);
     }
@@ -190,7 +190,7 @@ class Context
      * @param string $key
      * @return bool
      */
-    public function __isset($key)
+    public function __isset(string $key)
     {
         return !is_null($this->getValue($key));
     }
@@ -201,7 +201,7 @@ class Context
      * @param string $key
      * @return void
      */
-    public function __unset($key)
+    public function __unset(string $key)
     {
         unset($this->values[$key]);
     }
@@ -213,7 +213,7 @@ class Context
      * @param array $parameters
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call(string $method, array $parameters)
     {
         //convert method to snake case
         $delimiter = '_';
@@ -236,7 +236,7 @@ class Context
             if ($methodParts[0] == 'get') return $this->getValue(...$parameters);
 
             //call setValue
-            if ($methodParts[0] == 'set') return $this->setValue(...$parameters);
+            return $this->setValue(...$parameters);
         }
 
         //trigger error if method undefined

@@ -16,13 +16,11 @@ class OfflineValidationTest extends TestCase
 
             // 2. Read the validation file.
             $offlineValidation = file_get_contents(__DIR__ . '../resources/Isb-DEMO.xml');
-            $validationFile = new DOMDocument();
-            $validationFile->loadXML($offlineValidation);
 
             // 3. Validate. ValidationResult is same as if validation would be executed against the
             // NetLicensing service online.
             $meta = [];
-            $validationResult = ValidationService::validateOffline($context, $validationFile, $meta);
+            $validationResult = ValidationService::validateOffline($context, $offlineValidation, $meta);
             $this->assertNotEmpty($validationResult);
         } catch (Exception $e) {
             $this->fail($e->getMessage());

@@ -34,26 +34,26 @@ class ProductDiscount extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'totalPrice' => 'double',
         'amountFix' => 'double',
         'amountPercent' => 'double',
     ];
 
-    protected $product;
+    protected ?Product $product = null;
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): ProductDiscount
     {
         $this->product = $product;
         return $this;
     }
 
-    public function setAmountFix($amountFix)
+    public function setAmountFix($amountFix): ProductDiscount
     {
         $this->setProperty('amountFix', $amountFix)
             ->removeProperty('amountPercent');
@@ -61,7 +61,7 @@ class ProductDiscount extends BaseEntity
         return $this;
     }
 
-    public function setAmountPercent($amountPercent)
+    public function setAmountPercent($amountPercent): ProductDiscount
     {
         $this->setProperty('amountPercent', $amountPercent)
             ->removeProperty('amountFix');

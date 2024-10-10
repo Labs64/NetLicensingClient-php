@@ -24,10 +24,10 @@ class LicenseService
      * @param Context $context
      *
      * parent licensee to which the new license is to be added
-     * @param $licenseeNumber
+     * @param string $licenseeNumber
      *
      *  license template that the license is created from
-     * @param $licenseTemplateNumber
+     * @param string $licenseTemplateNumber
      *
      * For privileged logins specifies transaction for the license creation. For regular logins new
      * transaction always created implicitly, and the operation will be in a separate transaction.
@@ -42,9 +42,8 @@ class LicenseService
      * @return License|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function create(Context $context, $licenseeNumber, $licenseTemplateNumber, $transactionNumber = null, License $license)
+    public static function create(Context $context, string $licenseeNumber, string $licenseTemplateNumber, string $transactionNumber = null, License $license): ?License
     {
         CheckUtils::paramNotEmpty($licenseeNumber, Constants::LICENSEE_NUMBER);
         CheckUtils::paramNotEmpty($licenseTemplateNumber, Constants::LICENSE_TEMPLATE_NUMBER);
@@ -75,14 +74,13 @@ class LicenseService
      * @param Context $context
      *
      * the license number
-     * @param $number
+     * @param string $number
      *
      * @return License|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?License
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -111,7 +109,6 @@ class LicenseService
      *
      * return array of licenses (of all products) or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
     public static function getList(Context $context, $filter = null): Page
@@ -147,11 +144,11 @@ class LicenseService
      * @param Context $context
      *
      * license number
-     * @param $number
+     * @param string $number
      *
      * transaction for the license update. Created implicitly if transactionNumber is null. In this case the
      * operation will be in a separate transaction.
-     * @param null $transactionNumber
+     * @param string|null $transactionNumber
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
      * @param License $license
@@ -160,9 +157,8 @@ class LicenseService
      * @return License|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function update(Context $context, $number, $transactionNumber = null, License $license)
+    public static function update(Context $context, string $number, string $transactionNumber = null, License $license): ?License
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -191,16 +187,14 @@ class LicenseService
      * @param Context $context
      *
      * license number
-     * @param $number
+     * @param string $number
      *
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
-     * @return bool
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function delete(Context $context, $number, $forceCascade = false)
+    public static function delete(Context $context, string $number, bool $forceCascade = false): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

@@ -67,7 +67,7 @@ class ProductModule extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
         'maxCheckoutValidity' => 'int',
         'yellowThreshold' => 'int',
@@ -75,22 +75,22 @@ class ProductModule extends BaseEntity
         'inUse' => 'boolean_string',
     ];
 
-    protected $product;
+    protected ?Product $product = null;
 
-    protected $licenseTemplates = [];
+    protected array $licenseTemplates = [];
 
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): ProductModule
     {
         $this->product = $product;
         return $this;
     }
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setLicenseTemplates(array $licenseTemplates)
+    public function setLicenseTemplates(array $licenseTemplates): ProductModule
     {
         $this->licenseTemplates = $licenseTemplates;
         return $this;

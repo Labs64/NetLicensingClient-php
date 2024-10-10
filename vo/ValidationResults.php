@@ -8,6 +8,8 @@
 
 namespace NetLicensing;
 
+use DateTime;
+
 /**
  *
  * @property string $productModuleNumber
@@ -22,23 +24,22 @@ namespace NetLicensing;
  */
 class ValidationResults
 {
-    protected $validators = [];
-    protected $ttl;
+    protected array $validators = [];
+    protected DateTime  $ttl;
 
-    public function getValidations()
+    public function getValidations(): array
     {
         return $this->validators;
     }
 
     public function getProductModuleValidation($productModuleNumber)
     {
-        return isset($this->validators[$productModuleNumber]) ? $this->validators[$productModuleNumber] : null;
+        return $this->validators[$productModuleNumber] ?? null;
     }
 
-    public function setProductModuleValidation($productModuleNumber, $productModuleValidation)
+    public function setProductModuleValidation($productModuleNumber, $productModuleValidation): ValidationResults
     {
         $this->validators[$productModuleNumber] = $productModuleValidation;
-
         return $this;
     }
 
@@ -66,12 +67,12 @@ class ValidationResults
     }
 
 
-    public function getTtl()
+    public function getTtl(): DateTime
     {
         return $this->ttl;
     }
 
-    public function setTtl($ttl)
+    public function setTtl(DateTime $ttl): ValidationResults
     {
         $this->ttl = $ttl;
 

@@ -39,7 +39,7 @@ class Country extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'vatPercent' => 'double',
         'isEu' => 'boolean_string',
     ];

@@ -9,6 +9,7 @@
 namespace NetLicensing;
 
 use DateTime;
+use DOMDocument;
 use ErrorException;
 use Exception;
 
@@ -27,12 +28,11 @@ class ValidationService
      * @param array $meta optional parameter, receiving messages returned within response <infos> section.
      *
      * @return ValidationResults|null result of the validation
-     * @throws ErrorException
      * @throws MalformedArgumentsException
      * @throws RestException
      * @throws Exception
      */
-    static public function validate(Context $context, string $number, ValidationParameters $validationParameters, array &$meta = [])
+    static public function validate(Context $context, string $number, ValidationParameters $validationParameters, array &$meta = []): ?ValidationResults
     {
         return self::convertValidationResult(self::retrieveValidationFile($context, $number, $validationParameters), $meta);
     }
@@ -52,7 +52,6 @@ class ValidationService
      * @return array|mixed|null validation (response), possibly signed, for subsequent use in {@link validateOffline}
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws ErrorException
      */
     static public function retrieveValidationFile(Context $context, string $number, ValidationParameters $validationParameters)
     {
@@ -78,10 +77,13 @@ class ValidationService
      * @throws BadSignatureException
      * @throws Exception
      */
-    static public function validateOffline(Context $context, $validationFile, array &$meta = [])
+    static public function validateOffline(Context $context, string $validationFile, array &$meta = []): ?ValidationResults
     {
-        SignatureUtils::check($context, $validationFile);
-        return self::convertValidationResult($validationFile);
+        $validationDoc = new DOMDocument();
+        $validationDoc->loadXML($validationFile);
+
+        SignatureUtils::check($context, $validationDoc);
+        return self::convertValidationResult($validationDoc);
     }
 
     /**
@@ -119,12 +121,8 @@ class ValidationService
      * @return ValidationResults|null
      * @throws Exception
      */
-    static private function convertValidationResult($validationFile, array &$meta = [])
+    static private function convertValidationResult($validationFile, array &$meta = []): ?ValidationResults
     {
-        if (is_null($validationFile)) {
-            return null;
-        }
-
         $validationResults = new ValidationResults();
 
         if (!empty($validationFile->items->item)) {

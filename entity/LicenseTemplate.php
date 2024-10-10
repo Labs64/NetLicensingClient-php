@@ -92,7 +92,7 @@ class LicenseTemplate extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'price' => 'double',
         'active' => 'boolean_string',
         'inUse' => 'boolean_string',
@@ -104,9 +104,9 @@ class LicenseTemplate extends BaseEntity
         'quantity' => 'int',
     ];
 
-    protected $licenses = [];
+    protected array $licenses = [];
 
-    public function setLicenses(array $licenses)
+    public function setLicenses(array $licenses): LicenseTemplate
     {
         $this->licenses = $licenses;
         return $this;

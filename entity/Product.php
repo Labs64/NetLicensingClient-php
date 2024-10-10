@@ -66,26 +66,26 @@ class Product extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'version' => 'string',
         'licenseeAutoCreate' => 'boolean_string',
         'active' => 'boolean_string',
         'inUse' => 'boolean_string',
     ];
 
-    protected $productDiscounts = [];
-    protected $productDiscountsTouched = false;
+    protected array $productDiscounts = [];
+    protected bool $productDiscountsTouched = false;
 
-    protected $productModules = [];
+    protected array $productModules = [];
 
-    protected $licensees = [];
+    protected array $licensees = [];
 
     public function getProductModules(): array
     {
         return $this->productModules;
     }
 
-    public function setProductModules(array $productModules)
+    public function setProductModules(array $productModules): Product
     {
         $this->productModules = $productModules;
         return $this;
@@ -96,7 +96,7 @@ class Product extends BaseEntity
         return $this->licensees;
     }
 
-    public function setLicensees(array $licensees)
+    public function setLicensees(array $licensees): Product
     {
         $this->licensees = $licensees;
         return $this;
@@ -107,7 +107,7 @@ class Product extends BaseEntity
         return $this->productDiscounts;
     }
 
-    public function setProductDiscounts($productDiscounts = [])
+    public function setProductDiscounts($productDiscounts = []): Product
     {
         $discounts = [];
 
@@ -127,7 +127,7 @@ class Product extends BaseEntity
         return $this;
     }
 
-    public function addDiscount(ProductDiscount $discount)
+    public function addDiscount(ProductDiscount $discount): Product
     {
         $this->productDiscounts[] = $discount;
         $this->productDiscountsTouched = true;
@@ -140,7 +140,7 @@ class Product extends BaseEntity
      * @param $discount
      * @return $this
      */
-    protected function setDiscount($discount)
+    protected function setDiscount($discount): Product
     {
         $this->setProductDiscounts([$discount]);
         return $this;

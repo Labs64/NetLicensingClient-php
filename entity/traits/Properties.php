@@ -10,6 +10,7 @@ namespace NetLicensing;
 
 
 use DateTimeInterface;
+use Exception;
 
 trait Properties
 {
@@ -18,34 +19,35 @@ trait Properties
      *
      * @var array
      */
-    protected $properties = [];
+    protected array $properties = [];
 
     /**
      * The entity properties original state.
      *
      * @var array
      */
-    protected $original = [];
+    protected array $original = [];
 
     /**
      * The properties that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [];
+    protected array $casts = [];
 
     /**
      * Get an property from the entity.
      *
-     * @param  string $property
-     * @param  mixed $default
+     * @param string $property
+     * @param mixed $default
      * @return mixed
+     * @throws Exception
      */
     public function getProperty(string $property, $default = null)
     {
         if (!$property) return $default;
 
-        $value = isset($this->properties[$property]) ? $this->properties[$property] : $default;
+        $value = $this->properties[$property] ?? $default;
 
         // If the attribute exists within the cast array, we will convert it to
         // an appropriate native PHP type dependant upon the associated value
@@ -136,14 +138,14 @@ trait Properties
     /**
      * Get the entity original attribute values.
      *
-     * @param  string|null $property
+     * @param string|null $property
      * @param  mixed $default
      * @return mixed
      */
-    public function getOriginal($property = null, $default = null)
+    public function getOriginal(string $property = null, $default = null)
     {
         if (is_null($property)) return $this->original;
-        return isset($this->original[$property]) ? $this->original[$property] : $default;
+        return $this->original[$property] ?? $default;
     }
 
 
@@ -155,7 +157,6 @@ trait Properties
     public function syncOriginal()
     {
         $this->original = $this->properties;
-
         return $this;
     }
 
@@ -181,7 +182,7 @@ trait Properties
     public function hasCast(string $property, $types = null): bool
     {
         if (array_key_exists($property, $this->casts)) {
-            return $types ? in_array($this->getCastType($property), (array)$types, true) : true;
+            return !$types || in_array($this->getCastType($property), (array)$types, true);
         }
 
         return false;
@@ -288,6 +289,7 @@ trait Properties
      * @param string $property
      * @param mixed $value
      * @return mixed
+     * @throws Exception
      */
     protected function castGetProperty(string $property, $value)
     {
@@ -369,7 +371,7 @@ trait Properties
      * @param bool $asObject
      * @return mixed
      */
-    protected function fromJson(string $value, $asObject = false)
+    protected function fromJson(string $value, bool $asObject = false)
     {
         return json_decode($value, !$asObject);
     }

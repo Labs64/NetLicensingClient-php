@@ -8,6 +8,8 @@
 
 namespace NetLicensing;
 
+use Exception;
+
 /**
  * PaymentMethod entity used internally by NetLicensing.
  *
@@ -30,16 +32,19 @@ class PaymentMethod extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
     ];
 
+    /**
+     * @throws Exception
+     */
     public function getPaypalSubject()
     {
         return $this->getProperty('paypal.subject');
     }
 
-    public function setPaypalSubject($paypalSubject)
+    public function setPaypalSubject($paypalSubject): PaymentMethod
     {
         $this->properties['paypal.subject'] = $paypalSubject;
         return $this;

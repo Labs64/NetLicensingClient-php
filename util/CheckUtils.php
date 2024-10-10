@@ -25,7 +25,9 @@ class CheckUtils
      */
     public static function paramNotNull($parameter, $parameterName)
     {
-        if (is_null($parameter)) throw new MalformedArgumentsException(sprintf("Parameter '%s' cannot be null", $parameterName));
+        if (is_null($parameter)) {
+            throw new MalformedArgumentsException(sprintf("Parameter '%s' cannot be null", $parameterName));
+        }
     }
 
     /**
@@ -42,6 +44,8 @@ class CheckUtils
      */
     public static function paramNotEmpty($parameter, $parameterName)
     {
-        if (empty($parameter)) throw new MalformedArgumentsException(sprintf("Parameter '%s' cannot be null or empty string", $parameterName));
+        if (empty($parameter)) {
+            throw new MalformedArgumentsException(sprintf("Parameter '%s' cannot be null or empty string", $parameterName));
+        }
     }
 }

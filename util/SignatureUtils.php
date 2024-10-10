@@ -8,6 +8,7 @@
 
 namespace NetLicensing;
 
+use DOMDocument;
 use Exception;
 use FR3D\XmlDSig\Adapter\XmlseclibsAdapter;
 
@@ -15,10 +16,10 @@ class SignatureUtils
 {
     /**
      * @param Context $context
-     * @param $response
+     * @param DOMDocument $response
      * @throws BadSignatureException
      */
-    static public function check(Context $context, $response)
+    static public function check(Context $context, DOMDocument $response)
     {
         if ($context->getPublicKey()) {
             try {

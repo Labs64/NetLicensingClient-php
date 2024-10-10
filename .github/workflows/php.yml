@@ -41,4 +41,6 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: php ./demo/NetLicensingDemo.php
+      run: |
+        cd ./demo
+        php ./NetLicensingDemo.php

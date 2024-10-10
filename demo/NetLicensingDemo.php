@@ -7,6 +7,31 @@
  * @copyright 2017 Labs64 NetLicensing
  */
 
+use cli\Table;
+use NetLicensing\Context;
+use NetLicensing\Country;
+use NetLicensing\License;
+use NetLicensing\Licensee;
+use NetLicensing\LicenseeService;
+use NetLicensing\LicenseService;
+use NetLicensing\LicenseTemplate;
+use NetLicensing\LicenseTemplateService;
+use NetLicensing\PaymentMethod;
+use NetLicensing\PaymentMethodService;
+use NetLicensing\Product;
+use NetLicensing\ProductDiscount;
+use NetLicensing\ProductModule;
+use NetLicensing\ProductModuleService;
+use NetLicensing\ProductService;
+use NetLicensing\Token;
+use NetLicensing\TokenService;
+use NetLicensing\Transaction;
+use NetLicensing\TransactionService;
+use NetLicensing\UtilityService;
+use NetLicensing\ValidationParameters;
+use function cli\err;
+use function cli\line;
+
 require_once '../vendor/autoload.php';
 
 
@@ -17,27 +42,20 @@ class NetLicensingDemo
     const USERNAME = 'demo';
     const PASSWORD = 'demo';
 
-    private $faker;
+    private \Faker\Generator $faker;
 
-    private $context;
-    /** @var  \NetLicensing\Product */
-    private $product;
-    /** @var  \NetLicensing\ProductModule */
-    private $productModule;
-    /** @var  \NetLicensing\LicenseTemplate */
-    private $licenseeTemplate;
-    /** @var  \NetLicensing\Licensee */
-    private $licensee;
-    /** @var  \NetLicensing\License */
-    private $license;
-    /** @var  \NetLicensing\Transaction */
-    private $transaction;
-    /** @var  \NetLicensing\Token */
-    private $token;
+    private ?Context $context;
+    private ?Product $product;
+    private ?ProductModule $productModule;
+    private ?LicenseTemplate $licenseeTemplate;
+    private ?Licensee $licensee;
+    private ?License $license;
+    private ?Transaction $transaction;
+    private ?Token $token;
 
-    protected $statuses = [];
+    protected array $statuses = [];
 
-    public static function run()
+    public static function run(): NetLicensingDemo
     {
         return new NetLicensingDemo();
     }
@@ -50,74 +68,74 @@ class NetLicensingDemo
         $this->setUpContext();
 
         //UtilityService
-        \cli\line('---------------------------- UtilityService ----------------------------');
+        line('---------------------------- UtilityService ----------------------------');
         $this->listLicenseTypes();
         $this->listLicenseModels();
         $this->listCountries();
 
         //ProductService
-        \cli\line('---------------------------- ProductService ----------------------------');
+        line('---------------------------- ProductService ----------------------------');
         $this->createProduct();
         $this->getProduct();
         $this->updateProduct();
         $this->listProduct();
 
         //ProductService
-        \cli\line('---------------------------- ProductModuleService ----------------------------');
+        line('---------------------------- ProductModuleService ----------------------------');
         $this->createProductModule();
         $this->getProductModule();
         $this->updateProductModule();
         $this->listProductModule();
 
         //LicenseTemplateService
-        \cli\line('---------------------------- LicenseTemplateService ----------------------------');
+        line('---------------------------- LicenseTemplateService ----------------------------');
         $this->createLicenseTemplate();
         $this->getLicenseTemplate();
         $this->updateLicenseTemplate();
         $this->listLicenseTemplate();
 
         //LicenseeService
-        \cli\line('---------------------------- LicenseeService ----------------------------');
+        line('---------------------------- LicenseeService ----------------------------');
         $this->createLicensee();
         $this->getLicensee();
         $this->updateLicensee();
         $this->listLicensee();
 
         //LicenseService
-        \cli\line('---------------------------- LicenseService ----------------------------');
+        line('---------------------------- LicenseService ----------------------------');
         $this->createLicense();
         $this->getLicense();
         $this->updateLicense();
         $this->listLicense();
 
         //LicenseeService
-        \cli\line('---------------------------- VALIDATE ----------------------------');
+        line('---------------------------- VALIDATE ----------------------------');
         $this->validate();
 
         //LicenseeService
-        \cli\line('---------------------------- TRANSFER ----------------------------');
+        line('---------------------------- TRANSFER ----------------------------');
         $this->transfer();
 
         //TransactionService
-        \cli\line('---------------------------- TransactionService ----------------------------');
+        line('---------------------------- TransactionService ----------------------------');
         $this->createTransaction();
         $this->getTransaction();
         $this->updateTransaction();
         $this->listTransaction();
 
         //TokenService
-        \cli\line('---------------------------- TokenService ----------------------------');
+        line('---------------------------- TokenService ----------------------------');
         $this->createToken();
         $this->getToken();
         $this->listToken();
 
         //PaymentMethodService
-        \cli\line('---------------------------- PaymentMethodService ----------------------------');
+        line('---------------------------- PaymentMethodService ----------------------------');
         $this->getPaymentMethod();
         $this->listPaymentMethod();
 
         //Cleanup
-        \cli\line('---------------------------- Cleanup ----------------------------');
+        line('---------------------------- Cleanup ----------------------------');
         $this->deleteToken();
         $this->deleteLicense();
         $this->deleteLicensee();
@@ -126,18 +144,18 @@ class NetLicensingDemo
         $this->deleteProduct();
 
         //Cleanup
-        \cli\line('---------------------------- Statuses ----------------------------');
+        line('---------------------------- Statuses ----------------------------');
         $this->statuses();
     }
 
     /**
      * Determines the vendor on whose behalf the call is performed
      *
-     * @return \NetLicensing\Context
+     * @return Context
      */
-    public function setUpContext()
+    public function setUpContext(): Context
     {
-        return $this->context = (new \NetLicensing\Context())
+        return $this->context = (new Context())
             ->setBaseUrl(self::BASE_URL)
             ->setSecurityMode(self::SECURITY_MODE)
             ->setUsername(self::USERNAME)
@@ -147,7 +165,7 @@ class NetLicensingDemo
     public function listLicenseTypes()
     {
         try {
-            $licenseTypes = \NetLicensing\UtilityService::listLicenseTypes($this->context);
+            $licenseTypes = UtilityService::listLicenseTypes($this->context);
 
             $headers = ['License Types'];
 
@@ -170,7 +188,7 @@ class NetLicensingDemo
     {
         try {
 
-            $licensingModels = \NetLicensing\UtilityService::listLicensingModels($this->context);
+            $licensingModels = UtilityService::listLicensingModels($this->context);
 
             $headers = ['Licensing Models'];
 
@@ -193,12 +211,12 @@ class NetLicensingDemo
     {
         try {
 
-            $countries = \NetLicensing\UtilityService::listCountries($this->context);
+            $countries = UtilityService::listCountries($this->context);
 
             $headers = ['Code', 'Name', 'Vat Percent', 'Is Eu'];
 
             $rows = [];
-            /** @var  $country \NetLicensing\Country */
+            /** @var  $country Country */
             foreach ($countries as $country) {
                 $rows[] = [
                     $country->getCode(),
@@ -221,7 +239,7 @@ class NetLicensingDemo
     public function createProduct()
     {
         try {
-            $product = new \NetLicensing\Product();
+            $product = new Product();
 
             $product->setNumber($this->faker->bothify('P-########'));
             $product->setName($this->faker->sentence(6, true));
@@ -229,14 +247,14 @@ class NetLicensingDemo
             $product->setVersion($this->faker->randomFloat(2));
             $product->setLicenseeAutoCreate($this->faker->boolean(70));
 
-            $discount = new \NetLicensing\ProductDiscount();
+            $discount = new ProductDiscount();
             $discount->setTotalPrice($this->faker->randomFloat(2, 10, 50));
             $discount->setCurrency('EUR');
             $discount->setAmountPercent($this->faker->numberBetween(0, 90));
 
             $product->addDiscount($discount);
 
-            $this->product = \NetLicensing\ProductService::create($this->context, $product);
+            $this->product = ProductService::create($this->context, $product);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'Licensee Auto Create', 'Discounts'];
@@ -263,7 +281,7 @@ class NetLicensingDemo
 
             if (!$this->product) throw new Exception('Product not found');
 
-            $this->product = \NetLicensing\ProductService::get($this->context, $this->product->getNumber());
+            $this->product = ProductService::get($this->context, $this->product->getNumber());
 
             //output
             $headers = ['Number', 'Name', 'Active', 'Licensee Auto Create', 'Discounts'];
@@ -289,13 +307,13 @@ class NetLicensingDemo
     {
         try {
 
-            $products = \NetLicensing\ProductService::getList($this->context);
+            $products = ProductService::getList($this->context);
 
             $headers = ['Number', 'Name', 'Active', 'Licensee Auto Create', 'Discounts'];
 
             $rows = [];
 
-            /** @var  $product \NetLicensing\Product */
+            /** @var  $product Product */
             foreach ($products as $product) {
 
                 $rows[] = [
@@ -329,7 +347,7 @@ class NetLicensingDemo
             $this->product->setVersion($this->faker->randomFloat(2));
             $this->product->setLicenseeAutoCreate($this->faker->boolean(70));
 
-            $this->product = \NetLicensing\ProductService::update($this->context, $number, $this->product);
+            $this->product = ProductService::update($this->context, $number, $this->product);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'Licensee Auto Create', 'Discounts'];
@@ -356,7 +374,7 @@ class NetLicensingDemo
 
             if (!$this->product) throw new Exception('Product not found');
 
-            NetLicensing\ProductService::delete($this->context, $this->product->getNumber());
+            ProductService::delete($this->context, $this->product->getNumber());
 
             //output
             $this->success('ProductService::delete');
@@ -373,13 +391,13 @@ class NetLicensingDemo
 
             if (!$this->product) throw new Exception('Product not found');
 
-            $productModule = new \NetLicensing\ProductModule();
+            $productModule = new ProductModule();
             $productModule->setNumber($this->faker->bothify('PM-########'));
             $productModule->setName($this->faker->sentence(6, true));
             $productModule->setActive(true);
             $productModule->setLicensingModel('Subscription');
 
-            $this->productModule = NetLicensing\ProductModuleService::create($this->context, $this->product->getNumber(), $productModule);
+            $this->productModule = ProductModuleService::create($this->context, $this->product->getNumber(), $productModule);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicensingModel'];
@@ -405,7 +423,7 @@ class NetLicensingDemo
 
             if (!$this->productModule) throw new Exception('ProductModule not found');
 
-            $this->productModule = \NetLicensing\ProductModuleService::get($this->context, $this->productModule->getNumber());
+            $this->productModule = ProductModuleService::get($this->context, $this->productModule->getNumber());
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicensingModel'];
@@ -430,13 +448,13 @@ class NetLicensingDemo
     {
         try {
 
-            $productModules = \NetLicensing\ProductModuleService::getList($this->context);
+            $productModules = ProductModuleService::getList($this->context);
 
             $headers = ['Number', 'Name', 'Active', 'LicensingModel'];
 
             $rows = [];
 
-            /** @var  $productModule \NetLicensing\ProductModule */
+            /** @var  $productModule ProductModule */
             foreach ($productModules as $productModule) {
 
                 $rows[] = [
@@ -465,7 +483,7 @@ class NetLicensingDemo
 
             $this->productModule->setName($this->faker->sentence(6, true));
 
-            $this->productModule = \NetLicensing\ProductModuleService::update($this->context, $number, $this->productModule);
+            $this->productModule = ProductModuleService::update($this->context, $number, $this->productModule);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicensingModel'];
@@ -491,7 +509,7 @@ class NetLicensingDemo
 
             if (!$this->productModule) throw new Exception('ProductModule not found');
 
-            NetLicensing\ProductModuleService::delete($this->context, $this->productModule->getNumber());
+            ProductModuleService::delete($this->context, $this->productModule->getNumber());
 
             //output
             $this->success('ProductModuleService::delete');
@@ -506,7 +524,7 @@ class NetLicensingDemo
     {
         try {
 
-            $licenseTemplate = new \NetLicensing\LicenseTemplate();
+            $licenseTemplate = new LicenseTemplate();
             $licenseTemplate->setNumber($this->faker->bothify('LT-########'));
             $licenseTemplate->setName($this->faker->sentence(6, true));
             $licenseTemplate->setActive(true);
@@ -515,7 +533,7 @@ class NetLicensingDemo
             $licenseTemplate->setPrice($this->faker->randomFloat(2, 0, 100));
             $licenseTemplate->setCurrency('EUR');
 
-            $this->licenseeTemplate = NetLicensing\LicenseTemplateService::create($this->context, $this->productModule->getNumber(), $licenseTemplate);
+            $this->licenseeTemplate = LicenseTemplateService::create($this->context, $this->productModule->getNumber(), $licenseTemplate);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicenseType', 'Price', 'Currency'];
@@ -543,7 +561,7 @@ class NetLicensingDemo
 
             if (!$this->licenseeTemplate) throw new Exception('LicenseeTemplate not found');
 
-            $this->licenseeTemplate = NetLicensing\LicenseTemplateService::get($this->context, $this->licenseeTemplate->getNumber());
+            $this->licenseeTemplate = LicenseTemplateService::get($this->context, $this->licenseeTemplate->getNumber());
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicenseType', 'Price', 'Currency'];
@@ -569,13 +587,13 @@ class NetLicensingDemo
     {
         try {
 
-            $licenseTemplates = \NetLicensing\LicenseTemplateService::getList($this->context);
+            $licenseTemplates = LicenseTemplateService::getList($this->context);
 
             $headers = ['Number', 'Name', 'Active', 'LicenseType', 'Price', 'Currency'];
 
             $rows = [];
 
-            /** @var  $licenseTemplate \NetLicensing\LicenseTemplate */
+            /** @var  $licenseTemplate LicenseTemplate */
             foreach ($licenseTemplates as $licenseTemplate) {
 
                 $rows[] = [
@@ -606,7 +624,7 @@ class NetLicensingDemo
             $this->licenseeTemplate->setName($this->faker->sentence(6, true));
             $this->licenseeTemplate->setPrice($this->faker->randomFloat(2, 0, 100));
 
-            $this->licenseeTemplate = NetLicensing\LicenseTemplateService::update($this->context, $this->licenseeTemplate->getNumber(), $this->licenseeTemplate);
+            $this->licenseeTemplate = LicenseTemplateService::update($this->context, $this->licenseeTemplate->getNumber(), $this->licenseeTemplate);
 
             //output
             $headers = ['Number', 'Name', 'Active', 'LicenseType', 'Price', 'Currency'];
@@ -634,7 +652,7 @@ class NetLicensingDemo
 
             if (!$this->licenseeTemplate) throw new Exception('LicenseeTemplate not found');
 
-            NetLicensing\LicenseTemplateService::delete($this->context, $this->licenseeTemplate->getNumber());
+            LicenseTemplateService::delete($this->context, $this->licenseeTemplate->getNumber());
 
             //output
             $this->success('LicenseTemplateService::delete');
@@ -648,12 +666,12 @@ class NetLicensingDemo
     public function createLicensee()
     {
         try {
-            $licensee = new \NetLicensing\Licensee();
+            $licensee = new Licensee();
             $licensee->setNumber($this->faker->bothify('L-########'));
             $licensee->setName($this->faker->sentence(6, true));
             $licensee->setActive(true);
 
-            $this->licensee = \NetLicensing\LicenseeService::create($this->context, $this->product->getNumber(), $licensee);
+            $this->licensee = LicenseeService::create($this->context, $this->product->getNumber(), $licensee);
 
             //output
             $headers = ['Number', 'Name', 'Active'];
@@ -678,7 +696,7 @@ class NetLicensingDemo
 
             if (!$this->licensee) throw new Exception('Licensee not found');
 
-            $this->licensee = NetLicensing\LicenseeService::get($this->context, $this->licensee->getNumber());
+            $this->licensee = LicenseeService::get($this->context, $this->licensee->getNumber());
 
             //output
             $headers = ['Number', 'Name', 'Active'];
@@ -701,13 +719,13 @@ class NetLicensingDemo
     {
         try {
 
-            $licensees = \NetLicensing\LicenseeService::getList($this->context);
+            $licensees = LicenseeService::getList($this->context);
 
             $headers = ['Number', 'Name', 'Active'];
 
             $rows = [];
 
-            /** @var  $licensee \NetLicensing\Licensee */
+            /** @var  $licensee Licensee */
             foreach ($licensees as $licensee) {
 
                 $rows[] = [
@@ -734,7 +752,7 @@ class NetLicensingDemo
 
             $this->licensee->setName($this->faker->sentence(6, true));
 
-            $this->licensee = NetLicensing\LicenseeService::update($this->context, $this->licensee->getNumber(), $this->licensee);
+            $this->licensee = LicenseeService::update($this->context, $this->licensee->getNumber(), $this->licensee);
 
             //output
             $headers = ['Number', 'Name', 'Active'];
@@ -759,7 +777,7 @@ class NetLicensingDemo
 
             if (!$this->licensee) throw new Exception('Licensee not found');
 
-            NetLicensing\LicenseeService::delete($this->context, $this->licensee->getNumber());
+            LicenseeService::delete($this->context, $this->licensee->getNumber());
 
             //output
             $this->success('LicenseeService::delete');
@@ -773,12 +791,12 @@ class NetLicensingDemo
     public function validate()
     {
         try {
-            $validationParameters = new \NetLicensing\ValidationParameters();
+            $validationParameters = new ValidationParameters();
             $validationParameters->setLicenseeName($this->faker->uuid);
             $validationParameters->setProductNumber($this->product->getNumber());
             $validationParameters->setLicenseeName($this->licensee->getName());
 
-            $validationResult = \NetLicensing\LicenseeService::validate($this->context, $this->licensee->getNumber(), $validationParameters);
+            $validationResult = LicenseeService::validate($this->context, $this->licensee->getNumber(), $validationParameters);
 
             $validation = $validationResult->getProductModuleValidation($this->productModule->getNumber());
 
@@ -804,18 +822,18 @@ class NetLicensingDemo
     {
         try {
 
-            $licensee = new \NetLicensing\Licensee();
+            $licensee = new Licensee();
             $licensee->setNumber($this->faker->bothify('L-########'));
             $licensee->setName($this->faker->sentence(6, true));
             $licensee->setActive(true);
 
-            $licensee = \NetLicensing\LicenseeService::create($this->context, $this->product->getNumber(), $licensee);
+            $licensee = LicenseeService::create($this->context, $this->product->getNumber(), $licensee);
 
             $this->licensee->setMarkedForTransfer(true);
 
-            $this->licensee = \NetLicensing\LicenseeService::update($this->context, $this->licensee->getNumber(), $this->licensee);
+            $this->licensee = LicenseeService::update($this->context, $this->licensee->getNumber(), $this->licensee);
 
-            \NetLicensing\LicenseeService::transfer($this->context, $licensee->getNumber(), $this->licensee->getNumber());
+            LicenseeService::transfer($this->context, $licensee->getNumber(), $this->licensee->getNumber());
 
             $this->licensee = $licensee;
 
@@ -839,13 +857,13 @@ class NetLicensingDemo
     public function createLicense()
     {
         try {
-            $license = new \NetLicensing\License();
+            $license = new License();
             $license->setNumber($this->faker->bothify('LC-########'));
             $license->setName($this->faker->sentence(6, true));
             $license->setStartDate('now');
             $license->setActive(true);
 
-            $this->license = \NetLicensing\LicenseService::create($this->context, $this->licensee->getNumber(), $this->licenseeTemplate->getNumber(), null, $license);
+            $this->license = LicenseService::create($this->context, $this->licensee->getNumber(), $this->licenseeTemplate->getNumber(), null, $license);
 
             //output
             $headers = ['Number', 'Name'];
@@ -869,7 +887,7 @@ class NetLicensingDemo
 
             if (!$this->license) throw new Exception('License not found');
 
-            $this->license = NetLicensing\LicenseService::get($this->context, $this->license->getNumber());
+            $this->license = LicenseService::get($this->context, $this->license->getNumber());
 
             //output
             $headers = ['Number', 'Name'];
@@ -891,13 +909,13 @@ class NetLicensingDemo
     {
         try {
 
-            $licenses = \NetLicensing\LicenseService::getList($this->context);
+            $licenses = LicenseService::getList($this->context);
 
             $headers = ['Number', 'Name'];
 
             $rows = [];
 
-            /** @var  $license \NetLicensing\License */
+            /** @var  $license License */
             foreach ($licenses as $license) {
 
                 $rows[] = [
@@ -923,7 +941,7 @@ class NetLicensingDemo
 
             $this->license->setName($this->faker->sentence(6, true));
 
-            $this->license = NetLicensing\LicenseService::update($this->context, $this->license->getNumber(), null, $this->license);
+            $this->license = LicenseService::update($this->context, $this->license->getNumber(), null, $this->license);
 
             //output
             $headers = ['Number', 'Name'];
@@ -947,7 +965,7 @@ class NetLicensingDemo
 
             if (!$this->license) throw new Exception('License not found');
 
-            NetLicensing\LicenseService::delete($this->context, $this->license->getNumber());
+            LicenseService::delete($this->context, $this->license->getNumber());
 
             //output
             $this->success('LicenseService::delete');
@@ -962,12 +980,12 @@ class NetLicensingDemo
     {
         try {
 
-            $transaction = new \NetLicensing\Transaction();
+            $transaction = new Transaction();
             $transaction->setNumber($this->faker->bothify('TR-########'));
             $transaction->setStatus('PENDING');
             $transaction->setSource('SHOP');
 
-            $this->transaction = \NetLicensing\TransactionService::create($this->context, $transaction);
+            $this->transaction = TransactionService::create($this->context, $transaction);
 
             //output
             $headers = ['Number', 'Status'];
@@ -1013,13 +1031,13 @@ class NetLicensingDemo
     {
         try {
 
-            $transactions = \NetLicensing\TransactionService::getList($this->context);
+            $transactions = TransactionService::getList($this->context);
 
             $headers = ['Number', 'Status'];
 
             $rows = [];
 
-            /** @var  $transaction \NetLicensing\Transaction */
+            /** @var  $transaction Transaction */
             foreach ($transactions as $transaction) {
 
                 $rows[] = [
@@ -1045,7 +1063,7 @@ class NetLicensingDemo
 
             $this->transaction->setStatus('CLOSED');
 
-            $this->transaction = NetLicensing\TransactionService::update($this->context, $this->transaction->getNumber(), $this->transaction);
+            $this->transaction = TransactionService::update($this->context, $this->transaction->getNumber(), $this->transaction);
 
             //output
             $headers = ['Number', 'Status'];
@@ -1067,12 +1085,12 @@ class NetLicensingDemo
     {
         try {
 
-            $token = new \NetLicensing\Token();
+            $token = new Token();
             $token->setNumber($this->faker->bothify('T-########'));
             $token->setTokenType('SHOP');
             $token->setLicenseeNumber($this->licensee->getNumber());
 
-            $this->token = \NetLicensing\TokenService::create($this->context, $token);
+            $this->token = TokenService::create($this->context, $token);
 
             //output
             $headers = ['Number', 'Type', 'Expiration Time'];
@@ -1097,7 +1115,7 @@ class NetLicensingDemo
 
             if (!$this->token) throw new Exception('Token not found');
 
-            $this->token = NetLicensing\TokenService::get($this->context, $this->token->getNumber());
+            $this->token = TokenService::get($this->context, $this->token->getNumber());
 
             //output
             $headers = ['Number', 'Type', 'Expiration Time'];
@@ -1120,13 +1138,13 @@ class NetLicensingDemo
     {
         try {
 
-            $tokens = \NetLicensing\TokenService::getList($this->context);
+            $tokens = TokenService::getList($this->context);
 
             $headers = ['Number', 'Type', 'Expiration Time'];
 
             $rows = [];
 
-            /** @var  $token \NetLicensing\Token */
+            /** @var  $token Token */
             foreach ($tokens as $token) {
 
                 $rows[] = [
@@ -1151,7 +1169,7 @@ class NetLicensingDemo
 
             if (!$this->token) throw new Exception('Token not found');
 
-            NetLicensing\TokenService::delete($this->context, $this->token->getNumber());
+            TokenService::delete($this->context, $this->token->getNumber());
 
             //output
             $this->success('TokenService::delete');
@@ -1165,7 +1183,7 @@ class NetLicensingDemo
     public function getPaymentMethod()
     {
         try {
-            $paymentMethod = NetLicensing\PaymentMethodService::get($this->context, 'PAYPAL');
+            $paymentMethod = PaymentMethodService::get($this->context, 'PAYPAL');
 
             //output
             $headers = ['Number'];
@@ -1185,14 +1203,14 @@ class NetLicensingDemo
     public function listPaymentMethod()
     {
         try {
-            $paymentMethods = NetLicensing\PaymentMethodService::getList($this->context);
+            $paymentMethods = PaymentMethodService::getList($this->context);
 
             //output
             $headers = ['Number'];
 
             $rows = [];
 
-            /** @var  $paymentMethod \NetLicensing\PaymentMethod */
+            /** @var  $paymentMethod PaymentMethod */
             foreach ($paymentMethods as $paymentMethod) {
 
                 $rows[] = [
@@ -1217,12 +1235,12 @@ class NetLicensingDemo
         $this->table($headers, $this->statuses);
     }
 
-    private function discountsOutput($discounts)
+    private function discountsOutput($discounts): string
     {
         $output = '';
 
         foreach ($discounts as $discount) {
-            $output .= (string)$discount . " ";
+            $output .= $discount . " ";
         }
 
         return $output;
@@ -1230,24 +1248,24 @@ class NetLicensingDemo
 
     private function success($apiMethod)
     {
-        \cli\line($apiMethod . ' - OK');
+        line($apiMethod . ' - OK');
 
         $this->statuses[$apiMethod] = [$apiMethod, 'OK'];
     }
 
     private function error($apiMethod, Exception $exception)
     {
-        \cli\err($apiMethod . ' - ERROR');
-        \cli\line((string)$exception);
+        err($apiMethod . ' - ERROR');
+        line((string)$exception);
 
         $this->statuses[$apiMethod] = [$apiMethod, 'ERROR', $exception->getMessage()];
 
         exit();
     }
 
-    private function table(array $headers, array $rows = null, array $footer = null)
+    private function table(array $headers, array $rows = null)
     {
-        $table = new \cli\Table($headers, $rows, $footer);
+        $table = new Table($headers, $rows, null);
 
         $table->display();
     }

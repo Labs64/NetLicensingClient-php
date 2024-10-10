@@ -28,10 +28,9 @@ class TokenService
      *
      * return created token
      * @return Token|null
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function create(Context $context, Token $token)
+    public static function create(Context $context, Token $token): ?Token
     {
         $response = NetLicensingService::getInstance()
             ->post($context, Constants::TOKEN_ENDPOINT_PATH, $token->asPropertiesMap());
@@ -54,15 +53,14 @@ class TokenService
      * @param Context $context
      *
      * the token number
-     * @param $number
+     * @param string $number
      *
      * return the token
      * @return Token|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?Token
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -84,17 +82,16 @@ class TokenService
      * https://netlicensing.io/wiki/token-services#tokens-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of token entities or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -124,17 +121,15 @@ class TokenService
      * https://netlicensing.io/wiki/token-services#delete-token
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      *  the token number
      * @param string $number
      *
-     * @return bool
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function delete(Context $context, $number)
+    public static function delete(Context $context, string $number)
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

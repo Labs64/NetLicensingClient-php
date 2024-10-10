@@ -26,7 +26,7 @@ class LicenseeService
      * @param Context $context
      *
      * parent product to which the new licensee is to be added
-     * @param $productNumber
+     * @param string $productNumber
      *
      * non-null properties will be taken for the new object, null properties will either stay null, or will
      * be set to a default value, depending on property.
@@ -35,10 +35,9 @@ class LicenseeService
      * return the newly created licensee object
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function create(Context $context, $productNumber, Licensee $licensee)
+    public static function create(Context $context, string $productNumber, Licensee $licensee): ?Licensee
     {
         CheckUtils::paramNotEmpty($productNumber, Constants::PRODUCT_NUMBER);
 
@@ -65,15 +64,14 @@ class LicenseeService
      * @param Context $context
      *
      * the licensee number
-     * @param $number
+     * @param string $number
      *
      * return the licensee
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?Licensee
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -98,14 +96,13 @@ class LicenseeService
      * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param null $filter
+     * @param string|null $filter
      *
      * array of licensees (of all products) or empty array if nothing found.
      * @return Page
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null): Page
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -138,7 +135,7 @@ class LicenseeService
      * @param Context $context
      *
      * licensee number
-     * @param $number
+     * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
      * @param Licensee $licensee
@@ -146,10 +143,9 @@ class LicenseeService
      * return updated licensee.
      * @return Licensee|null
      * @throws MalformedArgumentsException
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function update(Context $context, $number, Licensee $licensee)
+    public static function update(Context $context, string $number, Licensee $licensee): ?Licensee
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -174,16 +170,15 @@ class LicenseeService
      * @param Context $context
      *
      * licensee number
-     * @param $number
+     * @param string $number
      *
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
      *
      * @throws MalformedArgumentsException
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function delete(Context $context, $number, $forceCascade = false)
+    public static function delete(Context $context, string $number, bool $forceCascade = false): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -213,9 +208,8 @@ class LicenseeService
      * @return ValidationResults|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws ErrorException
      */
-    public static function validate(Context $context, $number, ValidationParameters $validationParameters, array &$meta = [])
+    public static function validate(Context $context, string $number, ValidationParameters $validationParameters, array &$meta = []): ?ValidationResults
     {
         return ValidationService::validate($context, $number, $validationParameters, $meta);
     }
@@ -228,17 +222,16 @@ class LicenseeService
      * @param Context $context
      *
      * the number of the licensee receiving licenses
-     * @param $number
+     * @param string $number
      *
      * the number of the licensee delivering licenses
-     * @param $sourceLicenseeNumber
+     * @param string $sourceLicenseeNumber
      *
      * @return void
      * @throws MalformedArgumentsException
-     * @throws ErrorException
      * @throws RestException
      */
-    public static function transfer(Context $context, $number, $sourceLicenseeNumber)
+    public static function transfer(Context $context, string $number, string $sourceLicenseeNumber): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
         CheckUtils::paramNotEmpty($sourceLicenseeNumber, Constants::LICENSEE_SOURCE_LICENSEE_NUMBER);

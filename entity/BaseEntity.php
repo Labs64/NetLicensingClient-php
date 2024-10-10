@@ -8,6 +8,7 @@
 
 namespace NetLicensing;
 
+use Exception;
 use phpDocumentor\Reflection\Types\Boolean;
 
 /**
@@ -24,14 +25,14 @@ abstract class BaseEntity
      *
      * @var string
      */
-    protected $primaryKey = 'number';
+    protected string $primaryKey = 'number';
 
     /**
      * Indicates if the entity exists.
      *
      * @var bool
      */
-    public $exists = false;
+    public bool $exists = false;
 
     /**
      *  Create a new entity instance.
@@ -39,7 +40,7 @@ abstract class BaseEntity
      * @param array $properties
      * @param bool $exists
      */
-    public function __construct(array $properties = [], $exists = false)
+    public function __construct(array $properties = [], bool $exists = false)
     {
         $this->setProperties($properties, true);
 
@@ -60,6 +61,7 @@ abstract class BaseEntity
      * Get the value of the entity primary key.
      *
      * @return mixed
+     * @throws Exception
      */
     public function getKey()
     {
@@ -71,6 +73,7 @@ abstract class BaseEntity
      *
      * @param string $key
      * @return mixed
+     * @throws Exception
      */
     public function __get(string $key)
     {
@@ -94,6 +97,7 @@ abstract class BaseEntity
      *
      * @param string $key
      * @return bool
+     * @throws Exception
      */
     public function __isset(string $key): bool
     {
@@ -117,6 +121,7 @@ abstract class BaseEntity
      * @param string $method
      * @param array $parameters
      * @return mixed
+     * @throws Exception
      */
     public function __call(string $method, array $parameters)
     {
@@ -138,10 +143,12 @@ abstract class BaseEntity
             array_unshift($parameters, $key);
 
             //call getAttribute
-            if ($methodParts[0] == 'get') return $this->getProperty(...$parameters);
+            if ($methodParts[0] == 'get'){
+                return $this->getProperty(...$parameters);
+            };
 
             //call setAttribute
-            if ($methodParts[0] == 'set') return $this->setProperty(...$parameters);
+            return $this->setProperty(...$parameters);
         }
 
         //trigger error if method undefined
@@ -172,7 +179,7 @@ abstract class BaseEntity
      * @param int $options
      * @return string
      */
-    public function toJson($options = 0): string
+    public function toJson(int $options = 0): string
     {
         return json_encode($this->jsonSerialize(), $options);
     }

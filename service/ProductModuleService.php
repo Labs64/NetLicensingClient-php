@@ -34,9 +34,8 @@ class ProductModuleService
      * @return ProductModule|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function create(Context $context, $productNumber, ProductModule $productModule)
+    public static function create(Context $context, string $productNumber, ProductModule $productModule): ?ProductModule
     {
         CheckUtils::paramNotEmpty($productNumber, Constants::PRODUCT_NUMBER);
 
@@ -60,7 +59,7 @@ class ProductModuleService
      * https://netlicensing.io/wiki/product-module-services#get-product-module
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * the product module number
      * @param string $number
@@ -69,9 +68,8 @@ class ProductModuleService
      * @return ProductModule|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?ProductModule
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -93,17 +91,16 @@ class ProductModuleService
      * https://netlicensing.io/wiki/product-module-services#product-modules-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of product modules entities or empty array if nothing found.
      * @return Page
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -133,21 +130,20 @@ class ProductModuleService
      * https://netlicensing.io/wiki/product-module-services#update-product-module
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * product module number
      * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param \NetLicensing\ProductModule $productModule
+     * @param ProductModule $productModule
      *
      * updated product module.
      * @return ProductModule|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function update(Context $context, $number, ProductModule $productModule)
+    public static function update(Context $context, string $number, ProductModule $productModule): ?ProductModule
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -169,7 +165,7 @@ class ProductModuleService
      * https://netlicensing.io/wiki/product-module-services#delete-product-module
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * product module number
      * @param string $number
@@ -177,12 +173,10 @@ class ProductModuleService
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
      *
-     * @return bool
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function delete(Context $context, $number, $forceCascade = false)
+    public static function delete(Context $context, string $number, bool $forceCascade = false): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

@@ -71,7 +71,7 @@ class License extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
         'price' => 'double',
         'hidden' => 'boolean_string',
@@ -79,18 +79,18 @@ class License extends BaseEntity
         'timeVolume' => 'int',
     ];
 
-    protected $licensee;
+    protected ?Licensee $licensee = null;
 
-    protected $licenseTemplate;
+    protected ?LicenseTemplate $licenseTemplate = null;
 
-    protected $licenseTransactionJoins = [];
+    protected array $licenseTransactionJoins = [];
 
-    public function getLicensee()
+    public function getLicensee(): ?Licensee
     {
         return $this->licensee;
     }
 
-    public function setLicensee(Licensee $licensee)
+    public function setLicensee(Licensee $licensee): License
     {
         $licenses = $licensee->getLicenses();
         $licenses[] = $this;
@@ -101,12 +101,12 @@ class License extends BaseEntity
         return $this;
     }
 
-    public function getLicenseTemplate()
+    public function getLicenseTemplate(): ?LicenseTemplate
     {
         return $this->licenseTemplate;
     }
 
-    public function setLicenseTemplate(LicenseTemplate $licenseTemplate)
+    public function setLicenseTemplate(LicenseTemplate $licenseTemplate): License
     {
         $licenses = $licenseTemplate->getLicenses();
         $licenses[] = $this;
@@ -122,7 +122,7 @@ class License extends BaseEntity
         return $this->licenseTransactionJoins;
     }
 
-    public function setLicenseTransactionJoins(array $licenseTransactionJoins)
+    public function setLicenseTransactionJoins(array $licenseTransactionJoins): License
     {
         $this->licenseTransactionJoins = $licenseTransactionJoins;
         return $this;

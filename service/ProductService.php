@@ -21,18 +21,17 @@ class ProductService
      * https://netlicensing.io/wiki/product-services#create-product
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * non-null properties will be taken for the new object, null properties will either stay null, or will
      * be set to a default value, depending on property.
-     * @param \NetLicensing\Product $product
+     * @param Product $product
      *
      * return the newly created product object
      * @return Product|null
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function create(Context $context, Product $product)
+    public static function create(Context $context, Product $product): ?Product
     {
         $response = NetLicensingService::getInstance()
             ->post($context, Constants::PRODUCT_ENDPOINT_PATH, $product->asPropertiesMap());
@@ -52,7 +51,7 @@ class ProductService
      * https://netlicensing.io/wiki/product-services#get-product
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * the product number
      * @param string $number
@@ -61,9 +60,8 @@ class ProductService
      * @return Product|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?Product
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -85,17 +83,16 @@ class ProductService
      * https://netlicensing.io/wiki/product-services#products-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of product entities or empty array if nothing found.
      * @return Page
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -125,21 +122,20 @@ class ProductService
      * https://netlicensing.io/wiki/product-services#update-product
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * product number
      * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param \NetLicensing\Product $product
+     * @param Product $product
      *
      * updated product.
      * @return Product|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function update(Context $context, $number, Product $product)
+    public static function update(Context $context, string $number, Product $product): ?Product
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -161,7 +157,7 @@ class ProductService
      * https://netlicensing.io/wiki/product-services#delete-product
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * product number
      * @param string $number
@@ -169,16 +165,14 @@ class ProductService
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
      *
-     * @return bool
      * @throws RestException
-     * @throws \ErrorException
      * @throws MalformedArgumentsException
      */
-    public static function delete(Context $context, $number, $forceCascade = false)
+    public static function delete(Context $context, string $number, bool $forceCascade = false): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
+        $queryParams[Constants::CASCADE] = ($forceCascade) ? 'true' : 'false';
 
         NetLicensingService::getInstance()
             ->delete($context, Constants::PRODUCT_ENDPOINT_PATH . '/' . $number, $queryParams);

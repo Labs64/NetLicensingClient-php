@@ -29,10 +29,9 @@ class PaymentMethodService
      * return the payment method
      * @return PaymentMethod|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, $number): ?PaymentMethod
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -54,17 +53,16 @@ class PaymentMethodService
      * https://netlicensing.io/wiki/payment-method-services#payment-methods-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of payment method entities or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -94,21 +92,20 @@ class PaymentMethodService
      * https://netlicensing.io/wiki/payment-method-services#update-payment-method
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * the payment method number
      * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param \NetLicensing\PaymentMethod $paymentMethod
+     * @param PaymentMethod $paymentMethod
      *
      * return updated payment method.
-     * @return mixed|\NetLicensing\PaymentMethod|null
+     * @return PaymentMethod|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function update(Context $context, $number, PaymentMethod $paymentMethod)
+    public static function update(Context $context, string $number, PaymentMethod $paymentMethod): ?PaymentMethod
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

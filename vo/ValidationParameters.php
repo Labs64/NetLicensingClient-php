@@ -11,26 +11,26 @@ namespace NetLicensing;
 
 class ValidationParameters
 {
-    protected $productNumber;
-    protected $licenseeProperties = [];
-    protected $parameters = [];
+    protected string $productNumber;
+    protected array $licenseeProperties = [];
+    protected array $parameters = [];
 
     /**
      * Sets the target product
      *
      * optional productNumber, must be provided in case licensee auto-create is enabled
-     * @param $productNumber
+     * @param string $productNumber
      *
      * @return $this
      */
-    public function setProductNumber($productNumber): ValidationParameters
+    public function setProductNumber(string $productNumber): ValidationParameters
     {
         $this->productNumber = $productNumber;
 
         return $this;
     }
 
-    public function getProductNumber()
+    public function getProductNumber(): string
     {
         return $this->productNumber;
     }
@@ -76,11 +76,11 @@ class ValidationParameters
      * optional human-readable licensee name in case licensee will be auto-created. This parameter must not
      * be the name, but can be used to store any other useful string information with new licensees, up to
      * 1000 characters.
-     * @param $licenseeName
+     * @param string $licenseeName
      *
      * @return $this
      */
-    public function setLicenseeName($licenseeName): ValidationParameters
+    public function setLicenseeName(string $licenseeName): ValidationParameters
     {
         $this->setLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME, $licenseeName);
 
@@ -96,12 +96,12 @@ class ValidationParameters
      * Sets the licensee secret
      *
      * licensee secret stored on the client side. Refer to Licensee Secret documentation for details.
-     * @param $licenseeSecret
+     * @param string $licenseeSecret
      *
      * @return $this
      * @deprecated use 'NodeLocked' licensing model instead
      */
-    public function setLicenseeSecret($licenseeSecret): ValidationParameters
+    public function setLicenseeSecret(string $licenseeSecret): ValidationParameters
     {
         $this->setLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET, $licenseeSecret);
 

@@ -55,22 +55,22 @@ class Licensee extends BaseEntity
      *
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'active' => 'boolean_string',
         'markedForTransfer' => 'boolean_string',
         'inUse' => 'boolean_string',
     ];
 
-    protected $product;
+    protected ?Product $product = null;
 
-    protected $licenses = [];
+    protected array $licenses = [];
 
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): Licensee
     {
         $licensees = $product->getLicensees();
 
@@ -87,7 +87,7 @@ class Licensee extends BaseEntity
         return $this->licenses;
     }
 
-    public function setLicenses(array $licenses)
+    public function setLicenses(array $licenses): Licensee
     {
         $this->licenses = $licenses;
         return $this;

@@ -37,10 +37,9 @@ class TransactionService
      *
      * return the newly created transaction object
      * @return Transaction|null
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function create(Context $context, Transaction $transaction)
+    public static function create(Context $context, Transaction $transaction): ?Transaction
     {
         $response = NetLicensingService::getInstance()
             ->post($context, Constants::TRANSACTION_ENDPOINT_PATH, $transaction->asPropertiesMap());
@@ -68,10 +67,9 @@ class TransactionService
      * return the transaction
      * @return Transaction|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, $number): ?Transaction
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -93,17 +91,16 @@ class TransactionService
      * https://netlicensing.io/wiki/transaction-services#transactions-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of transaction entities or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null)
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -133,21 +130,20 @@ class TransactionService
      * https://netlicensing.io/wiki/transaction-services#update-transaction
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * transaction number
      * @param string $number
      *
      * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param \NetLicensing\Transaction $transaction
+     * @param Transaction $transaction
      *
      * return updated transaction.
      * @return Transaction|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function update(Context $context, $number, Transaction $transaction)
+    public static function update(Context $context, string $number, Transaction $transaction): ?Transaction
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

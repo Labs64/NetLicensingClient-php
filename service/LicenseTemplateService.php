@@ -24,7 +24,7 @@ class LicenseTemplateService
      * @param Context $context
      *
      * parent product module to which the new license template is to be added
-     * @param $productModuleNumber
+     * @param string $productModuleNumber
      *
      * non-null properties will be taken for the new object, null properties will either stay null, or will
      * be set to a default value, depending on property.
@@ -34,9 +34,8 @@ class LicenseTemplateService
      * @return LicenseTemplate|null
      * @throws MalformedArgumentsException
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function create(Context $context, $productModuleNumber, LicenseTemplate $licenseTemplate)
+    public static function create(Context $context, string $productModuleNumber, LicenseTemplate $licenseTemplate): ?LicenseTemplate
     {
         CheckUtils::paramNotEmpty($productModuleNumber, Constants::PRODUCT_MODULE_NUMBER);
 
@@ -60,7 +59,7 @@ class LicenseTemplateService
      * https://netlicensing.io/wiki/license-template-services#get-license-template
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * the license template number
      * @param string $number
@@ -68,10 +67,9 @@ class LicenseTemplateService
      * return the license template object
      * @return LicenseTemplate|null
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function get(Context $context, $number)
+    public static function get(Context $context, string $number): ?LicenseTemplate
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -93,17 +91,16 @@ class LicenseTemplateService
      * https://netlicensing.io/wiki/license-template-services#license-templates-list
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param string $filter
+     * @param string|null $filter
      *
      * array of license templates (of all products/modules) or null/empty list if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null): Page
+    public static function getList(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -133,7 +130,7 @@ class LicenseTemplateService
      * https://netlicensing.io/wiki/license-template-services#update-license-template
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * license template number
      * @param string $number
@@ -143,11 +140,10 @@ class LicenseTemplateService
      *
      * updated license template.
      * @return LicenseTemplate|null
-     * @throws \ErrorException
      * @throws RestException
      * @throws MalformedArgumentsException
      */
-    public static function update(Context $context, $number, LicenseTemplate $licenseTemplate)
+    public static function update(Context $context, string $number, LicenseTemplate $licenseTemplate): ?LicenseTemplate
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -169,7 +165,7 @@ class LicenseTemplateService
      * https://netlicensing.io/wiki/license-template-services#delete-license-template
      *
      * determines the vendor on whose behalf the call is performed
-     * @param \NetLicensing\Context $context
+     * @param Context $context
      *
      * license template number
      * @param string $number
@@ -177,16 +173,14 @@ class LicenseTemplateService
      * if true, any entities that depend on the one being deleted will be deleted too
      * @param bool $forceCascade
      *
-     * @return bool
      * @throws MalformedArgumentsException
-     * @throws \ErrorException
      * @throws RestException
      */
-    public static function delete(Context $context, $number, $forceCascade = false)
+    public static function delete(Context $context, string $number, bool $forceCascade = false): void
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
-        $queryParams[Constants::CASCADE] = ((bool)$forceCascade) ? 'true' : 'false';
+        $queryParams[Constants::CASCADE] = ($forceCascade) ? 'true' : 'false';
 
         NetLicensingService::getInstance()
             ->delete($context, Constants::LICENSE_TEMPLATE_ENDPOINT_PATH . '/' . $number, $queryParams);

@@ -10,13 +10,10 @@ namespace NetLicensing;
 
 
 use Curl\Curl;
+use ErrorException;
 
 class NetLicensingCurl extends Curl
 {
-    public $data;
-    public $query;
-
-
     /**
      * Build Post Data
      *
@@ -24,24 +21,23 @@ class NetLicensingCurl extends Curl
      * @param  $data
      *
      * @return array|string
+     * @throws ErrorException
      */
     public function buildPostData($data)
     {
-        $this->data = $data;
-
         $query = parent::buildPostData($data);
 
         foreach ($data as $key => $value) {
-            if (is_array($value)) $query = preg_replace('/&' . $key . '%5B%5D=/simU', '&' . $key . '=', $query);
+            if (is_array($value)) {
+                $query = preg_replace('/&' . $key . '%5B%5D=/simU', '&' . $key . '=', $query);
+            }
         }
-
-        $this->query = $query;
 
         return $query;
     }
 
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'error' => $this->error,
@@ -53,7 +49,6 @@ class NetLicensingCurl extends Curl
             'httpError' => $this->httpError,
             'httpStatusCode' => $this->httpStatusCode,
             'httpErrorMessage' => $this->httpErrorMessage,
-            'baseUrl' => $this->baseUrl,
             'url' => $this->url,
             'effectiveUrl' => $this->effectiveUrl,
             'requestHeaders' => $this->requestHeaders,
@@ -61,8 +56,6 @@ class NetLicensingCurl extends Curl
             'rawResponseHeaders' => $this->rawResponseHeaders,
             'response' => $this->response,
             'rawResponse' => $this->rawResponse,
-            'data' => $this->data,
-            'query' => $this->query,
         ];
     }
 }

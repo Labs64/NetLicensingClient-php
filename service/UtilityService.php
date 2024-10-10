@@ -24,7 +24,6 @@ class UtilityService
      *
      * array of available license types or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
     public static function listLicenseTypes(Context $context): Page
@@ -56,7 +55,6 @@ class UtilityService
      *
      * array of available license models or empty array if nothing found.
      * @return Page
-     * @throws \ErrorException
      * @throws RestException
      */
     public static function listLicensingModels(Context $context): Page
@@ -86,13 +84,12 @@ class UtilityService
      * @param Context $context
      *
      * reserved for the future use, must be omitted / set to NULL
-     * @param null $filter
+     * @param string|null $filter
      *
      * @return Page
      * @throws RestException
-     * @throws \ErrorException
      */
-    public static function listCountries(Context $context, $filter = null): Page
+    public static function listCountries(Context $context, string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 

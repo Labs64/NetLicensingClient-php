@@ -38,7 +38,7 @@
   },
   "require": {
     "php": ">=8.2",
-    "php-curl-class/php-curl-class": "^11.0.0",
+    "php-curl-class/php-curl-class": "^11.0.0 || ^12.0.0",
     "fr3d/xmldsig": "^3.0",
     "ext-mbstring": "*",
     "ext-json": "*",

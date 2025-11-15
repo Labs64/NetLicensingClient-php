@@ -863,7 +863,7 @@ class NetLicensingDemo
             $license->setStartDate('now');
             $license->setActive(true);
 
-            $this->license = LicenseService::create($this->context, $this->licensee->getNumber(), $this->licenseeTemplate->getNumber(), null, $license);
+            $this->license = LicenseService::create($this->context, $this->licensee->getNumber(), $this->licenseeTemplate->getNumber(), $license);
 
             //output
             $headers = ['Number', 'Name'];
@@ -941,7 +941,7 @@ class NetLicensingDemo
 
             $this->license->setName($this->faker->sentence(6, true));
 
-            $this->license = LicenseService::update($this->context, $this->license->getNumber(), null, $this->license);
+            $this->license = LicenseService::update($this->context, $this->license->getNumber(), $this->license);
 
             //output
             $headers = ['Number', 'Name'];
@@ -1265,7 +1265,7 @@ class NetLicensingDemo
 
     private function table(array $headers, ?array $rows = null)
     {
-        $table = new Table($headers, $rows, null);
+        $table = new Table($headers, $rows ?? []);
 
         $table->display();
     }

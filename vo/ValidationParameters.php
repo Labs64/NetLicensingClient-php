@@ -67,7 +67,7 @@ class ValidationParameters
      */
     public function getLicenseeProperty(string $key): mixed
     {
-        return $this->licenseeProperties[$key];
+        return $this->licenseeProperties[$key] ?? null;
     }
 
     /**

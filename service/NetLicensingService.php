@@ -214,7 +214,7 @@ class NetLicensingService
      * @param Context $context
      * @throws RestException
      */
-    private function configure(Context $context)
+    private function configure(Context $context): void
     {
         if (!$context->getSecurityMode()) {
             throw new RestException('Security mode must be specified');

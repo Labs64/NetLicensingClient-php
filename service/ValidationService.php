@@ -53,7 +53,7 @@ class ValidationService
      * @throws MalformedArgumentsException
      * @throws RestException
      */
-    static public function retrieveValidationFile(Context $context, string $number, ValidationParameters $validationParameters)
+    static public function retrieveValidationFile(Context $context, string $number, ValidationParameters $validationParameters): mixed
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

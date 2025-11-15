@@ -1263,7 +1263,7 @@ class NetLicensingDemo
         exit();
     }
 
-    private function table(array $headers, array $rows = null)
+    private function table(array $headers, ?array $rows = null)
     {
         $table = new Table($headers, $rows, null);
 

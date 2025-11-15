@@ -10,3 +10,4 @@ Thumbs.db
 .buildpath
 .project
 .settings*
+.phpunit.cache

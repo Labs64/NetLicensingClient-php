@@ -1,4 +1,4 @@
-name: PHP Composer
+name: PHP Client - Demo Test
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.2'
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
@@ -36,9 +36,6 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
       run: |

@@ -37,7 +37,7 @@
     "docs": "https://netlicensing.io/wiki/"
   },
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.2",
     "php-curl-class/php-curl-class": "^11.0.0",
     "fr3d/xmldsig": "^3.0",
     "ext-mbstring": "*",
@@ -45,9 +45,9 @@
     "ext-dom": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~6.5.14",
-    "fzaninotto/faker": "^v1.9.2",
-    "wp-cli/php-cli-tools": "^v0.11.11"
+    "phpunit/phpunit": "^10.5",
+    "fakerphp/faker": "^1.23",
+    "wp-cli/php-cli-tools": "^0.11"
   },
   "autoload": {
     "files": [

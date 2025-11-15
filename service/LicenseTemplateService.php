@@ -100,7 +100,7 @@ class LicenseTemplateService
      * @return Page
      * @throws RestException
      */
-    public static function getList(Context $context, string $filter = null): Page
+    public static function getList(Context $context, ?string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 

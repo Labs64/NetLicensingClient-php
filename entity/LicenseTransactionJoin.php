@@ -14,7 +14,7 @@ class LicenseTransactionJoin
 
     protected ?License $license = null;
 
-    public function __construct(Transaction $transaction = null, License $license = null)
+    public function __construct(?Transaction $transaction = null, ?License $license = null)
     {
         $this->transaction = $transaction;
         $this->license = $license;

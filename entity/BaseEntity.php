@@ -87,7 +87,7 @@ abstract class BaseEntity
      * @param mixed $value
      * @return void
      */
-    public function __set(string $key, $value)
+    public function __set(string $key, mixed $value): void
     {
         $this->setProperty($key, $value);
     }

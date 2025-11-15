@@ -32,18 +32,18 @@ class ValidationResults
         return $this->validators;
     }
 
-    public function getProductModuleValidation($productModuleNumber)
+    public function getProductModuleValidation(string $productModuleNumber): mixed
     {
         return $this->validators[$productModuleNumber] ?? null;
     }
 
-    public function setProductModuleValidation($productModuleNumber, $productModuleValidation): ValidationResults
+    public function setProductModuleValidation(string $productModuleNumber, mixed $productModuleValidation): ValidationResults
     {
         $this->validators[$productModuleNumber] = $productModuleValidation;
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $data = 'ValidationResult [';
 

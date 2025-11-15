@@ -87,9 +87,10 @@ class ValidationParameters
         return $this;
     }
 
-    public function getLicenseeName(): mixed
+    public function getLicenseeName(): ?string
     {
-        return $this->getLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME);
+        $value = $this->getLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME);
+        return is_string($value) ? $value : null;
     }
 
     /**
@@ -111,9 +112,10 @@ class ValidationParameters
     /**
      * @deprecated use 'NodeLocked' licensing model instead
      */
-    public function getLicenseeSecret(): mixed
+    public function getLicenseeSecret(): ?string
     {
-        return $this->getLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET);
+        $value = $this->getLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET);
+        return is_string($value) ? $value : null;
     }
 
     public function getParameters(): array

@@ -69,7 +69,7 @@ class TransactionService
      * @throws MalformedArgumentsException
      * @throws RestException
      */
-    public static function get(Context $context, $number): ?Transaction
+    public static function get(Context $context, string $number): ?Transaction
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

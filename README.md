@@ -2,7 +2,7 @@
 
 # [Labs64 NetLicensing](https://netlicensing.io) Client (PHP)
 
-[![Build Status](https://travis-ci.org/Labs64/NetLicensingClient-php.svg?branch=master)](https://travis-ci.org/Labs64/NetLicensingClient-php)
+[![PHP Client - Demo Test](https://github.com/Labs64/NetLicensingClient-php/actions/workflows/netlicensing-php-demo.yml/badge.svg)](https://github.com/Labs64/NetLicensingClient-php/actions/workflows/netlicensing-php-demo.yml)
 [![Latest Stable Version](https://poser.pugx.org/labs64/netlicensingclient-php/v/stable)](https://packagist.org/packages/labs64/netlicensingclient-php)
 [![Total Downloads](https://poser.pugx.org/labs64/netlicensingclient-php/downloads)](https://packagist.org/packages/labs64/netlicensingclient-php)
 [![Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/Labs64/NetLicensingClient-php/blob/master/LICENSE)

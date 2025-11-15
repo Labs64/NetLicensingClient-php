@@ -31,7 +31,7 @@ class PaymentMethodService
      * @throws MalformedArgumentsException
      * @throws RestException
      */
-    public static function get(Context $context, $number): ?PaymentMethod
+    public static function get(Context $context, string $number): ?PaymentMethod
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 
@@ -62,7 +62,7 @@ class PaymentMethodService
      * @return Page
      * @throws RestException
      */
-    public static function getList(Context $context, string $filter = null): Page
+    public static function getList(Context $context, ?string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 

@@ -52,7 +52,7 @@ class ValidationParameters
      * @param $value
      * @return $this
      */
-    public function setLicenseeProperty(string $key, $value): ValidationParameters
+    public function setLicenseeProperty(string $key, mixed $value): ValidationParameters
     {
         $this->licenseeProperties[$key] = $value;
 
@@ -65,9 +65,9 @@ class ValidationParameters
      * @param string $key
      * @return mixed
      */
-    public function getLicenseeProperty(string $key)
+    public function getLicenseeProperty(string $key): mixed
     {
-        return $this->licenseeProperties[$key];
+        return $this->licenseeProperties[$key] ?? null;
     }
 
     /**
@@ -87,9 +87,10 @@ class ValidationParameters
         return $this;
     }
 
-    public function getLicenseeName()
+    public function getLicenseeName(): ?string
     {
-        return $this->getLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME);
+        $value = $this->getLicenseeProperty(Constants::LICENSEE_PROP_LICENSEE_NAME);
+        return is_string($value) ? $value : null;
     }
 
     /**
@@ -111,9 +112,10 @@ class ValidationParameters
     /**
      * @deprecated use 'NodeLocked' licensing model instead
      */
-    public function getLicenseeSecret()
+    public function getLicenseeSecret(): ?string
     {
-        return $this->getLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET);
+        $value = $this->getLicenseeProperty(Constants::LICENSE_PROP_LICENSEE_SECRET);
+        return is_string($value) ? $value : null;
     }
 
     public function getParameters(): array
@@ -121,7 +123,7 @@ class ValidationParameters
         return $this->parameters;
     }
 
-    public function getProductModuleValidationParameters($productModuleNumber)
+    public function getProductModuleValidationParameters(string $productModuleNumber): array
     {
         if (empty($this->parameters[$productModuleNumber])) {
             $this->parameters[$productModuleNumber] = array();
@@ -129,7 +131,7 @@ class ValidationParameters
         return $this->parameters[$productModuleNumber];
     }
 
-    public function setProductModuleValidationParameters($productModuleNumber, $productModuleParameters)
+    public function setProductModuleValidationParameters(string $productModuleNumber, array $productModuleParameters): void
     {
         if (empty($this->parameters[$productModuleNumber])) {
             $this->parameters[$productModuleNumber] = array();

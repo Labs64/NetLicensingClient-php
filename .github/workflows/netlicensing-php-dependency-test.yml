@@ -1,0 +1,34 @@
+name: PHP Client - Dependency Test
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.4']
+
+    steps:
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+
+      - name: Bootstrap temporary project
+        run: |
+          composer create-project --no-interaction --prefer-dist composer/semver netlicensing-php-dependency
+
+      - name: Require NetLicensing client
+        working-directory: netlicensing-php-dependency
+        run: |
+          composer require --no-interaction labs64/netlicensingclient-php
+          composer show labs64/netlicensingclient-php

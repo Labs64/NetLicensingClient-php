@@ -29,21 +29,21 @@ class LicenseService
      *  license template that the license is created from
      * @param string $licenseTemplateNumber
      *
+     * non-null properties will be taken for the new object, null properties will either stay null, or will
+     * be set to a default value, depending on property.
+     * @param License $license
+     *
      * For privileged logins specifies transaction for the license creation. For regular logins new
      * transaction always created implicitly, and the operation will be in a separate transaction.
      * Transaction is generated with the provided transactionNumber, or, if transactionNumber is null, with
      * auto-generated number.
      * @param null|string $transactionNumber
      *
-     * non-null properties will be taken for the new object, null properties will either stay null, or will
-     * be set to a default value, depending on property.
-     * @param License $license
-     *
      * @return License|null
      * @throws MalformedArgumentsException
      * @throws RestException
      */
-    public static function create(Context $context, string $licenseeNumber, string $licenseTemplateNumber, string $transactionNumber = null, License $license): ?License
+    public static function create(Context $context, string $licenseeNumber, string $licenseTemplateNumber, License $license, ?string $transactionNumber = null): ?License
     {
         CheckUtils::paramNotEmpty($licenseeNumber, Constants::LICENSEE_NUMBER);
         CheckUtils::paramNotEmpty($licenseTemplateNumber, Constants::LICENSE_TEMPLATE_NUMBER);
@@ -111,7 +111,7 @@ class LicenseService
      * @return Page
      * @throws RestException
      */
-    public static function getList(Context $context, $filter = null): Page
+    public static function getList(Context $context, ?string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 
@@ -146,19 +146,19 @@ class LicenseService
      * license number
      * @param string $number
      *
+     * non-null properties will be updated to the provided values, null properties will stay unchanged.
+     * @param License $license
+     *
      * transaction for the license update. Created implicitly if transactionNumber is null. In this case the
      * operation will be in a separate transaction.
      * @param string|null $transactionNumber
-     *
-     * non-null properties will be updated to the provided values, null properties will stay unchanged.
-     * @param License $license
      *
      * return updated license.
      * @return License|null
      * @throws MalformedArgumentsException
      * @throws RestException
      */
-    public static function update(Context $context, string $number, string $transactionNumber = null, License $license): ?License
+    public static function update(Context $context, string $number, License $license, ?string $transactionNumber = null): ?License
     {
         CheckUtils::paramNotEmpty($number, Constants::NUMBER);
 

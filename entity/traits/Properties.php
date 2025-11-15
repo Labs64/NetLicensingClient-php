@@ -43,7 +43,7 @@ trait Properties
      * @return mixed
      * @throws Exception
      */
-    public function getProperty(string $property, $default = null)
+    public function getProperty(string $property, mixed $default = null): mixed
     {
         if (!$property) return $default;
 
@@ -76,7 +76,7 @@ trait Properties
      * @param  mixed $value
      * @return $this
      */
-    public function setProperty(string $property, $value)
+    public function setProperty(string $property, mixed $value): static
     {
         $this->properties[$property] = ($this->hasCast($property)) ? $this->castSetProperty($property, $value) : $value;
         return $this;
@@ -89,7 +89,7 @@ trait Properties
      * @param $value
      * @return $this
      */
-    public function addProperty($property, $value)
+    public function addProperty(string $property, mixed $value): static
     {
         $this->setProperty($property, $value);
         return $this;
@@ -103,7 +103,7 @@ trait Properties
      * @param  bool $sync
      * @return $this
      */
-    public function setProperties(array $properties, $sync = false)
+    public function setProperties(array $properties, bool $sync = false): static
     {
         $this->properties = [];
 
@@ -129,7 +129,7 @@ trait Properties
      * @param $property
      * @return $this
      */
-    public function removeProperty($property)
+    public function removeProperty(string $property): static
     {
         unset($this->properties[$property]);
         return $this;
@@ -142,7 +142,7 @@ trait Properties
      * @param  mixed $default
      * @return mixed
      */
-    public function getOriginal(string $property = null, $default = null)
+    public function getOriginal(?string $property = null, mixed $default = null): mixed
     {
         if (is_null($property)) return $this->original;
         return $this->original[$property] ?? $default;
@@ -154,7 +154,7 @@ trait Properties
      *
      * @return $this
      */
-    public function syncOriginal()
+    public function syncOriginal(): static
     {
         $this->original = $this->properties;
         return $this;
@@ -166,7 +166,7 @@ trait Properties
      * @param  string $property
      * @return $this
      */
-    public function syncOriginalProperty(string $property)
+    public function syncOriginalProperty(string $property): static
     {
         $this->original[$property] = $this->properties[$property];
         return $this;
@@ -179,7 +179,7 @@ trait Properties
      * @param array|string|null $types
      * @return bool
      */
-    public function hasCast(string $property, $types = null): bool
+    public function hasCast(string $property, array|string|null $types = null): bool
     {
         if (array_key_exists($property, $this->casts)) {
             return !$types || in_array($this->getCastType($property), (array)$types, true);
@@ -205,7 +205,7 @@ trait Properties
      * @param  array|string|null $attributes
      * @return bool
      */
-    public function isClean($attributes = null): bool
+    public function isClean(array|string|null $attributes = null): bool
     {
         return !$this->isDirty(...func_get_args());
     }
@@ -216,7 +216,7 @@ trait Properties
      * @param  array|string|null $properties
      * @return bool
      */
-    public function isDirty($properties = null): bool
+    public function isDirty(array|string|null $properties = null): bool
     {
         $dirty = $this->getDirty();
 
@@ -291,7 +291,7 @@ trait Properties
      * @return mixed
      * @throws Exception
      */
-    protected function castGetProperty(string $property, $value)
+    protected function castGetProperty(string $property, mixed $value): mixed
     {
         if (is_null($value)) {
             return null;
@@ -331,7 +331,7 @@ trait Properties
      * @param mixed $value
      * @return mixed
      */
-    protected function castSetProperty(string $property, $value)
+    protected function castSetProperty(string $property, mixed $value): mixed
     {
         if (is_null($value)) {
             return null;
@@ -382,7 +382,7 @@ trait Properties
      * @param $value
      * @return string
      */
-    protected function asDateTime($value): string
+    protected function asDateTime(mixed $value): string
     {
 
         // If the value is already a DateTime instance, we will just skip the rest of

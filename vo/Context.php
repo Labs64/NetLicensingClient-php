@@ -125,7 +125,7 @@ class Context
      * @param mixed $value
      * @return $this
      */
-    public function setValue(string $key, $value): Context
+    public function setValue(string $key, mixed $value): Context
     {
         $this->values[$key] = $value;
         return $this;
@@ -179,7 +179,7 @@ class Context
      * @param mixed $value
      * @return void
      */
-    public function __set(string $key, $value)
+    public function __set(string $key, mixed $value): void
     {
         $this->setValue($key, $value);
     }
@@ -190,7 +190,7 @@ class Context
      * @param string $key
      * @return bool
      */
-    public function __isset(string $key)
+    public function __isset(string $key): bool
     {
         return !is_null($this->getValue($key));
     }
@@ -201,7 +201,7 @@ class Context
      * @param string $key
      * @return void
      */
-    public function __unset(string $key)
+    public function __unset(string $key): void
     {
         unset($this->values[$key]);
     }

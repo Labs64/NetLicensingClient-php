@@ -89,7 +89,7 @@ class UtilityService
      * @return Page
      * @throws RestException
      */
-    public static function listCountries(Context $context, string $filter = null): Page
+    public static function listCountries(Context $context, ?string $filter = null): Page
     {
         $queryParams = (!is_null($filter)) ? [Constants::FILTER => $filter] : [];
 

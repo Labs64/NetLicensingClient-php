@@ -1,5 +1,8 @@
 name: PHP Client - Dependency Test
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '*/30 * * * *'

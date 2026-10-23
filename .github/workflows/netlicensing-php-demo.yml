@@ -16,11 +16,11 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.2', '8.3', '8.4']
+        php-version: ['8.2', '8.3', '8.4', '8.5']
 
     steps:
       - uses: actions/checkout@v7
@@ -30,6 +30,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           coverage: none
+          extensions: curl, dom, libxml, mbstring, openssl
           tools: composer:v2
 
       - name: Validate composer manifests
@@ -47,11 +48,14 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
 
+      - name: Audit dependencies for known vulnerabilities
+        run: composer audit
+
       - name: Run PHPUnit
         run: vendor/bin/phpunit --testsuite "Application Test Suite"
 
       - name: Run demo scenario (latest PHP)
-        if: matrix.php-version == '8.4'
+        if: matrix.php-version == '8.5'
         run: |
           cd demo
           php NetLicensingDemo.php

@@ -10,6 +10,7 @@ namespace NetLicensing;
 
 use DateTime;
 use DOMDocument;
+use DOMElement;
 use ErrorException;
 use Exception;
 
@@ -75,15 +76,110 @@ class ValidationService
      *
      * @return ValidationResults|null result of the validation
      * @throws BadSignatureException
+     * @throws MalformedArgumentsException
      * @throws Exception
      */
     static public function validateOffline(Context $context, string $validationFile, array &$meta = []): ?ValidationResults
     {
-        $validationDoc = new DOMDocument();
-        $validationDoc->loadXML($validationFile);
+        $validationDoc = self::loadValidationFile($validationFile);
 
         SignatureUtils::check($context, $validationDoc);
-        return self::convertValidationResult($validationDoc);
+        return self::convertValidationResult(self::convertValidationDoc($validationDoc), $meta);
+    }
+
+    /**
+     * @param string $validationFile
+     * @return DOMDocument
+     * @throws MalformedArgumentsException
+     */
+    static private function loadValidationFile(string $validationFile): DOMDocument
+    {
+        if (trim($validationFile) === '') {
+            throw new MalformedArgumentsException('Validation file is empty');
+        }
+
+        $useInternalErrors = libxml_use_internal_errors(true);
+
+        try {
+            $validationDoc = new DOMDocument();
+            $loaded = $validationDoc->loadXML($validationFile, LIBXML_NONET);
+            $error = libxml_get_last_error();
+            libxml_clear_errors();
+        } finally {
+            libxml_use_internal_errors($useInternalErrors);
+        }
+
+        if (!$loaded || !$validationDoc->documentElement) {
+            throw new MalformedArgumentsException('Validation file is not a valid XML document'
+                . ($error ? ': ' . trim($error->message) : ''));
+        }
+
+        return $validationDoc;
+    }
+
+    /**
+     * Converts the XML validation file into the same structure as the JSON response of the online validation.
+     *
+     * @param DOMDocument $validationDoc
+     * @return object
+     */
+    static private function convertValidationDoc(DOMDocument $validationDoc): object
+    {
+        $root = $validationDoc->documentElement;
+        $result = (object)['infos' => (object)['info' => []], 'items' => (object)['item' => []]];
+
+        if ($root->hasAttribute('ttl')) {
+            $result->ttl = $root->getAttribute('ttl');
+        }
+
+        foreach (self::childElements($root, 'infos') as $infos) {
+            foreach (self::childElements($infos, 'info') as $info) {
+                $result->infos->info[] = (object)[
+                    'id' => $info->getAttribute('id'),
+                    'type' => $info->getAttribute('type'),
+                    'value' => $info->textContent,
+                ];
+            }
+        }
+
+        foreach (self::childElements($root, 'items') as $items) {
+            foreach (self::childElements($items, 'item') as $item) {
+                $result->items->item[] = self::convertXmlItem($item, ['type' => $item->getAttribute('type')]);
+            }
+        }
+
+        return $result;
+    }
+
+    static private function convertXmlItem(DOMElement $element, array $attributes): object
+    {
+        $item = (object)array_merge($attributes, ['property' => [], 'list' => []]);
+
+        foreach (self::childElements($element, 'property') as $property) {
+            $item->property[] = (object)['name' => $property->getAttribute('name'), 'value' => $property->textContent];
+        }
+
+        foreach (self::childElements($element, 'list') as $list) {
+            $item->list[] = self::convertXmlItem($list, ['name' => $list->getAttribute('name')]);
+        }
+
+        return $item;
+    }
+
+    /**
+     * @return DOMElement[]
+     */
+    static private function childElements(DOMElement $parent, string $localName): array
+    {
+        $elements = [];
+
+        foreach ($parent->childNodes as $child) {
+            if ($child instanceof DOMElement && $child->localName === $localName) {
+                $elements[] = $child;
+            }
+        }
+
+        return $elements;
     }
 
     /**
@@ -131,6 +227,9 @@ class ValidationService
                 $validationResults->setProductModuleValidation($array[Constants::PRODUCT_MODULE_NUMBER], $array);
             }
 
+        }
+
+        if (!empty($validationFile->ttl)) {
             $validationResults->setTtl(new DateTime($validationFile->ttl));
         }
 

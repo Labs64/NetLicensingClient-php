@@ -29,7 +29,9 @@ class NetLicensingCurl extends Curl
 
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $query = preg_replace('/&' . $key . '%5B%5D=/simU', '&' . $key . '=', $query);
+                // send array values as repeated keys (key=1&key=2) instead of key[0]=1&key[1]=2
+                $encodedKey = urlencode($key);
+                $query = preg_replace('/(^|&)' . preg_quote($encodedKey, '/') . '%5B\\d*%5D=/i', '${1}' . $encodedKey . '=', $query);
             }
         }
 

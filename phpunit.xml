@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
          cacheDirectory=".phpunit.cache"
          beStrictAboutOutputDuringTests="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         failOnNotice="true"
+         failOnDeprecation="true">
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
+    <source>
+        <include>
+            <directory suffix=".php">./common</directory>
+            <directory suffix=".php">./converter</directory>
+            <directory suffix=".php">./entity</directory>
+            <directory suffix=".php">./exception</directory>
+            <directory suffix=".php">./service</directory>
+            <directory suffix=".php">./util</directory>
+            <directory suffix=".php">./vo</directory>
+            <file>netlicensing.php</file>
+        </include>
+    </source>
 </phpunit>

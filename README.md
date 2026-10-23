@@ -13,6 +13,11 @@ PHP wrapper for Labs64 NetLicensing [RESTful API](https://netlicensing.io/wiki/r
 
 Visit Labs64 NetLicensing at https://netlicensing.io
 
+## Requirements
+
+- PHP 8.2, 8.3, 8.4 or 8.5 with the `curl`, `dom`, `json`, `libxml`, `mbstring` and `openssl` extensions
+- Run a patched PHP runtime: at least 8.2.35, 8.3.36, 8.4.27 or 8.5.12 (fixes for CVE-2026-109618 and CVE-2026-109619)
+
 ## Installation
 
 ```

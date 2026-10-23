@@ -233,6 +233,8 @@ class NetLicensingService
                 $this->curl->setHeader('Authorization', 'Basic ' . base64_encode("apiKey:" . $context->getApiKey()));
                 break;
             case Constants::ANONYMOUS_IDENTIFICATION:
+                // the curl instance is shared, don't send credentials left over from a previous context
+                $this->curl->removeHeader('Authorization');
                 break;
             default:
                 throw new RestException("Unknown security mode");

@@ -39,7 +39,7 @@
   "require": {
     "php": ">=8.2",
     "php-curl-class/php-curl-class": "^11.0.0 || ^12.0.0 || ^13.0.0",
-    "robrichards/xmlseclibs": "^3.1.5",
+    "robrichards/xmlseclibs": "^3.1.5 || ^4.0.0",
     "ext-mbstring": "*",
     "ext-json": "*",
     "ext-dom": "*",
